@@ -1,8 +1,10 @@
-package com.example.resturanthealthinspector;
+package com.example.resturanthealthinspector.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.resturanthealthinspector.R;
 
 public class MainActivity extends AppCompatActivity {
 
