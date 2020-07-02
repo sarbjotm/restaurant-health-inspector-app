@@ -7,6 +7,9 @@ package TextUI;
 
 import Model.Inspection;
 import Model.InspectionsManager;
+import Model.Restaurant;
+import Model.RestaurantsManager;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -17,15 +20,35 @@ public class TextUI {
         storeInspections();
     }
 
-    private void storeRestaurants() {
+    private void storeRestaurants() throws FileNotFoundException {
+        File file = new File("/Users/rattlecruiser/Desktop/restaurants_itr1.csv"); //this is my source root.
+        Scanner scan = null;
+        scan = new Scanner(file);
+        Restaurant restaurant;
+        RestaurantsManager manager;
+        manager = RestaurantsManager.getInstance();
+        String line;
+        line = scan.nextLine();
+        double latitude;
+        double longitude;
+        while (scan.hasNextLine()){
+            line = scan.nextLine();
+            String[] lineArray = line.split(",");
+            latitude = Double.parseDouble(lineArray[5]);
+            longitude = Double.parseDouble(lineArray[6]);
+            restaurant = new Restaurant(lineArray[0], lineArray[1], lineArray[2], lineArray[3], lineArray[4], latitude, longitude);
+            manager.addRestaurant(restaurant);
+        }
+        scan.close();
     }
 
-    private void storeInspections() {
+    private void storeInspections() throws FileNotFoundException {
         File file = new File("/Users/rattlecruiser/Desktop/inspectionreports_itr1.csv"); //this is my source root.
         Scanner scan = null;
         scan = new Scanner(file);
         Inspection inspection;
-        InspectionsManager manager = new InspectionsManager();
+        InspectionsManager manager;
+        manager = InspectionsManager.getInstance();
         String line;
         line = scan.nextLine();
         int inspectionDate;
