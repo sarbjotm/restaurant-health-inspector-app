@@ -10,7 +10,7 @@ public class InspectionsManager {
     private static InspectionsManager instance;
 
     private InspectionsManager(){
-        
+
     }
 
     public static InspectionsManager getInstance(){
