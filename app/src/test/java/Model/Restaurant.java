@@ -9,7 +9,7 @@ public class Restaurant {
     private String address;
     private String city;
     private String factType;
-    private double Latitude;
+    private double latitude;
     private double longitude;
 
     public Restaurant(String trackingNUmber, String restaurantName, String address, String city, String factType, double latitude, double longitude) {
@@ -18,7 +18,7 @@ public class Restaurant {
         this.address = address;
         this.city = city;
         this.factType = factType;
-        Latitude = latitude;
+        this.latitude = latitude;
         this.longitude = longitude;
     }
 
@@ -43,7 +43,7 @@ public class Restaurant {
     }
 
     public double getLatitude() {
-        return Latitude;
+        return latitude;
     }
 
     public double getLongitude() {
