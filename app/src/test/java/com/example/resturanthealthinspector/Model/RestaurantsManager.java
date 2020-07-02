@@ -1,7 +1,7 @@
 /**
  * A manager to store Restaurants.
  */
-package Model;
+package com.example.resturanthealthinspector.Model;
 
 import java.util.ArrayList;
 

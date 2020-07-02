@@ -3,12 +3,12 @@
  * store Restaurants into RestaurantsManager.
  */
 
-package TextUI;
+package com.example.resturanthealthinspector.TextUI;
 
-import Model.Inspection;
-import Model.InspectionsManager;
-import Model.Restaurant;
-import Model.RestaurantsManager;
+import com.example.resturanthealthinspector.Model.Inspection;
+import com.example.resturanthealthinspector.Model.InspectionsManager;
+import com.example.resturanthealthinspector.Model.Restaurant;
+import com.example.resturanthealthinspector.Model.RestaurantsManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,7 +21,8 @@ public class TextUI {
     }
 
     private void storeRestaurants() throws FileNotFoundException {
-        File file = new File("/Users/rattlecruiser/Desktop/restaurants_itr1.csv"); //this is my source root.
+        File file = new File("./src/main/res/raw/restaurants_itr1.csv");
+        System.out.println(file.getAbsolutePath());
         Scanner scan = null;
         scan = new Scanner(file);
         Restaurant restaurant;
@@ -43,7 +44,7 @@ public class TextUI {
     }
 
     private void storeInspections() throws FileNotFoundException {
-        File file = new File("/Users/rattlecruiser/Desktop/inspectionreports_itr1.csv"); //this is my source root.
+        File file = new File("./src/main/res/raw/inspectionreports_itr1.csv");
         Scanner scan = null;
         scan = new Scanner(file);
         Inspection inspection;
