@@ -13,6 +13,14 @@ import java.util.Scanner;
 
 public class TextUI {
     public TextUI() throws FileNotFoundException {
+        storeRestaurants();
+        storeInspections();
+    }
+
+    private void storeRestaurants() {
+    }
+
+    private void storeInspections() {
         File file = new File("/Users/rattlecruiser/Desktop/inspectionreports_itr1.csv"); //this is my source root.
         Scanner scan = null;
         scan = new Scanner(file);
@@ -39,7 +47,6 @@ public class TextUI {
             manager.addInspection(inspection);
         }
         scan.close();
-
-
     }
+
 }

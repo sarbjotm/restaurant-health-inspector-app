@@ -1,3 +1,6 @@
+/**
+ * A restaurant class.
+ */
 package Model;
 
 public class Restaurant {

@@ -6,7 +6,7 @@ package Model;
 import java.util.ArrayList;
 
 public class InspectionsManager {
-    private ArrayList<Inspection> inspectionList= new ArrayList<>();
+    private ArrayList<Inspection> inspectionList = new ArrayList<>();
     private static InspectionsManager instance;
 
     private InspectionsManager(){
