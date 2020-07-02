@@ -1,7 +1,7 @@
 /**
  * A manager to store inspections.
  */
-package Model;
+package com.example.resturanthealthinspector.Model;
 
 import java.util.ArrayList;
 

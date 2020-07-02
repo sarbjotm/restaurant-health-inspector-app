@@ -1,7 +1,7 @@
 /**
  * A restaurant class.
  */
-package Model;
+package com.example.resturanthealthinspector.Model;
 
 public class Restaurant {
     private String trackingNUmber;

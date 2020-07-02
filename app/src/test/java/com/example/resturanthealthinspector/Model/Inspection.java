@@ -1,7 +1,7 @@
 /**
  * An inspections class. Can implement enum classes for Inspection Type, Hazard Rating and Violation lLump.
  */
-package Model;
+package com.example.resturanthealthinspector.Model;
 
 public class Inspection {
     private String trackingNumber;
