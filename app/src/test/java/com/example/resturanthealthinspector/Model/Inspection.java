@@ -50,14 +50,16 @@ public class Inspection {
         return violLump;
     }
 
-    public void showInfo() { //for testing purpose in java.
-        System.out.println(
-                "Tracking Number: " + trackingNumber +
-                        "\nInspection Date: " + inspectionDate +
-                        "\nInspection Type: " + inspectionType +
-                        "\nCritical Count: " + numCritical +
-                        "\nNon-Critical Count: " + numNonCritical +
-                        "\nHazard Rating: " + hazardRating +
-                        "\nViolation Lump: " + violLump);
+    @Override
+    public String toString() {
+        return "Inspection{" +
+                "trackingNumber='" + trackingNumber + '\'' +
+                ", inspectionDate=" + inspectionDate +
+                ", inspectionType='" + inspectionType + '\'' +
+                ", numCritical=" + numCritical +
+                ", numNonCritical=" + numNonCritical +
+                ", hazardRating='" + hazardRating + '\'' +
+                ", violLump='" + violLump + '\'' +
+                '}';
     }
 }

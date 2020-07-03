@@ -49,4 +49,17 @@ public class Restaurant {
     public double getLongitude() {
         return longitude;
     }
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "trackingNumber='" + trackingNumber + '\'' +
+                ", restaurantName='" + restaurantName + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", facType='" + facType + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
+    }
 }
