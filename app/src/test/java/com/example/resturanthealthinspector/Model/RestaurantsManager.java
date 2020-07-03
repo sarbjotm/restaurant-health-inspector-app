@@ -1,6 +1,3 @@
-/**
- * A manager to store Restaurants.
- */
 package com.example.resturanthealthinspector.Model;
 
 import java.io.File;
@@ -9,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
+/**
+ * A manager to store Restaurants.
+ */
 public class RestaurantsManager implements Iterable<Restaurant>{
     private ArrayList<Restaurant> restaurantList = new ArrayList<>();
     private static RestaurantsManager instance;
@@ -29,9 +29,10 @@ public class RestaurantsManager implements Iterable<Restaurant>{
         File file = new File("./src/main/res/raw/restaurants_itr1.csv");
         Scanner scan = new Scanner(file);
         Restaurant restaurant;
-        String line = scan.nextLine();
+        String line;
         double latitude;
         double longitude;
+        scan.nextLine();
 
         while (scan.hasNextLine()){
             line = scan.nextLine();

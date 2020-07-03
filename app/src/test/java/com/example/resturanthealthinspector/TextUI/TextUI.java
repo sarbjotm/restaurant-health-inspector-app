@@ -1,8 +1,3 @@
-/**
- * store Inspections into inspectionManager.
- * store Restaurants into RestaurantsManager.
- */
-
 package com.example.resturanthealthinspector.TextUI;
 
 import com.example.resturanthealthinspector.Model.Inspection;
@@ -12,6 +7,9 @@ import com.example.resturanthealthinspector.Model.RestaurantsManager;
 
 import java.io.FileNotFoundException;
 
+/**
+ * Print Restaurant and Inspection List
+ */
 public class TextUI {
 
     public void printRestaurants() throws FileNotFoundException {

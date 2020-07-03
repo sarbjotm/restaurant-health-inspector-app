@@ -1,8 +1,8 @@
+package com.example.resturanthealthinspector.Model;
+
 /**
  * An inspections class. Can implement enum classes for Inspection Type, Hazard Rating and Violation lLump.
  */
-package com.example.resturanthealthinspector.Model;
-
 public class Inspection {
     private String trackingNumber;
     private int inspectionDate;
