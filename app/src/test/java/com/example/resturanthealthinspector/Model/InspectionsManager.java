@@ -17,7 +17,7 @@ public class InspectionsManager implements Iterable<Inspection> {
 
     }
 
-    public InspectionsManager getInstance () throws FileNotFoundException {
+    public static InspectionsManager getInstance() throws FileNotFoundException {
         if (instance == null){
             instance = new InspectionsManager();
             storeInspections();
@@ -25,7 +25,7 @@ public class InspectionsManager implements Iterable<Inspection> {
         return instance;
     }
 
-    private void storeInspections() throws FileNotFoundException {
+    private static void storeInspections() throws FileNotFoundException {
         File file = new File("./src/main/res/raw/inspectionreports_itr1.csv");
         Scanner scan = new Scanner(file);
         Inspection inspection;
@@ -47,7 +47,7 @@ public class InspectionsManager implements Iterable<Inspection> {
             else{
                 inspection = new Inspection(lineArray[0], inspectionDate, lineArray[2], numCritical, numNonCritical, lineArray[5], lineArray[6]);
             }
-            inspectionList.add(inspection);
+            instance.add(inspection);
         }
         scan.close();
     }

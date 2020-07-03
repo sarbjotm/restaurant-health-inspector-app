@@ -17,7 +17,7 @@ public class RestaurantsManager implements Iterable<Restaurant>{
 
     }
 
-    public RestaurantsManager getInstance() throws FileNotFoundException {
+    public static RestaurantsManager getInstance() throws FileNotFoundException {
         if (instance == null){
             instance = new RestaurantsManager();
             storeRestaurants();
@@ -25,7 +25,7 @@ public class RestaurantsManager implements Iterable<Restaurant>{
         return instance;
     }
 
-    private void storeRestaurants() throws FileNotFoundException {
+    private static void storeRestaurants() throws FileNotFoundException {
         File file = new File("./src/main/res/raw/restaurants_itr1.csv");
         Scanner scan = new Scanner(file);
         Restaurant restaurant;
@@ -39,7 +39,7 @@ public class RestaurantsManager implements Iterable<Restaurant>{
             latitude = Double.parseDouble(lineArray[5]);
             longitude = Double.parseDouble(lineArray[6]);
             restaurant = new Restaurant(lineArray[0], lineArray[1], lineArray[2], lineArray[3], lineArray[4], latitude, longitude);
-            restaurantList.add(restaurant);
+            instance.add(restaurant);
         }
         scan.close();
     }
