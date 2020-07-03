@@ -10,5 +10,6 @@ public class RestaurantTest {
     @Test
     public void testRestaurant() throws FileNotFoundException {
         TextUI textUI = new TextUI();
+        textUI.printRestaurants();
     }
 }

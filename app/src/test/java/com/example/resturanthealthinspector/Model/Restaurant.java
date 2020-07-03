@@ -1,29 +1,29 @@
+package com.example.resturanthealthinspector.Model;
+
 /**
  * A restaurant class.
  */
-package com.example.resturanthealthinspector.Model;
-
 public class Restaurant {
-    private String trackingNUmber;
+    private String trackingNumber;
     private String restaurantName;
     private String address;
     private String city;
-    private String factType;
+    private String facType;
     private double latitude;
     private double longitude;
 
-    public Restaurant(String trackingNUmber, String restaurantName, String address, String city, String factType, double latitude, double longitude) {
-        this.trackingNUmber = trackingNUmber;
+    public Restaurant(String trackingNumber, String restaurantName, String address, String city, String facType, double latitude, double longitude) {
+        this.trackingNumber = trackingNumber;
         this.restaurantName = restaurantName;
         this.address = address;
         this.city = city;
-        this.factType = factType;
+        this.facType = facType;
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public String getTrackingNUmber() {
-        return trackingNUmber;
+    public String getTrackingNumber() {
+        return trackingNumber;
     }
 
     public String getRestaurantName() {
@@ -38,8 +38,8 @@ public class Restaurant {
         return city;
     }
 
-    public String getFactType() {
-        return factType;
+    public String getFacType() {
+        return facType;
     }
 
     public double getLatitude() {
@@ -48,5 +48,18 @@ public class Restaurant {
 
     public double getLongitude() {
         return longitude;
+    }
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "trackingNumber='" + trackingNumber + '\'' +
+                ", restaurantName='" + restaurantName + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", facType='" + facType + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
     }
 }
