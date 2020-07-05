@@ -33,31 +33,34 @@ public class InspectionsManager implements Iterable<Inspection> {
         int inspectionDate;
         int numCritical;
         int numNonCritical;
+        Date date;
         scan.nextLine();
 
         while (scan.hasNextLine()) {
             line = scan.nextLine();
             line = line.replaceAll("\"", "");
             String[] lineArray = line.split(",");
-            inspectionDate = Integer.parseInt(lineArray[1]);
             numCritical = Integer.parseInt(lineArray[3]);
             numNonCritical = Integer.parseInt(lineArray[4]);
+            date = intToDate(lineArray[1]);
 
             if (lineArray.length == 6){
-                inspection = new Inspection(lineArray[0], inspectionDate, lineArray[2], numCritical, numNonCritical, lineArray[5], null);
+                inspection = new Inspection(lineArray[0], date, lineArray[2], numCritical, numNonCritical, lineArray[5], "");
             }
             else{
-                // Combine vioLump to 1 String
-                String vioLump = lineArray[6];
-                for (int i = 7; i < lineArray.length; i++) {
-                    vioLump += "," + lineArray[i];
-                }
-                ViolationManager violationManager = new ViolationManager(vioLump);
-                inspection = new Inspection(lineArray[0], inspectionDate, lineArray[2], numCritical, numNonCritical, lineArray[5], violationManager);
+                inspection = new Inspection(lineArray[0], date, lineArray[2], numCritical, numNonCritical, lineArray[5], lineArray[6]);
             }
             instance.add(inspection);
         }
         scan.close();
+    }
+
+    private static Date intToDate(String inspectionDate) {
+        String day = inspectionDate.substring(6, 8);
+        String month = inspectionDate.substring(4, 6);
+        String year = inspectionDate.substring(0, 4);
+        Date date = new Date(day, month, year);
+        return date;
     }
 
     public void add(Inspection inspection){
