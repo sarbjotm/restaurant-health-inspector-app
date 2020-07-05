@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Resturant Health Inspector</string>
+    <!-- Description List -->
+    <string name="DL_201">Unsafe Food</string>
+    <string name="DL_203">Food not cooled properly</string>
+    <string name="DL_205">Cold food not stored properly</string>
+    <string name="DL_209">Food not protected properly</string>
+    <string name="DL_210">Food not thawed properly</string>
+    <string name="DL_211">Frozen food not stored properly</string>
+    <string name="DL_301">Not clean equipment</string>
+    <string name="DL_302">Equipment not washed properly</string>
+    <string name="DL_303">Hot and Cold water</string>
+    <string name="DL_304">Not Free of Pests</string>
+    <string name="DL_305">Pests can enter and breed</string>
+    <string name="DL_306">Unsafe Food Environment</string>
+    <string name="DL_308">Unsafe Equipment</string>
+    <string name="DL_309">Chemicals cleaners not stored properly</string>
+    <string name="DL_311">Not following plans</string>
+    <string name="DL_401">Nowhere to hand wash</string>
+    <string name="DL_402">Not proper hand wash</string>
+    <string name="DL_501">No FoodSafe Level 1</string>
 </resources>
