@@ -1,4 +1,4 @@
-package com.example.restauranthealthinspector.Model;
+package com.example.restauranthealthinspector.model;
 
 /**
  * A restaurant class.

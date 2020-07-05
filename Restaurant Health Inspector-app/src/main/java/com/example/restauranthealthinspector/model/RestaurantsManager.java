@@ -1,4 +1,4 @@
-package com.example.restauranthealthinspector.Model;
+package com.example.restauranthealthinspector.model;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -1,9 +1,9 @@
 package com.example.restauranthealthinspector.TextUI;
 
-import com.example.restauranthealthinspector.Model.Inspection;
-import com.example.restauranthealthinspector.Model.InspectionsManager;
-import com.example.restauranthealthinspector.Model.Restaurant;
-import com.example.restauranthealthinspector.Model.RestaurantsManager;
+import com.example.restauranthealthinspector.model.Inspection;
+import com.example.restauranthealthinspector.model.InspectionsManager;
+import com.example.restauranthealthinspector.model.Restaurant;
+import com.example.restauranthealthinspector.model.RestaurantsManager;
 
 import java.io.FileNotFoundException;
 

@@ -1,4 +1,4 @@
-package com.example.restauranthealthinspector.Test;
+package com.example.restauranthealthinspector;
 
 import org.junit.Test;
 

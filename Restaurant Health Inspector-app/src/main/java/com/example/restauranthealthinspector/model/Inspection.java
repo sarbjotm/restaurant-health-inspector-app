@@ -1,4 +1,4 @@
-package com.example.restauranthealthinspector.Model;
+package com.example.restauranthealthinspector.model;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -66,6 +66,7 @@ public class Inspection {
                 '}';
     }
 
+    /*
     public String showDate(){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDateTime now = LocalDateTime.now();
@@ -117,6 +118,7 @@ public class Inspection {
         }
         return str;
     }
+     */
 
     private String stringToMonth(String month) {
         switch(month) {
