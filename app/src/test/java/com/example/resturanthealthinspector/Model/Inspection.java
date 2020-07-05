@@ -57,7 +57,7 @@ public class Inspection {
     public String toString() {
         return "Inspection{" +
                 "trackingNumber='" + trackingNumber + '\'' +
-                ", inspectionDate=" + inspectionDate +
+                ", inspectionDate=" + showDate() +
                 ", inspectionType='" + inspectionType + '\'' +
                 ", numCritical=" + numCritical +
                 ", numNonCritical=" + numNonCritical +
@@ -70,7 +70,7 @@ public class Inspection {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDateTime now = LocalDateTime.now();
         String currentDate = dtf.format(now);
-        System.out.println(dtf.format(now));
+
         int currentDay = Integer.parseInt(currentDate.substring(8, 10));
         int day = Integer.parseInt(this.inspectionDate.getDay());
         int currentMonth = Integer.parseInt(currentDate.substring(5, 7));
