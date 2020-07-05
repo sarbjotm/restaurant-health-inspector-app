@@ -22,4 +22,13 @@ public class Date {
     public String getYear() {
         return year;
     }
+
+    @Override
+    public String toString() {
+        return "Date{" +
+                "day='" + day + '\'' +
+                ", month='" + month + '\'' +
+                ", year='" + year + '\'' +
+                '}';
+    }
 }
