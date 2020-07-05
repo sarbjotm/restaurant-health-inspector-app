@@ -15,7 +15,7 @@ public class Inspection {
     private String hazardRating;
     private ViolationManager violationManager;
 
-    public Inspection(String trackingNumber, Date inspectionDate, String inspectionType, int numCritical, int numNonCritical, String hazardRating, String violLump) {
+    public Inspection(String trackingNumber, Date inspectionDate, String inspectionType, int numCritical, int numNonCritical, String hazardRating, ViolationManager violationManager) {
         this.trackingNumber = trackingNumber;
         this.inspectionDate = inspectionDate;
         this.inspectionType = inspectionType;
@@ -64,103 +64,5 @@ public class Inspection {
                 ", hazardRating='" + hazardRating + '\'' +
                 ", violationManager='" + violationManager + '\'' +
                 '}';
-    }
-
-    /*
-    public String showDate(){
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        LocalDateTime now = LocalDateTime.now();
-        String currentDate = dtf.format(now);
-        System.out.println(dtf.format(now));
-        int currentDay = Integer.parseInt(currentDate.substring(8, 10));
-        int day = Integer.parseInt(this.inspectionDate.getDay());
-        int currentMonth = Integer.parseInt(currentDate.substring(5, 7));
-        int month = Integer.parseInt(this.inspectionDate.getMonth());
-        int currentYear = Integer.parseInt(currentDate.substring(0, 4));
-        int year = Integer.parseInt(this.inspectionDate.getYear());
-        String realMonth = stringToMonth(this.inspectionDate.getMonth());
-        String str;
-
-        if (currentYear == year){
-            if (currentMonth - month == 1){
-                if (currentDay < day){
-                    str = (currentDay + 30 - day + " days");
-                }
-                else{
-                    str = (realMonth + " " + day);
-                }
-            }
-            else if(currentMonth == month){
-                str = (currentDay - day + " days");
-            }
-            else{
-                str = (realMonth + " " + day);
-            }
-        }
-        else if (currentYear - year == 1){
-            if ((currentMonth == 01) && (month == 12)){
-                if(currentDay < day){
-                    str = (currentDay + 30 - day + " days");
-                }
-                else{
-                    str = (realMonth + " " + day);
-                }
-            }
-            else if(currentMonth < month){
-                str = (realMonth + " " + day);
-            }
-            else{
-                str = (realMonth + " " + year);
-            }
-        }
-        else{
-            str = (realMonth + " " + year);
-        }
-        return str;
-    }
-     */
-
-    private String stringToMonth(String month) {
-        switch(month) {
-            case "01":
-                month = "January";
-                break;
-            case "02":
-                month = "February";
-                break;
-            case "03":
-                month = "March";
-                break;
-            case "04":
-                month = "April";
-                break;
-            case "05":
-                month = "May";
-                break;
-            case "06":
-                month = "June";
-                break;
-            case "07":
-                month = "July";
-                break;
-            case "08":
-                month = "August";
-                break;
-            case "09":
-                month = "September";
-                break;
-            case "10":
-                month = "October";
-                break;
-            case "11":
-                month = "November";
-                break;
-            case "12":
-                month = "December";
-                break;
-            default:
-                month = "Unknown";
-        }
-        return month;
     }
 }
