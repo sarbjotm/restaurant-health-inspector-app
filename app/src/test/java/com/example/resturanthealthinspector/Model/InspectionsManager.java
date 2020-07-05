@@ -37,13 +37,14 @@ public class InspectionsManager implements Iterable<Inspection> {
 
         while (scan.hasNextLine()) {
             line = scan.nextLine();
+            line = line.replaceAll("\"", "");
             String[] lineArray = line.split(",");
             inspectionDate = Integer.parseInt(lineArray[1]);
             numCritical = Integer.parseInt(lineArray[3]);
             numNonCritical = Integer.parseInt(lineArray[4]);
 
             if (lineArray.length == 6){
-                inspection = new Inspection(lineArray[0], inspectionDate, lineArray[2], numCritical, numNonCritical, lineArray[5], "");
+                inspection = new Inspection(lineArray[0], inspectionDate, lineArray[2], numCritical, numNonCritical, lineArray[5], null);
             }
             else{
                 // Combine vioLump to 1 String
@@ -51,7 +52,8 @@ public class InspectionsManager implements Iterable<Inspection> {
                 for (int i = 7; i < lineArray.length; i++) {
                     vioLump += "," + lineArray[i];
                 }
-                inspection = new Inspection(lineArray[0], inspectionDate, lineArray[2], numCritical, numNonCritical, lineArray[5], vioLump);
+                ViolationManager violationManager = new ViolationManager(vioLump);
+                inspection = new Inspection(lineArray[0], inspectionDate, lineArray[2], numCritical, numNonCritical, lineArray[5], violationManager);
             }
             instance.add(inspection);
         }
