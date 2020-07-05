@@ -46,7 +46,12 @@ public class InspectionsManager implements Iterable<Inspection> {
                 inspection = new Inspection(lineArray[0], inspectionDate, lineArray[2], numCritical, numNonCritical, lineArray[5], "");
             }
             else{
-                inspection = new Inspection(lineArray[0], inspectionDate, lineArray[2], numCritical, numNonCritical, lineArray[5], lineArray[6]);
+                // Combine vioLump to 1 String
+                String vioLump = lineArray[6];
+                for (int i = 7; i < lineArray.length; i++) {
+                    vioLump += "," + lineArray[i];
+                }
+                inspection = new Inspection(lineArray[0], inspectionDate, lineArray[2], numCritical, numNonCritical, lineArray[5], vioLump);
             }
             instance.add(inspection);
         }
