@@ -13,7 +13,7 @@ public class Inspection {
     private int numCritical;
     private int numNonCritical;
     private String hazardRating;
-    private String violLump;
+    private ViolationManager violationManager;
 
     public Inspection(String trackingNumber, Date inspectionDate, String inspectionType, int numCritical, int numNonCritical, String hazardRating, String violLump) {
         this.trackingNumber = trackingNumber;
@@ -22,7 +22,7 @@ public class Inspection {
         this.numCritical = numCritical;
         this.numNonCritical = numNonCritical;
         this.hazardRating = hazardRating;
-        this.violLump = violLump;
+        this.violationManager = violationManager;
     }
 
     public String getTrackingNumber() {
@@ -49,8 +49,8 @@ public class Inspection {
         return hazardRating;
     }
 
-    public String getViolLump() {
-        return violLump;
+    public ViolationManager getViolationManager() {
+        return violationManager;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class Inspection {
                 ", numCritical=" + numCritical +
                 ", numNonCritical=" + numNonCritical +
                 ", hazardRating='" + hazardRating + '\'' +
-                ", violLump='" + violLump + '\'' +
+                ", violationManager='" + violationManager + '\'' +
                 '}';
     }
 

@@ -38,6 +38,7 @@ public class InspectionsManager implements Iterable<Inspection> {
 
         while (scan.hasNextLine()) {
             line = scan.nextLine();
+            line = line.replaceAll("\"", "");
             String[] lineArray = line.split(",");
             numCritical = Integer.parseInt(lineArray[3]);
             numNonCritical = Integer.parseInt(lineArray[4]);
