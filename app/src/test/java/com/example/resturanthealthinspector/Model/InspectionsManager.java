@@ -53,9 +53,9 @@ public class InspectionsManager implements Iterable<Inspection> {
     }
 
     private static Date intToDate(String inspectionDate) {
-        String day = inspectionDate.substring(6, 8);
-        String month = inspectionDate.substring(4, 6);
-        String year = inspectionDate.substring(0, 4);
+        int day = Integer.parseInt(inspectionDate.substring(6, 8));
+        int month = Integer.parseInt(inspectionDate.substring(4, 6));
+        int year = Integer.parseInt(inspectionDate.substring(0, 4));
         return new Date(day, month, year);
     }
 
