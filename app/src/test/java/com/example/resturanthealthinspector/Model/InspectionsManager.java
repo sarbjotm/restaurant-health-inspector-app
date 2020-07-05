@@ -30,7 +30,6 @@ public class InspectionsManager implements Iterable<Inspection> {
         Scanner scan = new Scanner(file);
         Inspection inspection;
         String line;
-        int inspectionDate;
         int numCritical;
         int numNonCritical;
         Date date;
@@ -45,10 +44,16 @@ public class InspectionsManager implements Iterable<Inspection> {
             date = intToDate(lineArray[1]);
 
             if (lineArray.length == 6){
-                inspection = new Inspection(lineArray[0], date, lineArray[2], numCritical, numNonCritical, lineArray[5], "");
+                inspection = new Inspection(lineArray[0], date, lineArray[2], numCritical, numNonCritical, lineArray[5], null);
             }
             else{
-                inspection = new Inspection(lineArray[0], date, lineArray[2], numCritical, numNonCritical, lineArray[5], lineArray[6]);
+                //Combine vioLump to String
+                String vioLump = lineArray[6];
+                for (int i = 7; i < lineArray.length; i++) {
+                    vioLump += "," + lineArray[i];
+                }
+                ViolationManager violationManager = new ViolationManager(vioLump);
+                inspection = new Inspection(lineArray[0], date, lineArray[2], numCritical, numNonCritical, lineArray[5], violationManager);
             }
             instance.add(inspection);
         }
