@@ -1,2 +1,2 @@
-include ':app'
-rootProject.name = "Resturant Health Inspector"
+include ':Restaurant Health Inspector-app'
+rootProject.name = "Restaurant Health Inspector"
