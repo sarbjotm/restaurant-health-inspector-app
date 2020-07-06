@@ -11,6 +11,7 @@ public class Restaurant {
     private String facType;
     private double latitude;
     private double longitude;
+    private InspectionsManager inspectionsManager = new InspectionsManager();
 
     public Restaurant(String trackingNumber, String restaurantName, String address, String city, String facType, double latitude, double longitude) {
         this.trackingNumber = trackingNumber;
@@ -50,6 +51,10 @@ public class Restaurant {
         return longitude;
     }
 
+    public InspectionsManager getInspectionsManager() {
+        return inspectionsManager;
+    }
+
     @Override
     public String toString() {
         return "Restaurant{" +
@@ -60,6 +65,7 @@ public class Restaurant {
                 ", facType='" + facType + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", inspectionsManager=" + inspectionsManager +
                 '}';
     }
 }

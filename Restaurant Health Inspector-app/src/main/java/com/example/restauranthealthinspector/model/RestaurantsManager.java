@@ -10,7 +10,7 @@ import java.util.Scanner;
  * A manager to store Restaurants.
  */
 public class RestaurantsManager implements Iterable<Restaurant>{
-    private ArrayList<Restaurant> restaurantList = new ArrayList<>();
+    private static ArrayList<Restaurant> restaurantList = new ArrayList<>();
     private static RestaurantsManager instance;
 
     private RestaurantsManager(){
@@ -21,6 +21,7 @@ public class RestaurantsManager implements Iterable<Restaurant>{
         if (instance == null){
             instance = new RestaurantsManager();
             storeRestaurants();
+            splitInspections();
         }
         return instance;
     }
@@ -36,6 +37,7 @@ public class RestaurantsManager implements Iterable<Restaurant>{
 
         while (scan.hasNextLine()){
             line = scan.nextLine();
+            line = line.replaceAll("\"", "");
             String[] lineArray = line.split(",");
             latitude = Double.parseDouble(lineArray[5]);
             longitude = Double.parseDouble(lineArray[6]);
@@ -43,6 +45,30 @@ public class RestaurantsManager implements Iterable<Restaurant>{
             instance.add(restaurant);
         }
         scan.close();
+    }
+
+    private static void splitInspections() throws FileNotFoundException {
+        File file = new File("./src/main/res/raw/inspectionreports_itr1.csv");
+        Scanner scan = new Scanner(file);
+        String line;
+        String trackingNumber;
+
+        scan.nextLine();
+
+        while (scan.hasNextLine()) {
+            line = scan.nextLine();
+            line = line.replaceAll("\"", "");
+            String[] lineArray = line.split(",");
+
+            for (Restaurant restaurant:restaurantList) {
+                trackingNumber = restaurant.getTrackingNumber();
+                if (trackingNumber.equals(lineArray[0])) {
+                     restaurant.getInspectionsManager().addFromLineArray(lineArray);
+                }
+            }
+
+        }
+
     }
 
     public void add(Restaurant restaurant){
