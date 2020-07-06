@@ -62,7 +62,7 @@ public class RestaurantsManager implements Iterable<Restaurant>{
             for (Restaurant restaurant:restaurantList) {
                 trackingNumber = restaurant.getTrackingNumber();
                 if (trackingNumber.equals(lineArray[0])) {
-                     restaurant.getInspectionsManager().addFromLine();
+                     restaurant.getInspectionsManager().addFromLineArray(lineArray);
                 }
             }
 
