@@ -50,4 +50,11 @@ public class InspectionsManager implements Iterable<Inspection> {
     public Iterator<Inspection> iterator() {
         return inspectionList.iterator();
     }
+
+    @Override
+    public String toString() {
+        return "InspectionsManager{" +
+                "inspectionList=" + inspectionList +
+                '}';
+    }
 }

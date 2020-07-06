@@ -65,6 +65,7 @@ public class Restaurant {
                 ", facType='" + facType + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", inspectionsManager=" + inspectionsManager +
                 '}';
     }
 }

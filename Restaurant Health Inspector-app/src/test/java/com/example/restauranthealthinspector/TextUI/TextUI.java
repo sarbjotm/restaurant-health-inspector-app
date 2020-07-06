@@ -19,11 +19,4 @@ public class TextUI {
         }
     }
 
-    public void printInspections() throws FileNotFoundException {
-        InspectionsManager manager = InspectionsManager.getInstance();
-        for (Inspection inspection : manager) {
-            System.out.println(inspection);
-        }
-    }
-
 }

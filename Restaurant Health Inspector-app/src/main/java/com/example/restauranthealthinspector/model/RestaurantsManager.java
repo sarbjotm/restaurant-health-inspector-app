@@ -21,6 +21,7 @@ public class RestaurantsManager implements Iterable<Restaurant>{
         if (instance == null){
             instance = new RestaurantsManager();
             storeRestaurants();
+            splitInspections();
         }
         return instance;
     }
