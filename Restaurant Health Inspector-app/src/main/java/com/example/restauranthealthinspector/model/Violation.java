@@ -1,11 +1,11 @@
 package com.example.restauranthealthinspector.model;
 
 public class Violation {
-    int violationID;
-    String longDescription;
-    String severity;
-    int briefDescriptionID;
-    int iconID;
+    private int violationID;
+    private String longDescription;
+    private String severity;
+    private int briefDescriptionID;
+    private int iconID;
 
     public Violation(int violationID, String longDescription, String severity) {
         this.violationID = violationID;

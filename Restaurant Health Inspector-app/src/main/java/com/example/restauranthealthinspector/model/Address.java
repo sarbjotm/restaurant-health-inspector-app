@@ -28,4 +28,14 @@ public class Address {
     public double getLongitude() {
         return longitude;
     }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "streetAddress='" + streetAddress + '\'' +
+                ", city='" + city + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
+    }
 }
