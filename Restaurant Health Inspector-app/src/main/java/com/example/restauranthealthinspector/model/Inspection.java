@@ -7,7 +7,6 @@ import java.time.format.DateTimeFormatter;
  * An inspections class. Can implement enum classes for Inspection Type, Hazard Rating and Violation lLump.
  */
 public class Inspection {
-    private String trackingNumber;
     private Date inspectionDate;
     private String inspectionType;
     private int numCritical;
@@ -15,18 +14,13 @@ public class Inspection {
     private String hazardRating;
     private ViolationManager violationManager;
 
-    public Inspection(String trackingNumber, Date inspectionDate, String inspectionType, int numCritical, int numNonCritical, String hazardRating, ViolationManager violationManager) {
-        this.trackingNumber = trackingNumber;
+    public Inspection(Date inspectionDate, String inspectionType, int numCritical, int numNonCritical, String hazardRating, ViolationManager violationManager) {
         this.inspectionDate = inspectionDate;
         this.inspectionType = inspectionType;
         this.numCritical = numCritical;
         this.numNonCritical = numNonCritical;
         this.hazardRating = hazardRating;
         this.violationManager = violationManager;
-    }
-
-    public String getTrackingNumber() {
-        return trackingNumber;
     }
 
     public Date getInspectionDate() {
@@ -56,7 +50,6 @@ public class Inspection {
     @Override
     public String toString() {
         return "Inspection{" +
-                "trackingNumber='" + trackingNumber + '\'' +
                 ", inspectionDate=" + inspectionDate +
                 ", inspectionType='" + inspectionType + '\'' +
                 ", numCritical=" + numCritical +

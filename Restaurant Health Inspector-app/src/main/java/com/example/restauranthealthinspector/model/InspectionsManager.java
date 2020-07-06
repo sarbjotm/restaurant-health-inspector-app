@@ -14,7 +14,7 @@ public class InspectionsManager implements Iterable<Inspection> {
         int numCritical = Integer.parseInt(lineArray[3]);
         int numNonCritical = Integer.parseInt(lineArray[4]);
         ViolationManager violationManager = vioLumpToViolationManager(lineArray);
-        Inspection inspection = new Inspection(lineArray[0], date, lineArray[2], numCritical, numNonCritical, lineArray[5], violationManager);
+        Inspection inspection = new Inspection(date, lineArray[2], numCritical, numNonCritical, lineArray[5], violationManager);
         inspectionList.add(inspection);
     }
 
