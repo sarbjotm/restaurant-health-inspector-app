@@ -27,6 +27,7 @@ public class Inspection {
         return inspectionDate;
     }
 
+
     public String getInspectionType() {
         return inspectionType;
     }

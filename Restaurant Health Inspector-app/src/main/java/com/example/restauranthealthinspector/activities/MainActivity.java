@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -29,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
         private int issues;
         private String level;
         private RestaurantsManager myRestaurants;
+        private String date;
+        private String day;
+        private String month;
+        private String year;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
+                @SuppressLint("SetTextI18n")
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
                         View itemView = convertView;
@@ -97,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
                         TextView restaurantHazardLevel = (TextView) itemView.findViewById(R.id.textViewHazardLevel);
                         ImageView restaurantHazardImage = (ImageView) itemView.findViewById(R.id.imageViewHazard);
+                        TextView restaurantDate = (TextView) itemView.findViewById(R.id.textViewCustomDate);
                         if (inspections.size() != 0 ) {
                                 level = inspections.get(0).getHazardRating();
                                 restaurantHazardLevel.setText(level);
@@ -109,10 +116,32 @@ public class MainActivity extends AppCompatActivity {
                                 else{
                                         restaurantHazardImage.setImageResource(R.drawable.ic_baseline_warning_24);
                                 }
+                                date =  new String(String.valueOf(currentRestaurant.getInspectionsManager().get(0).getInspectionDate()));
+                                char[] charArrayDate = date.toCharArray();
+                                if(charArrayDate[11] == '\''){
+                                        day = new StringBuilder().append(charArrayDate[10]).toString();
+                                }
+                                else{
+                                        day = new StringBuilder().append(charArrayDate[10]).append(charArrayDate[11]).toString();
+                                }
+
+                                if (charArrayDate[22] == '\''){
+                                        month = new StringBuilder().append(charArrayDate[21]).toString();
+                                }
+                                else{
+                                        month = new StringBuilder().append(charArrayDate[21]).append(charArrayDate[22]).toString();
+                                }
+
+                                year = new StringBuilder().append(charArrayDate[32]).append(charArrayDate[33]).append(charArrayDate[34]).append(charArrayDate[35]).toString();
+
+                                restaurantDate.setText(month + " " + day + " " + year);
+                                Log.e("ERROR123", date);
 
                         } else {
                                 restaurantHazardLevel.setText("N/A");
+                                restaurantDate.setText("N/A");
                         }
+
 
 
 
