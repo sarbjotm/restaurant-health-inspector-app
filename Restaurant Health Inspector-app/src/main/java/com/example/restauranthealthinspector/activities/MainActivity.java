@@ -3,12 +3,15 @@ package com.example.restauranthealthinspector.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.restauranthealthinspector.R;
 import com.example.restauranthealthinspector.model.Inspection;
@@ -93,9 +96,19 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         TextView restaurantHazardLevel = (TextView) itemView.findViewById(R.id.textViewHazardLevel);
+                        ImageView restaurantHazardImage = (ImageView) itemView.findViewById(R.id.imageViewHazard);
                         if (inspections.size() != 0 ) {
                                 level = inspections.get(0).getHazardRating();
                                 restaurantHazardLevel.setText(level);
+                                if(level.equals("Low")){
+                                        restaurantHazardImage.setImageResource(R.drawable.low);
+                                }
+                                else if(level.equals("Moderate")){
+                                        restaurantHazardImage.setImageResource(R.drawable.moderate);
+                                }
+                                else{
+                                        restaurantHazardImage.setImageResource(R.drawable.ic_baseline_warning_24);
+                                }
 
                         } else {
                                 restaurantHazardLevel.setText("N/A");
