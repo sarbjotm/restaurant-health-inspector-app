@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
         private int issues;
+        private String level;
         private RestaurantsManager myRestaurants;
 
         @Override
@@ -86,9 +87,21 @@ public class MainActivity extends AppCompatActivity {
                         if (inspections.size() != 0 ) {
                                 issues = inspections.get(0).getNumCritical() + inspections.get(0).getNumNonCritical();
                                 restaurantIssues.setText(Integer.toString(issues));
+
                         } else {
-                                restaurantIssues.setText(Integer.toString(9));
+                                restaurantIssues.setText(Integer.toString(0));
                         }
+
+                        TextView restaurantHazardLevel = (TextView) itemView.findViewById(R.id.textViewHazardLevel);
+                        if (inspections.size() != 0 ) {
+                                level = inspections.get(0).getHazardRating();
+                                restaurantHazardLevel.setText(level);
+
+                        } else {
+                                restaurantHazardLevel.setText("N/A");
+                        }
+
+
 
 
                         return itemView;

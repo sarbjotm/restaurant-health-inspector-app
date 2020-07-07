@@ -44,4 +44,23 @@
         android:text="0"
         app:layout_constraintStart_toEndOf="@+id/textViewIssues"
         app:layout_constraintTop_toBottomOf="@+id/restaurantName" />
+
+    <TextView
+        android:id="@+id/textViewHazard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:text="Hazard Level"
+        app:layout_constraintStart_toEndOf="@+id/textViewNumberofIssues"
+        app:layout_constraintTop_toBottomOf="@+id/restaurantName" />
+
+    <TextView
+        android:id="@+id/textViewHazardLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toEndOf="@+id/textViewHazard"
+        app:layout_constraintTop_toBottomOf="@+id/restaurantName" />
 </androidx.constraintlayout.widget.ConstraintLayout>
