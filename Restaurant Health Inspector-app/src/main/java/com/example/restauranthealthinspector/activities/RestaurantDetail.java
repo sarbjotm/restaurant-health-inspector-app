@@ -31,24 +31,27 @@ public class RestaurantDetail extends AppCompatActivity {
 
         try {
             restManager = RestaurantsManager.getInstance();
-            int i = 0;
-            while (restManager.get(i) != null){
-                if (restManager.get(i).getTrackingNumber() == RESTAURANT_TRACKING_NUMBER){
-                    restaurantName = restManager.get(i).getRestaurantName();
-                    restName.setText(restaurantName);
-                    restaurantAddress =
-                            restManager.get(i).getAddress().getStreetAddress() +
-                            ", " + restManager.get(i).getAddress().getCity();
-                    restAddress.setText(restaurantAddress);
-                    restaurantLatitude = restManager.get(i).getAddress().getLatitude();
-                    restLatitude.setText(Double.toString(restaurantLatitude));
-                    restLongitude.setText(Double.toString(restaurantLongitude));
-                    restaurantLongitude = restManager.get(i).getAddress().getLongitude();
-                }
-            }
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+        int i = 0;
+        while (restManager.get(i) != null){
+            if (restManager.get(i).getTrackingNumber() == RESTAURANT_TRACKING_NUMBER){
+                restaurantName = restManager.get(i).getRestaurantName();
+                restName.setText(restaurantName);
+                restaurantAddress =
+                        restManager.get(i).getAddress().getStreetAddress() +
+                                ", " + restManager.get(i).getAddress().getCity();
+                restAddress.setText(restaurantAddress);
+                restaurantLatitude = restManager.get(i).getAddress().getLatitude();
+                restLatitude.setText(Double.toString(restaurantLatitude));
+                restLongitude.setText(Double.toString(restaurantLongitude));
+                restaurantLongitude = restManager.get(i).getAddress().getLongitude();
+            }
+        }
+
+
     }
 }
