@@ -79,6 +79,10 @@ public class RestaurantsManager implements Iterable<Restaurant>{
         return restaurantList.get(index);
     }
 
+    public ArrayList<Restaurant> getRestaurants(){
+        return restaurantList;
+    }
+
     @Override
     public Iterator<Restaurant> iterator() {
         return restaurantList.iterator();
