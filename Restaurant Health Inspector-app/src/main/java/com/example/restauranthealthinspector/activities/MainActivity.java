@@ -2,6 +2,7 @@ package com.example.restauranthealthinspector.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
 public class MainActivity extends AppCompatActivity {
+        private int issues;
         private RestaurantsManager myRestaurants;
 
         @Override
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                         super(MainActivity.this, R.layout.restaurant_view, myRestaurants.getRestaurants());
                 }
 
+
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
                         View itemView = convertView;
@@ -74,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
                         TextView restaurantName = (TextView) itemView.findViewById(R.id.restaurantName);
                         restaurantName.setText(currentRestaurant.getRestaurantName());
 
+                        TextView restaurantIssues = (TextView) itemView.findViewById(R.id.textViewNumberofIssues);
+                        issues = currentRestaurant.getInspectionsManager().getCriticalIssues();
+                        restaurantIssues.setText(Integer.toString(issues));
                         return itemView;
                 }
         }
