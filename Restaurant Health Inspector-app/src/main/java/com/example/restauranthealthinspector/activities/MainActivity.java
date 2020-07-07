@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -46,8 +47,27 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                 }
                 populateListView();
+                registerClickCallback();
 
         }
+
+        private void registerClickCallback() {
+                ListView list = (ListView) findViewById(R.id.restaurantView);
+                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View viewClicked,
+                                                int position, long id) {
+
+                                Restaurant clickedRestaurant = myRestaurants.get(position);
+                                String message = "You clicked: " + clickedRestaurant.getRestaurantName();
+                                Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+                        }
+                });
+        }
+
+
+
+
 
         // Code from Brian Fraser videos
         // Read CSV Resource File: Android Programming
@@ -135,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                                 year = new StringBuilder().append(charArrayDate[32]).append(charArrayDate[33]).append(charArrayDate[34]).append(charArrayDate[35]).toString();
 
                                 restaurantDate.setText(month + " " + day + " " + year);
-                                Log.e("ERROR123", date);
+                              //  Log.e("ERROR123", date);
 
                         } else {
                                 restaurantHazardLevel.setText("N/A");

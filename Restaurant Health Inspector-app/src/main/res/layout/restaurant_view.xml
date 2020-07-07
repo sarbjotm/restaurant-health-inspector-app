@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/btn_star_big_on" />
@@ -20,7 +20,7 @@
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:text="Name"
         app:layout_constraintStart_toEndOf="@+id/restaurantIcon"
         app:layout_constraintTop_toTopOf="parent" />
@@ -78,7 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:text="@string/date"
         app:layout_constraintStart_toEndOf="@+id/restaurantName"
         app:layout_constraintTop_toTopOf="parent" />
@@ -87,8 +87,8 @@
         android:id="@+id/textViewCustomDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toEndOf="@+id/textViewDate"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
