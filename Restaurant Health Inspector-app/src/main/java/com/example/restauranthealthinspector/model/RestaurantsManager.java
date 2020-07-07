@@ -3,6 +3,9 @@ package com.example.restauranthealthinspector.model;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 
 /**
@@ -20,6 +23,7 @@ public class RestaurantsManager implements Iterable<Restaurant>{
         if (instance == null){
             instance = new RestaurantsManager();
             storeRestaurants(readerRestaurants);
+            sortRestaurants();
             splitInspections(readerInspections);
         }
         return instance;
@@ -46,6 +50,17 @@ public class RestaurantsManager implements Iterable<Restaurant>{
         double latitude = Double.parseDouble(lineArray[5]);
         double longitude = Double.parseDouble(lineArray[6]);
         return new Address(streetAddress, city, latitude, longitude);
+    }
+
+    private static void sortRestaurants () {
+        Collections.sort(restaurantList, new Comparator<Restaurant>() {
+            @Override
+            public int compare(Restaurant r1, Restaurant r2) {
+                char r1Letter = r1.getRestaurantName().charAt(0);
+                char r2Letter = r2.getRestaurantName().charAt(0);
+                return r1Letter-r2Letter;
+            }
+        });
     }
 
     private static void splitInspections(BufferedReader reader) throws IOException {
