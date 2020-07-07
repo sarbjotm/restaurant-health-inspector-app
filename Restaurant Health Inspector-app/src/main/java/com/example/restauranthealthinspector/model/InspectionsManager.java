@@ -18,6 +18,8 @@ public class InspectionsManager implements Iterable<Inspection> {
         inspectionList.add(inspection);
     }
 
+
+
     private Date intToDate(String inspectionDate) {
         int day = Integer.parseInt(inspectionDate.substring(6, 8));
         int month = Integer.parseInt(inspectionDate.substring(4, 6));
@@ -44,6 +46,10 @@ public class InspectionsManager implements Iterable<Inspection> {
 
     public Inspection get(int i){
         return inspectionList.get(i);
+    }
+
+    public ArrayList<Inspection> getInspectionList() {
+        return inspectionList;
     }
 
     @Override

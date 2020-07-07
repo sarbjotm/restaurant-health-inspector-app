@@ -1,12 +1,9 @@
 package com.example.restauranthealthinspector.model;
 
-import android.app.admin.DelegatedAdminReceiver;
-
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Scanner;
 
 /**
  * A manager to store Restaurants.
@@ -19,32 +16,28 @@ public class RestaurantsManager implements Iterable<Restaurant>{
 
     }
 
-    public static RestaurantsManager getInstance() throws FileNotFoundException {
+    public static RestaurantsManager getInstance(BufferedReader readerRestaurants, BufferedReader readerInspections) throws IOException {
         if (instance == null){
             instance = new RestaurantsManager();
-            storeRestaurants();
-            splitInspections();
+            storeRestaurants(readerRestaurants);
+            splitInspections(readerInspections);
         }
         return instance;
     }
 
-    private static void storeRestaurants() throws FileNotFoundException {
-        File file = new File("./src/main/res/raw/restaurants_itr1.csv");
-        Scanner scan = new Scanner(file);
+    private static void storeRestaurants(BufferedReader reader) throws IOException {
         Restaurant restaurant;
-        String line;
         Address address;
-        scan.nextLine();
+        String line;
+        reader.readLine();
 
-        while (scan.hasNextLine()){
-            line = scan.nextLine();
+        while ( (line = reader.readLine()) != null) {
             line = line.replaceAll("\"", "");
             String[] lineArray = line.split(",");
             address = generateAddress(lineArray);
             restaurant = new Restaurant(lineArray[0], lineArray[1], address);
             instance.add(restaurant);
         }
-        scan.close();
     }
 
     private static Address generateAddress(String[] lineArray) {
@@ -55,16 +48,12 @@ public class RestaurantsManager implements Iterable<Restaurant>{
         return new Address(streetAddress, city, latitude, longitude);
     }
 
-    private static void splitInspections() throws FileNotFoundException {
-        File file = new File("./src/main/res/raw/inspectionreports_itr1.csv");
-        Scanner scan = new Scanner(file);
-        String line;
+    private static void splitInspections(BufferedReader reader) throws IOException {
         String trackingNumber;
+        String line;
+        reader.readLine();
 
-        scan.nextLine();
-
-        while (scan.hasNextLine()) {
-            line = scan.nextLine();
+        while ( (line = reader.readLine()) != null) {
             line = line.replaceAll("\"", "");
             String[] lineArray = line.split(",");
 
@@ -74,9 +63,7 @@ public class RestaurantsManager implements Iterable<Restaurant>{
                      restaurant.getInspectionsManager().addFromLineArray(lineArray);
                 }
             }
-
         }
-
     }
 
     public void add(Restaurant restaurant){
@@ -85,6 +72,10 @@ public class RestaurantsManager implements Iterable<Restaurant>{
 
     public Restaurant get(int index){
         return restaurantList.get(index);
+    }
+
+    public ArrayList<Restaurant> getRestaurants(){
+        return restaurantList;
     }
 
     @Override
