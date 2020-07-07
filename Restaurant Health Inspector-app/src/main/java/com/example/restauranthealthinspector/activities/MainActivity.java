@@ -14,7 +14,7 @@ import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -27,18 +27,29 @@ public class MainActivity extends AppCompatActivity {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_main);
 
-                populateRestaurants();
+                try {
+                        populateRestaurants();
+                } catch (IOException e) {
+                        e.printStackTrace();
+                }
                 populateListView();
 
         }
 
         // Code from Brian Fraser videos
         // Read CSV Resource File: Android Programming
-        private void populateRestaurants() {
-                InputStream is = getResources().openRawResource(R.raw.restaurants_itr1);
-                BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(is, StandardCharsets.UTF_8)
+        private void populateRestaurants() throws IOException {
+                InputStream inputRestaurant = getResources().openRawResource(R.raw.restaurants_itr1);
+                BufferedReader readerRestaurants = new BufferedReader(
+                        new InputStreamReader(inputRestaurant, StandardCharsets.UTF_8)
                 );
+
+                InputStream inputInspections = getResources().openRawResource(R.raw.inspectionreports_itr1);
+                BufferedReader readerInspections = new BufferedReader(
+                        new InputStreamReader(inputInspections, StandardCharsets.UTF_8)
+                );
+
+                myRestaurants = RestaurantsManager.getInstance(readerRestaurants, readerInspections);
         }
 
         private void populateListView() {
