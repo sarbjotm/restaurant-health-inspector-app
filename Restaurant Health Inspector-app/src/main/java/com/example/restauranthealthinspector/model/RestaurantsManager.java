@@ -1,5 +1,7 @@
 package com.example.restauranthealthinspector.model;
 
+import android.app.admin.DelegatedAdminReceiver;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -31,20 +33,26 @@ public class RestaurantsManager implements Iterable<Restaurant>{
         Scanner scan = new Scanner(file);
         Restaurant restaurant;
         String line;
-        double latitude;
-        double longitude;
+        Address address;
         scan.nextLine();
 
         while (scan.hasNextLine()){
             line = scan.nextLine();
             line = line.replaceAll("\"", "");
             String[] lineArray = line.split(",");
-            latitude = Double.parseDouble(lineArray[5]);
-            longitude = Double.parseDouble(lineArray[6]);
-            restaurant = new Restaurant(lineArray[0], lineArray[1], lineArray[2], lineArray[3], lineArray[4], latitude, longitude);
+            address = generateAddress(lineArray);
+            restaurant = new Restaurant(lineArray[0], lineArray[1], address);
             instance.add(restaurant);
         }
         scan.close();
+    }
+
+    private static Address generateAddress(String[] lineArray) {
+        String streetAddress = lineArray[2];
+        String city = lineArray[3];
+        double latitude = Double.parseDouble(lineArray[5]);
+        double longitude = Double.parseDouble(lineArray[6]);
+        return new Address(streetAddress, city, latitude, longitude);
     }
 
     private static void splitInspections() throws FileNotFoundException {

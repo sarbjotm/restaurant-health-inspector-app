@@ -6,21 +6,14 @@ package com.example.restauranthealthinspector.model;
 public class Restaurant {
     private String trackingNumber;
     private String restaurantName;
-    private String address;
-    private String city;
-    private String facType;
-    private double latitude;
-    private double longitude;
+    private Address address;
     private InspectionsManager inspectionsManager = new InspectionsManager();
+    private int iconID;
 
-    public Restaurant(String trackingNumber, String restaurantName, String address, String city, String facType, double latitude, double longitude) {
+    public Restaurant(String trackingNumber, String restaurantName, Address address) {
         this.trackingNumber = trackingNumber;
         this.restaurantName = restaurantName;
         this.address = address;
-        this.city = city;
-        this.facType = facType;
-        this.latitude = latitude;
-        this.longitude = longitude;
     }
 
     public String getTrackingNumber() {
@@ -31,28 +24,16 @@ public class Restaurant {
         return restaurantName;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getFacType() {
-        return facType;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
     }
 
     public InspectionsManager getInspectionsManager() {
         return inspectionsManager;
+    }
+
+    public int getIconID() {
+        return iconID;
     }
 
     @Override
@@ -60,11 +41,7 @@ public class Restaurant {
         return "Restaurant{" +
                 "trackingNumber='" + trackingNumber + '\'' +
                 ", restaurantName='" + restaurantName + '\'' +
-                ", address='" + address + '\'' +
-                ", city='" + city + '\'' +
-                ", facType='" + facType + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
+                ", address=" + address +
                 ", inspectionsManager=" + inspectionsManager +
                 '}';
     }
