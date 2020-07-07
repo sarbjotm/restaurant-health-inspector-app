@@ -47,16 +47,16 @@ public class RestaurantActivity extends AppCompatActivity {
         TextView restAddress = (TextView)findViewById(R.id.rest_txtAddress);
         String restaurantAddress = restaurant.getAddress().getStreetAddress() +
                         ", " + restaurant.getAddress().getCity();
-        restAddress.setText(restaurantAddress);
+        restAddress.setText("Address: " + restaurantAddress);
 
         TextView restLatitude = (TextView)findViewById(R.id.rest_txtLatitude);
         double restaurantLatitude = restaurant.getAddress().getLatitude();
-        restLatitude.setText(Double.toString(restaurantLatitude));
+        restLatitude.setText("Latitude: " + Double.toString(restaurantLatitude));
 
 
         TextView restLongitude = (TextView)findViewById(R.id.rest_txtLongitude);
         double restaurantLongitude = restaurant.getAddress().getLongitude();
-        restLongitude.setText(Double.toString(restaurantLongitude));
+        restLongitude.setText("Longitude: " + Double.toString(restaurantLongitude));
     }
 
     private void setUpInspectionClick() {

@@ -6,58 +6,61 @@
     android:layout_height="match_parent"
     tools:context=".activities.RestaurantActivity">
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/rest_imgRestaurant"
-        app:layout_constraintStart_toEndOf="@+id/rest_imgRestaurant"
-        app:layout_constraintTop_toTopOf="@+id/rest_imgRestaurant">
-
-        <TextView
-            android:id="@+id/rest_txtName"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/rest_txtAddress"
-            android:layout_width="127dp"
-            android:layout_height="51dp"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/rest_txtLatitude"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/rest_txtLongitude"
-            android:layout_width="match_parent"
-            android:layout_height="57dp"
-            android:text="TextView" />
-    </LinearLayout>
-
     <ImageView
         android:id="@+id/rest_imgRestaurant"
         android:layout_width="140dp"
         android:layout_height="126dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="70dp"
-        android:src="@android:drawable/btn_dialog"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@android:drawable/btn_star_big_on"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/rest_txtName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/rest_imgRestaurant"
+        app:layout_constraintTop_toTopOf="@+id/rest_imgRestaurant" />
+
+    <TextView
+        android:id="@+id/rest_txtAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/rest_imgRestaurant"
+        app:layout_constraintTop_toBottomOf="@+id/rest_txtName" />
+
+    <TextView
+        android:id="@+id/rest_txtLatitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/rest_txtName"
+        app:layout_constraintStart_toEndOf="@+id/rest_txtName"
+        app:layout_constraintTop_toTopOf="@+id/rest_txtName" />
+
+    <TextView
+        android:id="@+id/rest_txtLongitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/rest_txtAddress"
+        app:layout_constraintStart_toEndOf="@+id/rest_txtAddress"
+        app:layout_constraintTop_toTopOf="@+id/rest_txtAddress" />
 
     <ListView
         android:id="@+id/rest_listInspections"
         android:layout_width="409dp"
-        android:layout_height="487dp"
-        android:layout_marginTop="1dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        android:layout_height="583dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="147dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
