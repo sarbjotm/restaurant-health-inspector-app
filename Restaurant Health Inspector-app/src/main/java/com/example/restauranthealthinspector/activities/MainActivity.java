@@ -84,10 +84,10 @@ public class MainActivity extends AppCompatActivity {
                         ArrayList<Inspection> inspections = currentRestaurant.getInspectionsManager().getInspectionList();
 
                         if (inspections.size() != 0 ) {
-                                issues = inspections.get(0).getNumCritical();
+                                issues = inspections.get(0).getNumCritical() + inspections.get(0).getNumNonCritical();
                                 restaurantIssues.setText(Integer.toString(issues));
                         } else {
-                                restaurantIssues.setText(Integer.toString(1000));
+                                restaurantIssues.setText(Integer.toString(9));
                         }
 
 
