@@ -48,14 +48,9 @@ public class InspectionsManager implements Iterable<Inspection> {
         return inspectionList.get(i);
     }
 
-    public int getCriticalIssues(){
-        return 5;
+    public ArrayList<Inspection> getInspectionList() {
+        return inspectionList;
     }
-
-    public int getNonCriticalIssues(){
-        return 0;
-    }
-
 
     @Override
     public Iterator<Inspection> iterator() {

@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.restauranthealthinspector.R;
+import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
 
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
         private int issues;
@@ -78,8 +80,17 @@ public class MainActivity extends AppCompatActivity {
                         restaurantName.setText(currentRestaurant.getRestaurantName());
 
                         TextView restaurantIssues = (TextView) itemView.findViewById(R.id.textViewNumberofIssues);
-                        issues = currentRestaurant.getInspectionsManager().getCriticalIssues();
-                        restaurantIssues.setText(Integer.toString(issues));
+
+                        ArrayList<Inspection> inspections = currentRestaurant.getInspectionsManager().getInspectionList();
+
+                        if (inspections.size() != 0 ) {
+                                issues = inspections.get(0).getNumCritical();
+                                restaurantIssues.setText(Integer.toString(issues));
+                        } else {
+                                restaurantIssues.setText(Integer.toString(1000));
+                        }
+
+
                         return itemView;
                 }
         }
