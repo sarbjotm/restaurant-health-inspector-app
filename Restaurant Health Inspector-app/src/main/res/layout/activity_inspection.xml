@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textViewInspectionType"
+            android:id="@+id/inspect_txtType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Inspection Type"
@@ -26,7 +26,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textViewNumOfNonCritical"
+                android:id="@+id/inspect_txtNonCriticalNum"
                 android:layout_width="52dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -34,7 +34,7 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/textViewNonCrtical"
+                android:id="@+id/inspect_txtNonCritical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -52,7 +52,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textViewInspectionDate"
+            android:id="@+id/inspect_txtDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Date"
@@ -64,7 +64,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textViewNumOfCritical"
+                android:id="@+id/inspect_txtCriticalNum"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -72,7 +72,7 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/textViewCriticalIssues"
+                android:id="@+id/inspect_txtCritical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -86,14 +86,14 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/imageViewHazardInspection"
+                android:id="@+id/inspect_imgHazard"
                 android:layout_width="48dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:srcCompat="?android:attr/alertDialogIcon" />
 
             <TextView
-                android:id="@+id/textViewHazardInspection"
+                android:id="@+id/inspect_txtHazard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -103,7 +103,7 @@
     </LinearLayout>
 
     <ListView
-        android:id="@+id/listViewViolation"
+        android:id="@+id/inspect_listViolations"
         android:layout_width="413dp"
         android:layout_height="627dp"
         app:layout_constraintStart_toStartOf="parent"

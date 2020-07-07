@@ -6,13 +6,13 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/listV_imgViolation"
         android:layout_width="126dp"
         android:layout_height="116dp"
         app:srcCompat="@android:drawable/btn_star_big_on" />
 
     <TextView
-        android:id="@+id/textViewBriefDescription"
+        android:id="@+id/listV_txtBriefDescription"
         android:layout_width="286dp"
         android:layout_height="81dp"
         android:layout_alignParentStart="true"
@@ -33,7 +33,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textViewSeverity"
+            android:id="@+id/listV_txtSeverity"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -41,7 +41,7 @@
             android:textSize="24sp" />
 
         <ImageView
-            android:id="@+id/imageViewSeverity"
+            android:id="@+id/listV_imgSeverity"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"

@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/listI_imgViolation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -20,35 +20,34 @@
         android:id="@+id/linearLayout"
         android:layout_width="305dp"
         android:layout_height="26dp"
-        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/listI_imgViolation"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/listI_txtCritical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="# Critical: " />
 
         <TextView
-            android:id="@+id/numCritical"
+            android:id="@+id/listI_txtCriticalNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/textView14"
+            android:id="@+id/listI_txtHazard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Hazard Level" />
 
         <TextView
-            android:id="@+id/hazardLvl"
+            android:id="@+id/listI_txtHazardNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -61,32 +60,32 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout"
-        tools:layout_editor_absoluteY="79dp">
+        app:layout_constraintStart_toEndOf="@+id/listI_imgViolation"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <TextView
-            android:id="@+id/textView15"
+            android:id="@+id/listI_txtNonCritical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="#Non-Critical" />
 
         <TextView
-            android:id="@+id/numNonCritical"
+            android:id="@+id/listI_txtNonCriticalNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/textView17"
+            android:id="@+id/listI_txtDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Date" />
 
         <TextView
-            android:id="@+id/date"
+            android:id="@+id/listI_txtDateNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
