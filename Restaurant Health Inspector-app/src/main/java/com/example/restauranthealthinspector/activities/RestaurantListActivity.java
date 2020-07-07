@@ -3,9 +3,8 @@ package com.example.restauranthealthinspector.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.media.Image;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.restauranthealthinspector.R;
 import com.example.restauranthealthinspector.model.Inspection;
@@ -27,10 +25,10 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class RestaurantListActivity extends AppCompatActivity {
+        private RestaurantsManager myRestaurants;
         private int issues;
         private String level;
-        private RestaurantsManager myRestaurants;
         private String date;
         private String day;
         private String month;
@@ -39,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
-                setContentView(R.layout.activity_main);
+                setContentView(R.layout.activity_restaurant_list);
 
                 try {
                         populateRestaurants();
@@ -47,27 +45,9 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                 }
                 populateListView();
-                registerClickCallback();
+                setUpRestaurantClick();
 
         }
-
-        private void registerClickCallback() {
-                ListView list = (ListView) findViewById(R.id.restaurantView);
-                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View viewClicked,
-                                                int position, long id) {
-
-                                Restaurant clickedRestaurant = myRestaurants.get(position);
-                                String message = "You clicked: " + clickedRestaurant.getRestaurantName();
-                                Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
-                        }
-                });
-        }
-
-
-
-
 
         // Code from Brian Fraser videos
         // Read CSV Resource File: Android Programming
@@ -87,13 +67,13 @@ public class MainActivity extends AppCompatActivity {
 
         private void populateListView() {
                 ArrayAdapter<Restaurant> adapter = new MyListAdapter();
-                ListView list = (ListView) findViewById(R.id.restaurantView);
+                ListView list = (ListView) findViewById(R.id.restlist_listRestaurants);
                 list.setAdapter(adapter);
         }
 
         private class MyListAdapter extends ArrayAdapter<Restaurant>{
                 public MyListAdapter(){
-                        super(MainActivity.this, R.layout.restaurant_view, myRestaurants.getRestaurants());
+                        super(RestaurantListActivity.this, R.layout.list_restaurants, myRestaurants.getRestaurants());
                 }
 
 
@@ -102,14 +82,14 @@ public class MainActivity extends AppCompatActivity {
                 public View getView(int position, View convertView, ViewGroup parent) {
                         View itemView = convertView;
                         if (itemView == null){
-                                itemView = getLayoutInflater().inflate(R.layout.restaurant_view, parent, false);
+                                itemView = getLayoutInflater().inflate(R.layout.list_restaurants, parent, false);
                         }
 
                         Restaurant currentRestaurant = myRestaurants.get(position);
-                        TextView restaurantName = (TextView) itemView.findViewById(R.id.restaurantName);
+                        TextView restaurantName = (TextView) itemView.findViewById(R.id.listR_txtRestaurantName);
                         restaurantName.setText(currentRestaurant.getRestaurantName());
 
-                        TextView restaurantIssues = (TextView) itemView.findViewById(R.id.textViewNumberofIssues);
+                        TextView restaurantIssues = (TextView) itemView.findViewById(R.id.listR_txtIssuesNum);
 
                         ArrayList<Inspection> inspections = currentRestaurant.getInspectionsManager().getInspectionList();
 
@@ -121,9 +101,9 @@ public class MainActivity extends AppCompatActivity {
                                 restaurantIssues.setText(Integer.toString(0));
                         }
 
-                        TextView restaurantHazardLevel = (TextView) itemView.findViewById(R.id.textViewHazardLevel);
-                        ImageView restaurantHazardImage = (ImageView) itemView.findViewById(R.id.imageViewHazard);
-                        TextView restaurantDate = (TextView) itemView.findViewById(R.id.textViewCustomDate);
+                        TextView restaurantHazardLevel = (TextView) itemView.findViewById(R.id.listR_txtHazardLevel);
+                        ImageView restaurantHazardImage = (ImageView) itemView.findViewById(R.id.listR_imgHazard);
+                        TextView restaurantDate = (TextView) itemView.findViewById(R.id.listR_txtCustomDate);
                         if (inspections.size() != 0 ) {
                                 level = inspections.get(0).getHazardRating();
                                 restaurantHazardLevel.setText(level);
@@ -170,6 +150,18 @@ public class MainActivity extends AppCompatActivity {
                 }
         }
 
+        private void setUpRestaurantClick() {
+                ListView list = findViewById(R.id.restlist_listRestaurants);
+                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View viewClicked,
+                                                int position, long id) {
+                                Intent intent = new Intent(RestaurantListActivity.this, RestaurantActivity.class);
+                                intent.putExtra("indexRestaurant", position);
+                                startActivity(intent);
+                        }
+                });
+        }
 
 
 }

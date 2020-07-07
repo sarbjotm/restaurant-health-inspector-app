@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/restaurantIcon"
+        android:id="@+id/listR_imgRestaurantIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -16,79 +16,79 @@
         app:srcCompat="@android:drawable/btn_star_big_on" />
 
     <TextView
-        android:id="@+id/restaurantName"
+        android:id="@+id/listR_txtRestaurantName"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:text="Name"
-        app:layout_constraintStart_toEndOf="@+id/restaurantIcon"
+        app:layout_constraintStart_toEndOf="@+id/listR_imgRestaurantIcon"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewIssues"
+        android:id="@+id/listR_txtIssues"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="5dp"
         android:text="@string/issues"
-        app:layout_constraintStart_toEndOf="@+id/restaurantIcon"
-        app:layout_constraintTop_toBottomOf="@+id/restaurantName" />
+        app:layout_constraintStart_toEndOf="@+id/listR_imgRestaurantIcon"
+        app:layout_constraintTop_toBottomOf="@+id/listR_txtRestaurantName" />
 
     <TextView
-        android:id="@+id/textViewNumberofIssues"
+        android:id="@+id/listR_txtIssuesNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
-        app:layout_constraintStart_toEndOf="@+id/textViewIssues"
-        app:layout_constraintTop_toBottomOf="@+id/restaurantName" />
+        app:layout_constraintStart_toEndOf="@+id/listR_txtIssues"
+        app:layout_constraintTop_toBottomOf="@+id/listR_txtRestaurantName" />
 
     <TextView
-        android:id="@+id/textViewHazard"
+        android:id="@+id/listR_txtHazard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
         android:text="@string/hazard_level"
-        app:layout_constraintStart_toEndOf="@+id/textViewNumberofIssues"
-        app:layout_constraintTop_toBottomOf="@+id/restaurantName" />
+        app:layout_constraintStart_toEndOf="@+id/listR_txtIssuesNum"
+        app:layout_constraintTop_toBottomOf="@+id/listR_txtRestaurantName" />
 
     <TextView
-        android:id="@+id/textViewHazardLevel"
+        android:id="@+id/listR_txtHazardLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
-        app:layout_constraintStart_toEndOf="@+id/textViewHazard"
-        app:layout_constraintTop_toBottomOf="@+id/restaurantName" />
+        app:layout_constraintStart_toEndOf="@+id/listR_txtHazard"
+        app:layout_constraintTop_toBottomOf="@+id/listR_txtRestaurantName" />
 
     <ImageView
-        android:id="@+id/imageViewHazard"
+        android:id="@+id/listR_imgHazard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
-        app:layout_constraintStart_toEndOf="@+id/textViewHazardLevel"
-        app:layout_constraintTop_toBottomOf="@+id/restaurantName"
+        app:layout_constraintStart_toEndOf="@+id/listR_txtHazardLevel"
+        app:layout_constraintTop_toBottomOf="@+id/listR_txtRestaurantName"
         app:srcCompat="@android:drawable/presence_video_online" />
 
     <TextView
-        android:id="@+id/textViewDate"
+        android:id="@+id/listR_txtDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:text="@string/date"
-        app:layout_constraintStart_toEndOf="@+id/restaurantName"
+        app:layout_constraintStart_toEndOf="@+id/listR_txtRestaurantName"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewCustomDate"
+        android:id="@+id/listR_txtCustomDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintStart_toEndOf="@+id/textViewDate"
+        app:layout_constraintStart_toEndOf="@+id/listR_txtDate"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
