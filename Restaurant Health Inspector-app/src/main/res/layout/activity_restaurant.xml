@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,16 +11,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        app:layout_constraintStart_toEndOf="@+id/imageViewRestaurant2nd"
+        app:layout_constraintTop_toTopOf="@+id/imageViewRestaurant2nd" />
 
     <TextView
         android:id="@+id/rest_txtAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="TextView"
         app:layout_constraintStart_toStartOf="@+id/rest_txtName"
         app:layout_constraintTop_toBottomOf="@+id/rest_txtName" />
 
@@ -30,7 +27,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="TextView"
         app:layout_constraintStart_toStartOf="@+id/rest_txtLongitude"
         app:layout_constraintTop_toBottomOf="@+id/rest_txtLongitude" />
 
@@ -38,8 +34,7 @@
         android:id="@+id/rest_txtLongitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="TextView"
+        android:layout_marginTop="30dp"
         app:layout_constraintStart_toStartOf="@+id/rest_txtAddress"
         app:layout_constraintTop_toBottomOf="@+id/rest_txtAddress" />
 
@@ -47,12 +42,15 @@
         android:id="@+id/rest_listInspections"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingBottom="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rest_txtLatitude" />
+        app:layout_constraintTop_toBottomOf="@+id/rest_txtLatitude"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewRestaurant2nd"
         android:layout_width="85dp"
         android:layout_height="79dp"
         android:layout_marginStart="10dp"

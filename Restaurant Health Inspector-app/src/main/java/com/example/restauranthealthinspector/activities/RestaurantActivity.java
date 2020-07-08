@@ -3,6 +3,7 @@ package com.example.restauranthealthinspector.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,29 +66,32 @@ public class RestaurantActivity extends AppCompatActivity {
             }
 
             Inspection currentInspection = inspections.get(position);
-            TextView numCritical = (TextView) itemView.findViewById(R.id.listI_txtCriticalNum);
-            numCritical.setText("# Critical: " + Integer.toString(currentInspection.getNumCritical()));
-            TextView numNonCritical = (TextView) itemView.findViewById(R.id.listI_txtNonCriticalNum);
-            numNonCritical.setText("# Non-Critical: " + Integer.toString(currentInspection.getNumNonCritical()));
+            TextView numCritical = (TextView) itemView.findViewById(R.id.listI_txtCriticalNumAmount);
+            numCritical.setText(Integer.toString(currentInspection.getNumCritical()));
+            TextView numNonCritical = (TextView) itemView.findViewById(R.id.listI_txtNonCriticalNumAmount);
+            numNonCritical.setText(Integer.toString(currentInspection.getNumNonCritical()));
             TextView hazardLevel = (TextView) itemView.findViewById(R.id.listI_txtHazardNum);
             String getHazardLevel = currentInspection.getHazardRating();
-            hazardLevel.setText("     Hazard Rating: " + getHazardLevel);
+            hazardLevel.setText(getHazardLevel);
             ImageView hazardSymbol = (ImageView) itemView.findViewById(R.id.listI_imgHazard);
             TextView inspectionDate = (TextView) itemView.findViewById(R.id.listI_txtDateNum);
             try {
-                inspectionDate.setText("Date: " + currentInspection.getInspectionDate().getSmartDate());
+                inspectionDate.setText(currentInspection.getInspectionDate().getSmartDate());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
             if (getHazardLevel.equals("Low")){
                 hazardSymbol.setImageResource(R.drawable.hazard_low);
+                hazardLevel.setTextColor(Color.parseColor("#82F965"));
             }
             else if (getHazardLevel.equals("Moderate")){
                 hazardSymbol.setImageResource(R.drawable.hazard_moderate);
+                hazardLevel.setTextColor(Color.parseColor("#F08D47"));
             }
             else{
                 hazardSymbol.setImageResource((R.drawable.hazard_high));
+                hazardLevel.setTextColor(Color.parseColor("#EC4A26"));
             }
             return itemView;
         }
@@ -98,10 +102,31 @@ public class RestaurantActivity extends AppCompatActivity {
         indexRestaurant = intent.getIntExtra("indexRestaurant", 0);
         restaurant = myRestaurants.get(indexRestaurant);
         inspections = restaurant.getInspectionsManager().getInspectionList();
-
+        ImageView restaurantImage = (ImageView) findViewById(R.id.imageViewRestaurant2nd);
         TextView restName = (TextView)findViewById(R.id.rest_txtName);
         String restaurantName = restaurant.getRestaurantName();
         restName.setText(restaurantName);
+
+        if ( (restaurantName.equals("104 Sushi & Co."))){
+            restaurantImage.setImageResource(R.drawable.restaurant_icon_sushi);
+        }
+
+        else if(restaurantName.equals("Lee Yuen Seafood Restaurant")){
+            restaurantImage.setImageResource(R.drawable.restaurant_icon_seafood);
+        }
+
+        else if(restaurantName.equals("Pattullo A&W")){
+            restaurantImage.setImageResource(R.drawable.restaurant_icon_burger);
+        }
+
+        else if(restaurantName.equals("Zugba Flame Grilled Chicken")){
+            restaurantImage.setImageResource(R.drawable.restaurant_icon_chicken);
+        }
+
+        else if((restaurantName.equals("Top in Town Pizza")) || restaurantName.equals("Top In Town Pizza")){
+            restaurantImage.setImageResource(R.drawable.restaurant_icon_pizza);
+        }
+
 
         TextView restAddress = (TextView)findViewById(R.id.rest_txtAddress);
         String restaurantAddress = restaurant.getAddress().getStreetAddress() +
