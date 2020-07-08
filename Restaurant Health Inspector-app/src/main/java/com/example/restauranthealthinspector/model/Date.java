@@ -1,7 +1,11 @@
 package com.example.restauranthealthinspector.model;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import android.annotation.SuppressLint;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.text.DateFormatSymbols;
+import java.util.concurrent.TimeUnit;
 
 public class Date {
     private int day;
@@ -26,108 +30,50 @@ public class Date {
         return year;
     }
 
-    @Override
-    public String toString() {
-        return "Date{" +
-                "day='" + day + '\'' +
-                ", month='" + month + '\'' +
-                ", year='" + year + '\'' +
-                '}';
+    public int getNumberDate() {
+        String dateString = String.valueOf(year);
+        String dayString;
+        String monthString;
+
+        if (day >= 10) {
+            dayString = String.valueOf(day);
+        } else {
+            dayString = "0" + day;
+        }
+
+        if (month >= 10) {
+            monthString = String.valueOf(month);
+        } else {
+            monthString = "0" + month;
+        }
+
+        dateString += monthString + dayString;
+        return Integer.parseInt(dateString);
     }
 
-    public String showDate(){
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        LocalDateTime now = LocalDateTime.now();
-        String currentDate = dtf.format(now);
+    public String getSmartDate() throws ParseException {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        java.util.Date currentDate = new java.util.Date();
+        String dateString = String.valueOf(getNumberDate());
+        java.util.Date date = dateFormat.parse(dateString);
 
-        int currentDay = Integer.parseInt(currentDate.substring(8, 10));
-        int day = this.day;
-        int currentMonth = Integer.parseInt(currentDate.substring(5, 7));
-        int month = this.month;
-        int currentYear = Integer.parseInt(currentDate.substring(0, 4));
-        int year = this.year;
-        String realMonth = stringToMonth(Integer.toString(this.month));
-        String str;
+        long timeDifference = currentDate.getTime() - date.getTime();
+        long daysDifference = TimeUnit.DAYS.convert(timeDifference, TimeUnit.MILLISECONDS);
 
-        if (currentYear == year){
-            if (currentMonth - month == 1){
-                if (currentDay < day){
-                    str = (currentDay + 30 - day + " days");
-                }
-                else{
-                    str = (realMonth + " " + day);
-                }
-            }
-            else if(currentMonth == month){
-                str = (currentDay - day + " days");
-            }
-            else{
-                str = (realMonth + " " + day);
-            }
+        if (daysDifference <= 30) {
+            return daysDifference + " days";
+        } else if (daysDifference < 365) {
+            return getStringMonth() + " " + day;
+        } else {
+            return getStringMonth() + " " + year;
         }
-        else if (currentYear - year == 1){
-            if ((currentMonth == 01) && (month == 12)){
-                if(currentDay < day){
-                    str = (currentDay + 30 - day + " days");
-                }
-                else{
-                    str = (realMonth + " " + day);
-                }
-            }
-            else if(currentMonth < month){
-                str = (realMonth + " " + day);
-            }
-            else{
-                str = (realMonth + " " + year);
-            }
-        }
-        else{
-            str = (realMonth + " " + year);
-        }
-        return str;
     }
 
-    private String stringToMonth(String month) {
-        switch(month) {
-            case "01":
-                month = "January";
-                break;
-            case "02":
-                month = "February";
-                break;
-            case "03":
-                month = "March";
-                break;
-            case "04":
-                month = "April";
-                break;
-            case "05":
-                month = "May";
-                break;
-            case "06":
-                month = "June";
-                break;
-            case "07":
-                month = "July";
-                break;
-            case "08":
-                month = "August";
-                break;
-            case "09":
-                month = "September";
-                break;
-            case "10":
-                month = "October";
-                break;
-            case "11":
-                month = "November";
-                break;
-            case "12":
-                month = "December";
-                break;
-            default:
-                month = "Unknown";
-        }
-        return month;
+    private String getStringMonth() {
+        return new DateFormatSymbols().getMonths()[month-1];
+    }
+
+    public String getFullDate() {
+        return getStringMonth() + " " + day + ", " + year;
     }
 }
