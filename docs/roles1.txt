@@ -1,0 +1,4 @@
+Scrum Master: Travis
+Product Owner: Tung
+Repo Manager: Sarbjot
+Team Member: Cheng Yang (Rick)
