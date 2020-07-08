@@ -1,6 +1,8 @@
 package com.example.restauranthealthinspector.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 
 /**
@@ -17,8 +19,6 @@ public class InspectionsManager implements Iterable<Inspection> {
         Inspection inspection = new Inspection(date, lineArray[2], numCritical, numNonCritical, lineArray[5], violationManager);
         inspectionList.add(inspection);
     }
-
-
 
     private Date intToDate(String inspectionDate) {
         int day = Integer.parseInt(inspectionDate.substring(6, 8));
@@ -38,6 +38,15 @@ public class InspectionsManager implements Iterable<Inspection> {
             vioLump.append(",").append(lineArray[i]);
         }
         return new ViolationManager(vioLump.toString());
+    }
+
+    public void sortInspections() {
+        Collections.sort(inspectionList, new Comparator<Inspection>() {
+            @Override
+            public int compare(Inspection i1, Inspection i2) {
+                return i2.getInspectionDate().getNumberDate() - i1.getInspectionDate().getNumberDate();
+            }
+        });
     }
 
     public void add(Inspection inspection){
