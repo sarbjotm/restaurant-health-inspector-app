@@ -7,7 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,8 @@ import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
 import com.example.restauranthealthinspector.model.Violation;
 import com.example.restauranthealthinspector.model.ViolationManager;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.List;
@@ -79,6 +83,7 @@ public class InspectionActivity extends AppCompatActivity {
         violations = violationManager.getViolationList();
     }
 
+    @SuppressLint("SetTextI18n")
     private void setupInspection() {
         TextView date = findViewById(R.id.inspect_txtDate);
         date.setText(inspection.getInspectionDate().getFullDate());
@@ -89,16 +94,23 @@ public class InspectionActivity extends AppCompatActivity {
         TextView numOfNonCritical = findViewById(R.id.inspect_txtNonCriticalNum);
         numOfNonCritical.setText(Integer.toString(inspection.getNumNonCritical()));
 
+        TextView hazard = findViewById(R.id.inspect_txtHazard);
+        String hazardString = inspection.getHazardRating();
+        hazard.setText(hazardString);
+
         ImageView hazardLevel = findViewById(R.id.inspect_imgHazard);
 
-        if(inspection.getHazardRating().equals("Low")){
+        if(hazardString.equals("Low")){
             hazardLevel.setImageResource(R.drawable.hazard_low);
+            hazard.setTextColor(Color.parseColor("#82F965"));
         }
-        else if(inspection.getHazardRating().equals("Moderate")){
+        else if(hazardString.equals("Moderate")){
             hazardLevel.setImageResource(R.drawable.hazard_moderate);
+            hazard.setTextColor(Color.parseColor("#F08D47"));
         }
         else {
             hazardLevel.setImageResource(R.drawable.hazard_high);
+            hazard.setTextColor(Color.parseColor("#EC4A26"));
         }
     }
 
