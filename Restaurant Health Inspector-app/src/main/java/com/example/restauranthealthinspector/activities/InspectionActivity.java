@@ -21,6 +21,7 @@ import com.example.restauranthealthinspector.model.InspectionsManager;
 import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
 import com.example.restauranthealthinspector.model.Violation;
+import com.example.restauranthealthinspector.model.ViolationManager;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.List;
 public class InspectionActivity extends AppCompatActivity {
     private RestaurantsManager myRestaurants;
     private Inspection inspection;
-    List<Violation> myViolations;
+    private List<Violation> violations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +55,13 @@ public class InspectionActivity extends AppCompatActivity {
         Restaurant restaurant = myRestaurants.get(indexRestaurant);
         InspectionsManager inspectionsManager = restaurant.getInspectionsManager();
         inspection = inspectionsManager.get(indexInspection);
-        myViolations = inspection.getViolationManager().getViolationList();
+        ViolationManager violationManager = inspection.getViolationManager();
+        violations = violationManager.getViolationList();
     }
 
     private void setupInspection() {
         TextView date = findViewById(R.id.inspect_txtDate);
-        date.setText("" + inspection.getInspectionDate());
+        date.setText(inspection.getInspectionDate().getFullDate());
 
         TextView numOfCritical = findViewById(R.id.inspect_txtCriticalNum);
         numOfCritical.setText(Integer.toString(inspection.getNumCritical()));
@@ -89,19 +91,19 @@ public class InspectionActivity extends AppCompatActivity {
 
     private class MyListAdapter extends ArrayAdapter<Violation> {
         public MyListAdapter(){
-            super(InspectionActivity.this, R.layout.list_violations, myViolations);
+            super(InspectionActivity.this, R.layout.list_violations, violations);
         }
 
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             View listViolations = convertView;
-            if(listViolations == null){
+            if (listViolations == null){
                 listViolations = getLayoutInflater().inflate(R.layout.list_violations, parent,false);
             }
 
             //Find Violations to work with
-            Violation currentViolation = myViolations.get(position);
+            Violation currentViolation = violations.get(position);
 
             //Fill the description
             TextView briefDescription = listViolations.findViewById(R.id.listV_txtBriefDescription);
@@ -134,7 +136,7 @@ public class InspectionActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String message = myViolations.get(position).getLongDescription();
+                String message = violations.get(position).getLongDescription();
 
                 Toast.makeText(InspectionActivity.this, message, Toast.LENGTH_SHORT).show();
             }

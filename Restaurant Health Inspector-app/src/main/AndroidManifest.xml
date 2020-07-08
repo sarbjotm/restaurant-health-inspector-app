@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".activities.RestaurantActivity" />
+        <activity android:name=".activities.InspectionActivity" />
         <activity android:name=".activities.RestaurantListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
