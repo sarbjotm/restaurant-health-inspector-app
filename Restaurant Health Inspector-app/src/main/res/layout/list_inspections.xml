@@ -6,57 +6,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="305dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="52dp">
+    <ImageView
+        android:id="@+id/listI_imgHazard"
+        android:layout_width="26dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="5dp"
+        android:layout_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/listI_txtHazardNum"
+        app:layout_constraintTop_toTopOf="@+id/listI_txtHazardNum"
+        app:srcCompat="@drawable/hazard_high" />
 
-        <TextView
-            android:id="@+id/listI_txtCriticalNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="# Critical" />
+    <TextView
+        android:id="@+id/listI_txtHazardNum"
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:layout_marginStart="30dp"
+        android:layout_weight="1"
+        android:text="Hazard Level"
+        app:layout_constraintStart_toEndOf="@+id/listI_txtNonCriticalNum"
+        app:layout_constraintTop_toTopOf="@+id/listI_txtNonCriticalNum" />
 
-        <TextView
-            android:id="@+id/listI_txtHazardNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Hazard Level" />
+    <TextView
+        android:id="@+id/listI_txtNonCriticalNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:text="# Non-Critical"
+        app:layout_constraintStart_toStartOf="@+id/listI_txtCriticalNum"
+        app:layout_constraintTop_toBottomOf="@+id/listI_txtCriticalNum" />
 
-        <ImageView
-            android:id="@+id/listI_imgHazard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/hazard_high" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/listI_txtCriticalNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="17dp"
+        android:layout_weight="1"
+        android:text="# Critical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="304dp"
-        android:layout_height="45dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+    <TextView
+        android:id="@+id/listI_txtDateNum"
+        android:layout_width="274dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/listI_txtHazardNum"
+        app:layout_constraintTop_toTopOf="@+id/listI_txtCriticalNum" />
 
-        <TextView
-            android:id="@+id/listI_txtNonCriticalNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="# Non-Critical" />
-
-        <TextView
-            android:id="@+id/listI_txtDateNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Date" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
