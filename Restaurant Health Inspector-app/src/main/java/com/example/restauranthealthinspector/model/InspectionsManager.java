@@ -1,3 +1,6 @@
+/**
+ * An array list to store a list of inspection reports.
+ */
 package com.example.restauranthealthinspector.model;
 
 import java.util.ArrayList;
@@ -5,9 +8,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 
-/**
- * A manager to store inspections.
- */
 public class InspectionsManager implements Iterable<Inspection> {
     private ArrayList<Inspection> inspectionList = new ArrayList<>();
 

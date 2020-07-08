@@ -1,3 +1,6 @@
+/**
+ * Icon IDs to store different icons for each violation.
+ */
 package com.example.restauranthealthinspector.model;
 
 import android.content.Context;

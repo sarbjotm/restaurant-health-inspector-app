@@ -1,8 +1,9 @@
+/**
+ * A restaurant class to store the tracking number, name , address,
+ * inspections reports and an icon ID for a restaurant.
+ */
 package com.example.restauranthealthinspector.model;
 
-/**
- * A restaurant class.
- */
 public class Restaurant {
     private String trackingNumber;
     private String restaurantName;

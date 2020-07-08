@@ -1,8 +1,12 @@
+/**
+ * Details about a restaurant with a list of inspections.
+ */
 package com.example.restauranthealthinspector.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,23 +75,26 @@ public class RestaurantActivity extends AppCompatActivity {
             numNonCritical.setText("# Non-Critical: " + Integer.toString(currentInspection.getNumNonCritical()));
             TextView hazardLevel = (TextView) itemView.findViewById(R.id.listI_txtHazardNum);
             String getHazardLevel = currentInspection.getHazardRating();
-            hazardLevel.setText("     Hazard Rating: " + getHazardLevel);
+            hazardLevel.setText(getHazardLevel);
             ImageView hazardSymbol = (ImageView) itemView.findViewById(R.id.listI_imgHazard);
             TextView inspectionDate = (TextView) itemView.findViewById(R.id.listI_txtDateNum);
             try {
-                inspectionDate.setText("Date: " + currentInspection.getInspectionDate().getSmartDate());
+                inspectionDate.setText(currentInspection.getInspectionDate().getSmartDate());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
             if (getHazardLevel.equals("Low")){
                 hazardSymbol.setImageResource(R.drawable.hazard_low);
+                hazardLevel.setTextColor(Color.parseColor("#82F965"));
             }
             else if (getHazardLevel.equals("Moderate")){
                 hazardSymbol.setImageResource(R.drawable.hazard_moderate);
+                hazardLevel.setTextColor(Color.parseColor("#F08D47"));
             }
             else{
                 hazardSymbol.setImageResource((R.drawable.hazard_high));
+                hazardLevel.setTextColor(Color.parseColor("#EC4A26"));
             }
             return itemView;
         }

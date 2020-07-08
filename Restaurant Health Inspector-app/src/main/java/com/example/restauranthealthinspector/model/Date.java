@@ -1,7 +1,9 @@
+/**
+ * Date of inspection reports with attributes day, month and year.
+ */
 package com.example.restauranthealthinspector.model;
 
 import android.annotation.SuppressLint;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.text.DateFormatSymbols;

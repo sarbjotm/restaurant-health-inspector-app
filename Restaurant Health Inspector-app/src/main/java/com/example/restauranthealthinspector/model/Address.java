@@ -1,3 +1,6 @@
+/**
+ * Address of a restaurant with attributes address, city and GPS coordinates.
+ */
 package com.example.restauranthealthinspector.model;
 
 public class Address {
