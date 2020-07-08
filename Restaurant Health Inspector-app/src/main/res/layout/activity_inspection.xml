@@ -6,6 +6,42 @@
     android:layout_height="match_parent"
     tools:context=".activities.InspectionActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/inspect_tool"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/inspect_txtViolations"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Violations"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/inspect_tool"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/inspect_tool"
+        app:layout_constraintTop_toTopOf="@+id/inspect_tool" />
+
+    <ImageButton
+        android:id="@+id/inspect_imgbtnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:background="@null"
+        app:layout_constraintBottom_toBottomOf="@+id/inspect_tool"
+        app:layout_constraintStart_toStartOf="@+id/inspect_tool"
+        app:layout_constraintTop_toTopOf="@+id/inspect_tool"
+        app:layout_constraintVertical_bias="0.50"
+        app:srcCompat="@drawable/ic_left_arrow" />
+
     <TextView
         android:id="@+id/inspect_txtType"
         android:layout_width="155dp"
@@ -33,12 +69,12 @@
         android:id="@+id/inspect_txtDate"
         android:layout_width="144dp"
         android:layout_height="19dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
         android:text="Date"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/inspect_tool" />
 
     <TextView
         android:id="@+id/inspect_txtCritical"
@@ -56,23 +92,22 @@
         android:id="@+id/inspect_imgHazard"
         android:layout_width="67dp"
         android:layout_height="52dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginTop="8dp"
         android:layout_weight="1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inspect_tool"
         app:srcCompat="?android:attr/alertDialogIcon" />
 
     <TextView
         android:id="@+id/inspect_txtHazard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="30dp"
         android:layout_weight="1"
         android:text="Hazard Level"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/inspect_imgHazard"
+        app:layout_constraintStart_toStartOf="@+id/inspect_imgHazard"
         app:layout_constraintTop_toBottomOf="@+id/inspect_imgHazard" />
 
     <TextView

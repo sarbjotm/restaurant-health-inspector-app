@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ public class InspectionActivity extends AppCompatActivity {
     private RestaurantsManager myRestaurants;
     private Inspection inspection;
     private List<Violation> violations;
+    private int indexRestaurant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +50,27 @@ public class InspectionActivity extends AppCompatActivity {
         loadInspection();
         setupInspection();
         populateListView();
+        setUpBackButton();
         setUpToastMessageOnclick();
+    }
+
+    private void setUpBackButton() {
+        ImageButton btn = findViewById(R.id.inspect_imgbtnBack);
+        btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(InspectionActivity.this, RestaurantActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("indexRestaurant", indexRestaurant);
+                startActivity(intent);
+            }
+        });
     }
 
     private void loadInspection() {
         Intent intent = getIntent();
-        int indexRestaurant = intent.getIntExtra("indexRestaurant", 0);
+        indexRestaurant = intent.getIntExtra("indexRestaurant", 0);
         int indexInspection = intent.getIntExtra("indexInspection", 0);
         Restaurant restaurant = myRestaurants.get(indexRestaurant);
         InspectionsManager inspectionsManager = restaurant.getInspectionsManager();

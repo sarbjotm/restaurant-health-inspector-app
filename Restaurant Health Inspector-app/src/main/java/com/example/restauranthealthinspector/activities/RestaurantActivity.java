@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,11 +22,7 @@ import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -45,9 +42,23 @@ public class RestaurantActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        setUpBackButton();
         loadRestaurant();
         populateListView();
         setUpInspectionClick();
+    }
+
+    private void setUpBackButton() {
+        ImageButton btn = findViewById(R.id.rest_imgbtnBack);
+        btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RestaurantActivity.this, RestaurantListActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
     }
 
     private void populateListView(){
@@ -105,7 +116,7 @@ public class RestaurantActivity extends AppCompatActivity {
         indexRestaurant = intent.getIntExtra("indexRestaurant", 0);
         restaurant = myRestaurants.get(indexRestaurant);
         inspections = restaurant.getInspectionsManager().getInspectionList();
-        ImageView restaurantImage = (ImageView) findViewById(R.id.imageViewRestaurant2nd);
+        ImageView restaurantImage = (ImageView) findViewById(R.id.rest_imgRestaurant);
         TextView restName = (TextView)findViewById(R.id.rest_txtName);
         String restaurantName = restaurant.getRestaurantName();
         restName.setText(restaurantName);
