@@ -1,10 +1,12 @@
 package com.example.restauranthealthinspector.model;
 
+import android.content.Context;
+
 public class Violation {
     private int violationID;
     private String longDescription;
     private String severity;
-    private int briefDescriptionID;
+    private String briefDescription;
     private int iconID;
 
     public Violation(int violationID, String longDescription, String severity) {
@@ -37,16 +39,21 @@ public class Violation {
         this.severity = severity;
     }
 
-    public int getBriefDescriptionID() {
-        return briefDescriptionID;
+    public String getBriefDescription(Context context) {
+        BriefDescription message = new BriefDescription(violationID);
+
+        return message.getBriefDescription(context);
     }
 
-    public void setBriefDescriptionID(int briefDescriptionID) {
-        this.briefDescriptionID = briefDescriptionID;
+    public void setBriefDescription(String briefDescription) {
+        this.briefDescription = briefDescription;
     }
 
-    public int getIconID() {
-        return iconID;
+    public int getIconID(Context context) {
+
+        IconID currentID = new IconID(violationID);
+
+        return currentID.getIconID(context);
     }
 
     public void setIconID(int iconID) {
