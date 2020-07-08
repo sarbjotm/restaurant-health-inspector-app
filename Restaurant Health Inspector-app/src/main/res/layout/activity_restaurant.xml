@@ -37,7 +37,7 @@
         android:contentDescription="@string/back"
         app:layout_constraintBottom_toBottomOf="@+id/rest_toolbar"
         app:layout_constraintEnd_toEndOf="@+id/rest_toolbar"
-        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="@+id/rest_toolbar"
         app:layout_constraintTop_toTopOf="@+id/rest_toolbar"
         app:srcCompat="@drawable/ic_left_arrow" />
