@@ -76,10 +76,18 @@
     <string name="LDL_404">Not Critical, Employee smoking in food preparation/processing/storage areas [s. 21(2)]</string>
     <string name="LDL_501">Not Critical, Operator does not have FOODSAFE Level 1 or Equivalent [s. 10(1)]</string>
     <string name="LDL_502">Not Critical, In operator’s absence no staff on duty has FOODSAFE Level 1 or equivalent [s. 10(2)]</string>
+
+    <!-- Other -->
     <string name="issues">Issues</string>
     <string name="hazard_level">Hazard Level</string>
     <string name="date">Date</string>
     <string name="inspection">Inspection</string>
     <string name="non_critical">Non Critical</string>
     <string name="critical">Critical</string>
+    <string name="severity">Severity</string>
+    <string name="brief_description">Brief Description</string>
+    <string name="violation">Violation</string>
+    <string name="restaurant">Restaurant</string>
+    <string name="name">Name</string>
+    <string name="number">Number</string>
 </resources>

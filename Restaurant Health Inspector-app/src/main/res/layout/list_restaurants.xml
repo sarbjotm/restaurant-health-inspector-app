@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,6 +10,7 @@
         android:layout_height="62dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
+        android:contentDescription="@string/restaurant"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/restaurant_icon" />
@@ -21,6 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
+        android:text="@string/name"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/listR_imgRestaurantIcon"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,6 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
+        android:text="@string/number"
         app:layout_constraintStart_toEndOf="@+id/listR_txtIssues"
         app:layout_constraintTop_toBottomOf="@+id/listR_txtRecent" />
 
@@ -47,8 +50,9 @@
         android:id="@+id/listR_txtHazardLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:layout_marginEnd="100dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/hazard_level"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listR_txtCustomDate" />
 
@@ -58,6 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
+        android:contentDescription="@string/hazard_level"
         app:layout_constraintStart_toEndOf="@+id/listR_txtHazardLevel"
         app:layout_constraintTop_toBottomOf="@+id/listR_txtCustomDate"
         app:srcCompat="@android:drawable/presence_video_online" />
@@ -68,6 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="7dp"
         android:layout_marginTop="4dp"
+        android:text="@string/date"
         app:layout_constraintStart_toEndOf="@+id/listR_txtRecent"
         app:layout_constraintTop_toBottomOf="@+id/listR_txtRestaurantName" />
 
