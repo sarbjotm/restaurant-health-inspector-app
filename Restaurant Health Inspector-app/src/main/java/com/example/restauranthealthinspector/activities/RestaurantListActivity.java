@@ -32,10 +32,7 @@ public class RestaurantListActivity extends AppCompatActivity {
         private RestaurantsManager myRestaurants;
         private int issues;
         private String level;
-        private String date;
-        private String day;
-        private String month;
-        private String year;
+
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -87,14 +84,26 @@ public class RestaurantListActivity extends AppCompatActivity {
                         if (itemView == null){
                                 itemView = getLayoutInflater().inflate(R.layout.list_restaurants, parent, false);
                         }
-
+                        ImageView restaurantImage = (ImageView) itemView.findViewById(R.id.listR_imgRestaurantIcon);
                         Restaurant currentRestaurant = myRestaurants.get(position);
                         TextView restaurantName = (TextView) itemView.findViewById(R.id.listR_txtRestaurantName);
                         restaurantName.setText(currentRestaurant.getRestaurantName());
+                        if ( (currentRestaurant.getRestaurantName().equals("104 Sushi & Co.")) || currentRestaurant.getRestaurantName().equals("Lee Yuen Seafood Restaurant")){
+                                restaurantImage.setImageResource(R.drawable.restaurant_icon_sushi);
+                        }
+
+                        else if(currentRestaurant.getRestaurantName().equals("Pattullo A&W")){
+                                restaurantImage.setImageResource(R.drawable.restaurant_icon_burger);
+                        }
+
+                        else if(currentRestaurant.getRestaurantName().equals("Zugba Flame Grilled Chicken")){
+                                restaurantImage.setImageResource(R.drawable.restaurant_icon_chicken);
+                        }
 
                         TextView restaurantIssues = (TextView) itemView.findViewById(R.id.listR_txtIssuesNum);
 
                         ArrayList<Inspection> inspections = currentRestaurant.getInspectionsManager().getInspectionList();
+
 
                         if (inspections.size() != 0 ) {
                                 issues = inspections.get(0).getNumCritical() + inspections.get(0).getNumNonCritical();
@@ -106,6 +115,7 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                         TextView restaurantHazardLevel = (TextView) itemView.findViewById(R.id.listR_txtHazardLevel);
                         ImageView restaurantHazardImage = (ImageView) itemView.findViewById(R.id.listR_imgHazard);
+
                         TextView restaurantDate = (TextView) itemView.findViewById(R.id.listR_txtCustomDate);
                         if (inspections.size() != 0 ) {
                                 level = inspections.get(0).getHazardRating();
