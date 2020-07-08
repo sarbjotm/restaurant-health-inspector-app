@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class RestaurantActivity extends AppCompatActivity {
@@ -69,12 +71,29 @@ public class RestaurantActivity extends AppCompatActivity {
 
             Inspection currentInspection = inspections.get(position);
             TextView numCritical = (TextView) itemView.findViewById(R.id.listI_txtCriticalNum);
-            numCritical.setText(Integer.toString(currentInspection.getNumCritical()));
+            numCritical.setText("# Critical: " + Integer.toString(currentInspection.getNumCritical()));
             TextView numNonCritical = (TextView) itemView.findViewById(R.id.listI_txtNonCriticalNum);
-            numNonCritical.setText(Integer.toString(currentInspection.getNumNonCritical()));
+            numNonCritical.setText("# Non-Critical: " + Integer.toString(currentInspection.getNumNonCritical()));
             TextView hazardLevel = (TextView) itemView.findViewById(R.id.listI_txtHazardNum);
-            hazardLevel.setText(currentInspection.getHazardRating());
+            String getHazardLevel = currentInspection.getHazardRating();
+            hazardLevel.setText("     Hazard Rating: " + getHazardLevel);
+            ImageView hazardSymbol = (ImageView) itemView.findViewById(R.id.listI_imgHazard);
+            TextView inspectionDate = (TextView) itemView.findViewById(R.id.listI_txtDateNum);
+            try {
+                inspectionDate.setText("Date: " + currentInspection.getInspectionDate().getSmartDate());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
+            if (getHazardLevel.equals("Low")){
+                hazardSymbol.setImageResource(R.drawable.hazard_low);
+            }
+            else if (getHazardLevel.equals("Moderate")){
+                hazardSymbol.setImageResource(R.drawable.hazard_moderate);
+            }
+            else{
+                hazardSymbol.setImageResource((R.drawable.hazard_high));
+            }
             return itemView;
         }
     }
