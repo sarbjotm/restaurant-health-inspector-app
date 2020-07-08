@@ -30,7 +30,6 @@ public class RestaurantActivity extends AppCompatActivity {
     private RestaurantsManager myRestaurants;
     private Restaurant restaurant;
     private int indexRestaurant;
-    private RestaurantsManager listRestaurants;
     ArrayList<Inspection> inspections;
 
     @Override
@@ -43,11 +42,6 @@ public class RestaurantActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Intent intent = getIntent();
-        indexRestaurant = intent.getIntExtra("indexRestaurant", 0);
-        restaurant = myRestaurants.get(indexRestaurant);
-        inspections = restaurant.getInspectionsManager().getInspectionList();
-
         loadRestaurant();
         populateListView();
         setUpInspectionClick();
@@ -106,8 +100,8 @@ public class RestaurantActivity extends AppCompatActivity {
     private void loadRestaurant() {
         Intent intent = getIntent();
         indexRestaurant = intent.getIntExtra("indexRestaurant", 0);
-
         restaurant = myRestaurants.get(indexRestaurant);
+        inspections = restaurant.getInspectionsManager().getInspectionList();
 
         TextView restName = (TextView)findViewById(R.id.rest_txtName);
         String restaurantName = restaurant.getRestaurantName();

@@ -5,11 +5,7 @@ import java.util.ArrayList;
 public class ViolationManager {
     private ArrayList<Violation> violationList = new ArrayList<>();
 
-    public ViolationManager(String vioLump) {
-        convertVioLumpToViolations(vioLump);
-    }
-
-    private void convertVioLumpToViolations(String vioLump) {
+    public void convertVioLumpToViolations(String vioLump) {
         String[] vioLumpArray = vioLump.split("\\|");
 
         for (String violationString : vioLumpArray) {

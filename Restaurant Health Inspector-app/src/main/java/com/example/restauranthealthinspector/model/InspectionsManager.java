@@ -28,16 +28,17 @@ public class InspectionsManager implements Iterable<Inspection> {
     }
 
     private ViolationManager vioLumpToViolationManager(String[] lineArray) {
-        // No Violations
-        if (lineArray.length == 6) {
-            return null;
+        ViolationManager violationManager = new ViolationManager();
+
+        if (lineArray.length != 6) {
+            StringBuilder vioLump = new StringBuilder(lineArray[6]);
+            for (int i = 7; i < lineArray.length; i++) {
+                vioLump.append(",").append(lineArray[i]);
+            }
+            violationManager.convertVioLumpToViolations(vioLump.toString());
         }
 
-        StringBuilder vioLump = new StringBuilder(lineArray[6]);
-        for (int i = 7; i < lineArray.length; i++) {
-            vioLump.append(",").append(lineArray[i]);
-        }
-        return new ViolationManager(vioLump.toString());
+        return violationManager;
     }
 
     public void sortInspections() {
@@ -64,12 +65,5 @@ public class InspectionsManager implements Iterable<Inspection> {
     @Override
     public Iterator<Inspection> iterator() {
         return inspectionList.iterator();
-    }
-
-    @Override
-    public String toString() {
-        return "InspectionsManager{" +
-                "inspectionList=" + inspectionList +
-                '}';
     }
 }
