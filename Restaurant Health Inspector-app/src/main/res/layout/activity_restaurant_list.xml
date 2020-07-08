@@ -21,7 +21,7 @@
         android:id="@+id/restlist_txtRestaurant"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Restaurant Health Inspector"
+        android:text="@string/app_name"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/restlist_toolbar"
