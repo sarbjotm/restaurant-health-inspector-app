@@ -1,40 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.RestaurantActivity">
 
-    <ImageView
-        android:id="@+id/rest_imgRestaurant"
-        android:layout_width="81dp"
-        android:layout_height="84dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:src="@android:drawable/btn_star_big_on"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/restaurant_icon" />
-
     <TextView
         android:id="@+id/rest_txtName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="20dp"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/rest_imgRestaurant"
-        app:layout_constraintTop_toTopOf="@+id/rest_imgRestaurant" />
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
 
     <TextView
         android:id="@+id/rest_txtAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
         android:layout_marginTop="5dp"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/rest_imgRestaurant"
+        app:layout_constraintStart_toStartOf="@+id/rest_txtName"
         app:layout_constraintTop_toBottomOf="@+id/rest_txtName" />
 
     <TextView
@@ -59,9 +47,18 @@
         android:id="@+id/rest_listInspections"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rest_imgRestaurant" />
+        app:layout_constraintTop_toBottomOf="@+id/rest_txtLatitude" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="85dp"
+        android:layout_height="79dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/restaurant_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
