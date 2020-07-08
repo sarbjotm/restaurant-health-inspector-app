@@ -46,59 +46,57 @@
 
     <TextView
         android:id="@+id/inspect_txtType"
-        android:layout_width="155dp"
-        android:layout_height="18dp"
-        android:layout_marginStart="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="@string/inspection_type"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/inspect_imgHazard"
+        app:layout_constraintStart_toStartOf="@+id/inspect_txtDate"
         app:layout_constraintTop_toBottomOf="@+id/inspect_txtDate" />
 
     <TextView
         android:id="@+id/inspect_txtNonCritical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_weight="1"
         android:text="@string/non_critical"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/inspect_txtCritical"
         app:layout_constraintTop_toBottomOf="@+id/inspect_txtCritical" />
 
     <TextView
         android:id="@+id/inspect_txtDate"
-        android:layout_width="144dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
         android:text="@string/date"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inspect_tool" />
+        app:layout_constraintStart_toEndOf="@+id/inspect_imgHazard"
+        app:layout_constraintTop_toTopOf="@+id/inspect_imgHazard" />
 
     <TextView
         android:id="@+id/inspect_txtCritical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
         android:layout_weight="1"
         android:text="@string/critical"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inspect_txtType" />
+        app:layout_constraintStart_toEndOf="@+id/inspect_txtDate"
+        app:layout_constraintTop_toTopOf="@+id/inspect_txtDate" />
 
     <ImageView
         android:id="@+id/inspect_imgHazard"
         android:layout_width="67dp"
         android:layout_height="52dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="26dp"
         android:layout_weight="1"
         android:contentDescription="@string/hazard_level"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inspect_tool"
         app:srcCompat="@drawable/hazard_high" />
 
@@ -127,25 +125,26 @@
 
     <TextView
         android:id="@+id/inspect_txtCriticalNum"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
         android:layout_weight="1"
         android:text="@string/number"
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/inspect_txtCritical"
-        app:layout_constraintTop_toBottomOf="@+id/inspect_txtType" />
+        app:layout_constraintTop_toTopOf="@+id/inspect_txtCritical" />
 
     <ListView
         android:id="@+id/inspect_listViolations"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inspect_txtNonCriticalNum">
+        app:layout_constraintTop_toBottomOf="@+id/inspect_txtHazard"
+        app:layout_constraintVertical_bias="0.0">
 
     </ListView>
 </androidx.constraintlayout.widget.ConstraintLayout>
