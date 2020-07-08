@@ -26,6 +26,27 @@ public class Date {
         return year;
     }
 
+    public int getNumberDate() {
+        String dateString = String.valueOf(year);
+        String dayString;
+        String monthString;
+
+        if (day >= 10) {
+            dayString = String.valueOf(day);
+        } else {
+            dayString = "0" + day;
+        }
+
+        if (month >= 10) {
+            monthString = String.valueOf(month);
+        } else {
+            monthString = "0" + month;
+        }
+
+        dateString += monthString + dayString;
+        return Integer.parseInt(dateString);
+    }
+
     @Override
     public String toString() {
         return "Date{" +

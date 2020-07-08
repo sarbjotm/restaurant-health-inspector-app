@@ -24,6 +24,7 @@ public class RestaurantsManager implements Iterable<Restaurant>{
             storeRestaurants(readerRestaurants);
             sortRestaurants();
             splitInspections(readerInspections);
+            sortInspections();
         }
         return instance;
     }
@@ -77,6 +78,12 @@ public class RestaurantsManager implements Iterable<Restaurant>{
                      restaurant.getInspectionsManager().addFromLineArray(lineArray);
                 }
             }
+        }
+    }
+
+    private static void sortInspections() {
+        for (Restaurant restaurant:restaurantList) {
+            restaurant.getInspectionsManager().sortInspections();
         }
     }
 
