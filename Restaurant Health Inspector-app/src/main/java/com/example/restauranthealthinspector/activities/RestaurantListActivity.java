@@ -108,13 +108,13 @@ public class RestaurantListActivity extends AppCompatActivity {
                                 level = inspections.get(0).getHazardRating();
                                 restaurantHazardLevel.setText(level);
                                 if(level.equals("Low")){
-                                        restaurantHazardImage.setImageResource(R.drawable.low);
+                                        restaurantHazardImage.setImageResource(R.drawable.hazard_low);
                                 }
                                 else if(level.equals("Moderate")){
-                                        restaurantHazardImage.setImageResource(R.drawable.moderate);
+                                        restaurantHazardImage.setImageResource(R.drawable.hazard_moderate);
                                 }
                                 else{
-                                        restaurantHazardImage.setImageResource(R.drawable.ic_baseline_warning_24);
+                                        restaurantHazardImage.setImageResource(R.drawable.hazard_high);
                                 }
                                 date =  new String(String.valueOf(currentRestaurant.getInspectionsManager().get(0).getInspectionDate()));
                                 char[] charArrayDate = date.toCharArray();
