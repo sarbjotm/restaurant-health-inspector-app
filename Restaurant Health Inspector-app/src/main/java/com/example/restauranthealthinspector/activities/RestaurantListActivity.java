@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.restauranthealthinspector.R;
+import com.example.restauranthealthinspector.model.Date;
 import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class RestaurantListActivity extends AppCompatActivity {
@@ -116,26 +118,14 @@ public class RestaurantListActivity extends AppCompatActivity {
                                 else{
                                         restaurantHazardImage.setImageResource(R.drawable.ic_baseline_warning_24);
                                 }
-                                date =  new String(String.valueOf(currentRestaurant.getInspectionsManager().get(0).getInspectionDate()));
-                                char[] charArrayDate = date.toCharArray();
-                                if(charArrayDate[11] == '\''){
-                                        day = new StringBuilder().append(charArrayDate[10]).toString();
-                                }
-                                else{
-                                        day = new StringBuilder().append(charArrayDate[10]).append(charArrayDate[11]).toString();
-                                }
+                                Date date =  currentRestaurant.getInspectionsManager().get(0).getInspectionDate();
 
-                                if (charArrayDate[22] == '\''){
-                                        month = new StringBuilder().append(charArrayDate[21]).toString();
+                                try {
+                                        restaurantDate.setText(date.getSmartDate());
+                                } catch (ParseException e) {
+                                        e.printStackTrace();
                                 }
-                                else{
-                                        month = new StringBuilder().append(charArrayDate[21]).append(charArrayDate[22]).toString();
-                                }
-
-                                year = new StringBuilder().append(charArrayDate[32]).append(charArrayDate[33]).append(charArrayDate[34]).append(charArrayDate[35]).toString();
-
-                                restaurantDate.setText(month + " " + day + " " + year);
-                              //  Log.e("ERROR123", date);
+                                //  Log.e("ERROR123", date);
 
                         } else {
                                 restaurantHazardLevel.setText("N/A");
