@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/imageViewIconViolation"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -20,7 +19,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:text="Severity"
+            android:text="@string/severity"
             android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/listV_imgViolation"
             app:layout_constraintTop_toBottomOf="@+id/listV_txtBriefDescription" />
@@ -31,9 +30,10 @@
             android:layout_height="65dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
+            android:contentDescription="@string/violation"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/btn_star_big_on" />
+            app:srcCompat="@drawable/icon_violation_cook" />
 
         <TextView
             android:id="@+id/listV_txtBriefDescription"
@@ -41,7 +41,7 @@
             android:layout_height="21dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
-            android:text="Brief Description"
+            android:text="@string/brief_description"
             android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/listV_imgViolation"
             app:layout_constraintTop_toTopOf="parent" />
@@ -53,6 +53,7 @@
             android:layout_marginStart="125dp"
             android:layout_marginTop="5dp"
             android:layout_weight="1"
+            android:contentDescription="@string/severity"
             app:layout_constraintStart_toEndOf="@+id/listV_imgViolation"
             app:layout_constraintTop_toBottomOf="@+id/listV_txtBriefDescription"
             app:srcCompat="?android:attr/alertDialogIcon" />
