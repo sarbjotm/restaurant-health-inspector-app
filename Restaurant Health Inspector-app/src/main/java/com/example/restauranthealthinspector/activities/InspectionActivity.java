@@ -1,6 +1,3 @@
-/**
- * Details of an inspection report from a restaurant.
- */
 package com.example.restauranthealthinspector.activities;
 
 import androidx.annotation.NonNull;
@@ -29,11 +26,12 @@ import com.example.restauranthealthinspector.model.RestaurantsManager;
 import com.example.restauranthealthinspector.model.Violation;
 import com.example.restauranthealthinspector.model.ViolationManager;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Details of an inspection report from a restaurant.
+ */
 public class InspectionActivity extends AppCompatActivity {
     private RestaurantsManager myRestaurants;
     private Inspection inspection;
@@ -87,6 +85,9 @@ public class InspectionActivity extends AppCompatActivity {
     private void setupInspection() {
         TextView date = findViewById(R.id.inspect_txtDate);
         date.setText(inspection.getInspectionDate().getFullDate());
+
+        TextView type = findViewById(R.id.inspect_txtType);
+        type.setText(inspection.getInspectionType());
 
         TextView numOfCritical = findViewById(R.id.inspect_txtCriticalNum);
         numOfCritical.setText(Integer.toString(inspection.getNumCritical()));
