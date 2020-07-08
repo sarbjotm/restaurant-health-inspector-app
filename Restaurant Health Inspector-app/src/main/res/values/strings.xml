@@ -79,4 +79,5 @@
     <string name="issues">Issues</string>
     <string name="hazard_level">Hazard Level</string>
     <string name="date">Date</string>
+    <string name="inspection">Inspection</string>
 </resources>

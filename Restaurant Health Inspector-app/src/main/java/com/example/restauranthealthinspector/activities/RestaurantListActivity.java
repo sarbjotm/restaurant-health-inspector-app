@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,12 +112,15 @@ public class RestaurantListActivity extends AppCompatActivity {
                                 restaurantHazardLevel.setText(level);
                                 if(level.equals("Low")){
                                         restaurantHazardImage.setImageResource(R.drawable.hazard_low);
+                                        restaurantHazardLevel.setTextColor(Color.parseColor("#82F965"));
                                 }
                                 else if(level.equals("Moderate")){
                                         restaurantHazardImage.setImageResource(R.drawable.hazard_moderate);
+                                        restaurantHazardLevel.setTextColor(Color.parseColor("#F08D47"));
                                 }
                                 else{
                                         restaurantHazardImage.setImageResource(R.drawable.hazard_high);
+                                        restaurantHazardLevel.setTextColor(Color.parseColor("#EC4A26"));
                                 }
                                 Date date =  currentRestaurant.getInspectionsManager().get(0).getInspectionDate();
 
