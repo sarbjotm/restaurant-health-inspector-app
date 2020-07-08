@@ -97,7 +97,7 @@
         android:layout_weight="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inspect_tool"
-        app:srcCompat="?android:attr/alertDialogIcon" />
+        app:srcCompat="@drawable/hazard_high" />
 
     <TextView
         android:id="@+id/inspect_txtHazard"
@@ -136,12 +136,13 @@
 
     <ListView
         android:id="@+id/inspect_listViolations"
-        android:layout_width="413dp"
-        android:layout_height="627dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inspect_txtNonCriticalNum"
-        android:paddingBottom="135dp">
+        app:layout_constraintTop_toBottomOf="@+id/inspect_txtNonCriticalNum">
 
     </ListView>
 </androidx.constraintlayout.widget.ConstraintLayout>
