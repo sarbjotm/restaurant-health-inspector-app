@@ -1,50 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/imageViewIconViolation"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/listV_imgViolation"
-        android:layout_width="126dp"
-        android:layout_height="116dp"
-        app:srcCompat="@android:drawable/btn_star_big_on" />
-
-    <TextView
-        android:id="@+id/listV_txtBriefDescription"
-        android:layout_width="286dp"
-        android:layout_height="81dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="125dp"
-        android:text="Brief Description"
-        android:textSize="24sp" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="124dp"
-        android:layout_marginTop="85dp"
-        android:layout_marginEnd="0dp"
-        android:orientation="horizontal">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/listV_txtSeverity"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="328dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:text="Severity"
-            android:textSize="24sp" />
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/listV_imgViolation"
+            app:layout_constraintTop_toBottomOf="@+id/listV_txtBriefDescription" />
+
+        <ImageView
+            android:id="@+id/listV_imgViolation"
+            android:layout_width="76dp"
+            android:layout_height="65dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/btn_star_big_on" />
+
+        <TextView
+            android:id="@+id/listV_txtBriefDescription"
+            android:layout_width="308dp"
+            android:layout_height="21dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:text="Brief Description"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/listV_imgViolation"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/listV_imgSeverity"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="125dp"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/listV_imgViolation"
+            app:layout_constraintTop_toBottomOf="@+id/listV_txtBriefDescription"
             app:srcCompat="?android:attr/alertDialogIcon" />
-    </LinearLayout>
-</RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

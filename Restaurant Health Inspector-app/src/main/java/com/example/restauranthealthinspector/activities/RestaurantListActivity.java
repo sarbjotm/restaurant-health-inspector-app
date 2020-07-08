@@ -155,6 +155,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                         } else {
                                 restaurantHazardLevel.setText("N/A");
                                 restaurantDate.setText("N/A");
+                                restaurantHazardImage.setVisibility(View.INVISIBLE);
                         }
 
 
