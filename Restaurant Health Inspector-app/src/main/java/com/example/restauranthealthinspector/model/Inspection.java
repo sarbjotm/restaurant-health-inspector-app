@@ -1,11 +1,11 @@
+/**
+ * An inspections class with attributes for an inspection report.
+ */
 package com.example.restauranthealthinspector.model;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- * An inspections class. Can implement enum classes for Inspection Type, Hazard Rating and Violation lLump.
- */
 public class Inspection {
     private Date inspectionDate;
     private String inspectionType;

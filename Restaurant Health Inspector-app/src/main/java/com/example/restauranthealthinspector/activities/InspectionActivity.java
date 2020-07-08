@@ -1,3 +1,6 @@
+/**
+ * Details of an inspection report from a restaurant.
+ */
 package com.example.restauranthealthinspector.activities;
 
 import androidx.annotation.NonNull;

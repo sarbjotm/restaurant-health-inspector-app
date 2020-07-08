@@ -1,3 +1,6 @@
+/**
+ * A list of restaurants with brief inspections report.
+ */
 package com.example.restauranthealthinspector.activities;
 
 import androidx.appcompat.app.AppCompatActivity;

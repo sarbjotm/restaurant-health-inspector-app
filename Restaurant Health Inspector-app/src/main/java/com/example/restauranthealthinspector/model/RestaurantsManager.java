@@ -1,3 +1,6 @@
+/**
+ * An array list of restaurants.
+ */
 package com.example.restauranthealthinspector.model;
 
 import java.io.BufferedReader;
@@ -7,9 +10,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 
-/**
- * A manager to store Restaurants.
- */
 public class RestaurantsManager implements Iterable<Restaurant>{
     private static ArrayList<Restaurant> restaurantList = new ArrayList<>();
     private static RestaurantsManager instance;

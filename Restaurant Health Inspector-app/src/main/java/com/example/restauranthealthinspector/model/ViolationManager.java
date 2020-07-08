@@ -1,3 +1,6 @@
+/**
+ * An array list of violations.
+ */
 package com.example.restauranthealthinspector.model;
 
 import java.util.ArrayList;

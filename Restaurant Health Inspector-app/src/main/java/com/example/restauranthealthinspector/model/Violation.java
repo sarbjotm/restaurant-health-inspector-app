@@ -1,3 +1,6 @@
+/**
+ * A class to store a violations's code, descriptions, severity and an icon.
+ */
 package com.example.restauranthealthinspector.model;
 
 import android.content.Context;

@@ -1,10 +1,10 @@
+/**
+ * Returns brief descriptions to activities from string.xml
+ */
 package com.example.restauranthealthinspector.model;
 import com.example.restauranthealthinspector.R;
 import android.content.Context;
 
-/**
- * A BriefDescription class. Main purpose is to return the correct description back to activity from string.xml
- */
 public class BriefDescription {
     private int code;
     private String description = "";

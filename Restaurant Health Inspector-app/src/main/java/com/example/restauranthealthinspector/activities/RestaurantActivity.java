@@ -1,3 +1,6 @@
+/**
+ * Details about a restaurant with a list of inspections.
+ */
 package com.example.restauranthealthinspector.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
