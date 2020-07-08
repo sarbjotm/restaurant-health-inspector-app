@@ -24,6 +24,10 @@ public class ViolationManager {
 
     }
 
+
+    public ArrayList<Violation> getViolationList() {
+        return violationList;
+    }
     @Override
     public String toString() {
         return "ViolationManager{" +

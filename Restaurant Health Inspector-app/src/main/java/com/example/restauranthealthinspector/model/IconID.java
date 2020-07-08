@@ -41,31 +41,31 @@ public class IconID {
         }
 
         else if(code == 205 || code == 206 || code == 211 || code == 315){
-            iconID = 2;
+            iconID = savedIcon[2];
         }
 
         else if((code >= 208 && code <= 210) || code == 212){
-            iconID = 3;
+            iconID = savedIcon[3];
         }
 
         else if (code >= 301 && code <= 303){
-            iconID = 4;
+            iconID = savedIcon[4];
         }
 
         else if (code == 304 || code == 305){
-            iconID = 5;
+            iconID = savedIcon[5];
         }
 
         else if((code >= 306 && code <= 310) || code == 314 || (code >= 401 && code <= 404)){
-            iconID = 6;
+            iconID = savedIcon[6];
         }
 
         else if(code == 313){
-            iconID = 7;
+            iconID = savedIcon[7];
         }
 
         else{
-            iconID = 8;
+            iconID = savedIcon[8];
         }
 
         return iconID;
