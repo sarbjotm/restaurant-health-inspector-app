@@ -49,6 +49,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
         loadRestaurant();
         populateListView();
+        setUpInspectionClick();
     }
 
     private void populateListView(){
@@ -124,7 +125,7 @@ public class RestaurantActivity extends AppCompatActivity {
     }
 
     private void setUpInspectionClick() {
-        ListView list = findViewById(R.id.restlist_listRestaurants);
+        ListView list = findViewById(R.id.rest_listInspections);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View viewClicked,
