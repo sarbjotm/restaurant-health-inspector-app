@@ -88,8 +88,12 @@ public class RestaurantListActivity extends AppCompatActivity {
                         Restaurant currentRestaurant = myRestaurants.get(position);
                         TextView restaurantName = (TextView) itemView.findViewById(R.id.listR_txtRestaurantName);
                         restaurantName.setText(currentRestaurant.getRestaurantName());
-                        if ( (currentRestaurant.getRestaurantName().equals("104 Sushi & Co.")) || currentRestaurant.getRestaurantName().equals("Lee Yuen Seafood Restaurant")){
+                        if ( (currentRestaurant.getRestaurantName().equals("104 Sushi & Co."))){
                                 restaurantImage.setImageResource(R.drawable.restaurant_icon_sushi);
+                        }
+
+                        else if(currentRestaurant.getRestaurantName().equals("Lee Yuen Seafood Restaurant")){
+                                restaurantImage.setImageResource(R.drawable.restaurant_icon_seafood);
                         }
 
                         else if(currentRestaurant.getRestaurantName().equals("Pattullo A&W")){
@@ -98,6 +102,10 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                         else if(currentRestaurant.getRestaurantName().equals("Zugba Flame Grilled Chicken")){
                                 restaurantImage.setImageResource(R.drawable.restaurant_icon_chicken);
+                        }
+
+                        else if((currentRestaurant.getRestaurantName().equals("Top in Town Pizza")) || currentRestaurant.getRestaurantName().equals("Top In Town Pizza")){
+                                restaurantImage.setImageResource(R.drawable.restaurant_icon_pizza);
                         }
 
                         TextView restaurantIssues = (TextView) itemView.findViewById(R.id.listR_txtIssuesNum);
