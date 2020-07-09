@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.restauranthealthinspector.R;
+import com.example.restauranthealthinspector.model.Address;
 import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
@@ -77,24 +78,25 @@ public class RestaurantActivity extends AppCompatActivity {
 
         restaurantImage.setImageResource(restaurant.getIconID(RestaurantActivity.this));
 
-        TextView restAddress = (TextView)findViewById(R.id.rest_txtAddress);
-        String restaurantAddress = restaurant.getAddress().getStreetAddress() +
-                ", " + restaurant.getAddress().getCity();
-        restAddress.setText("Address: " + restaurantAddress);
+        Address address = restaurant.getAddress();
+        TextView restAddress = findViewById(R.id.rest_txtAddress);
+        String restaurantAddress = address.getStreetAddress() + ", " + address.getCity();
+        restAddress.setText(restaurantAddress);
 
-        TextView restLatitude = (TextView)findViewById(R.id.rest_txtLatitude);
-        double restaurantLatitude = restaurant.getAddress().getLatitude();
-        restLatitude.setText("Latitude: " + Double.toString(restaurantLatitude));
+        TextView restLatitude = findViewById(R.id.rest_txtLatitude);
+        String latitude = getResources().getString(R.string.latitude);
+        latitude += address.getLatitude();
+        restLatitude.setText(latitude);
 
-
-        TextView restLongitude = (TextView)findViewById(R.id.rest_txtLongitude);
-        double restaurantLongitude = restaurant.getAddress().getLongitude();
-        restLongitude.setText("Longitude: " + Double.toString(restaurantLongitude));
+        TextView restLongitude = findViewById(R.id.rest_txtLongitude);
+        String longitude = getResources().getString(R.string.longitude);
+        longitude += address.getLongitude();
+        restLongitude.setText(longitude);
     }
 
     private void populateListView(){
         ArrayAdapter<Inspection> adapter = new MyListAdapter();
-        ListView list = (ListView) findViewById(R.id.rest_listInspections);
+        ListView list = findViewById(R.id.rest_listInspections);
         list.setAdapter(adapter);
     }
 
@@ -111,34 +113,45 @@ public class RestaurantActivity extends AppCompatActivity {
             }
 
             Inspection currentInspection = inspections.get(position);
-            TextView numCritical = (TextView) itemView.findViewById(R.id.listI_txtCriticalNumAmount);
-            numCritical.setText(Integer.toString(currentInspection.getNumCritical()));
-            TextView numNonCritical = (TextView) itemView.findViewById(R.id.listI_txtNonCriticalNumAmount);
-            numNonCritical.setText(Integer.toString(currentInspection.getNumNonCritical()));
-            TextView hazardLevel = (TextView) itemView.findViewById(R.id.listI_txtHazardNum);
-            String getHazardLevel = currentInspection.getHazardRating();
-            hazardLevel.setText(getHazardLevel);
-            ImageView hazardSymbol = (ImageView) itemView.findViewById(R.id.listI_imgHazard);
-            TextView inspectionDate = (TextView) itemView.findViewById(R.id.listI_txtDateNum);
+
+            TextView numCritical = itemView.findViewById(R.id.listI_txtCriticalNumAmount);
+            numCritical.setText(String.valueOf(currentInspection.getNumCritical()));
+
+            TextView numNonCritical = itemView.findViewById(R.id.listI_txtNonCriticalNumAmount);
+            numNonCritical.setText(String.valueOf(currentInspection.getNumNonCritical()));
+
+            hazard(itemView, currentInspection);
+
+            TextView inspectionDate = itemView.findViewById(R.id.listI_txtDateNum);
+
             try {
                 inspectionDate.setText(currentInspection.getInspectionDate().getSmartDate());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
-            if (getHazardLevel.equals("Low")){
-                hazardSymbol.setImageResource(R.drawable.hazard_low);
-                hazardLevel.setTextColor(Color.parseColor("#82F965"));
-            }
-            else if (getHazardLevel.equals("Moderate")){
-                hazardSymbol.setImageResource(R.drawable.hazard_moderate);
-                hazardLevel.setTextColor(Color.parseColor("#F08D47"));
-            }
-            else{
-                hazardSymbol.setImageResource((R.drawable.hazard_high));
-                hazardLevel.setTextColor(Color.parseColor("#EC4A26"));
-            }
             return itemView;
+        }
+    }
+
+    private void hazard(View itemView, Inspection inspection) {
+        TextView hazardLevel = itemView.findViewById(R.id.listI_txtHazardNum);
+        String getHazardLevel = inspection.getHazardRating();
+        hazardLevel.setText(getHazardLevel);
+
+        ImageView hazardSymbol = itemView.findViewById(R.id.listI_imgHazard);
+
+        if (getHazardLevel.equals("Low")){
+            hazardSymbol.setImageResource(R.drawable.hazard_low);
+            hazardLevel.setTextColor(Color.parseColor("#82F965"));
+        }
+        else if (getHazardLevel.equals("Moderate")){
+            hazardSymbol.setImageResource(R.drawable.hazard_moderate);
+            hazardLevel.setTextColor(Color.parseColor("#F08D47"));
+        }
+        else{
+            hazardSymbol.setImageResource((R.drawable.hazard_high));
+            hazardLevel.setTextColor(Color.parseColor("#EC4A26"));
         }
     }
 

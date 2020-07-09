@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Restaurant Health Inspector</string>
 
-    <!-- Other -->
     <string name="issues">Issues</string>
     <string name="hazard_level">Hazard Level</string>
     <string name="date">Date</string>
@@ -16,8 +15,8 @@
     <string name="number">Number</string>
     <string name="inspection_reports">Inspection Reports</string>
     <string name="address">Address</string>
-    <string name="latitude">Latitude</string>
-    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude: </string>
+    <string name="longitude">Longitude: </string>
     <string name="back">back</string>
     <string name="violations">Violations</string>
     <string name="inspection_type">Inspection Type</string>
