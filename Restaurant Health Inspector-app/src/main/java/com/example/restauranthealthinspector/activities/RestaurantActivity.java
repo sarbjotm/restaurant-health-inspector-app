@@ -1,6 +1,3 @@
-/**
- * Details about a restaurant with a list of inspections.
- */
 package com.example.restauranthealthinspector.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +24,9 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+/**
+ * Details about a restaurant with a list of inspections.
+ */
 public class RestaurantActivity extends AppCompatActivity {
     private RestaurantsManager myRestaurants;
     private Restaurant restaurant;
@@ -85,12 +85,12 @@ public class RestaurantActivity extends AppCompatActivity {
 
         TextView restLatitude = findViewById(R.id.rest_txtLatitude);
         String latitude = getResources().getString(R.string.latitude);
-        latitude += address.getLatitude();
+        latitude += " " + address.getLatitude();
         restLatitude.setText(latitude);
 
         TextView restLongitude = findViewById(R.id.rest_txtLongitude);
         String longitude = getResources().getString(R.string.longitude);
-        longitude += address.getLongitude();
+        longitude += " " + address.getLongitude();
         restLongitude.setText(longitude);
     }
 

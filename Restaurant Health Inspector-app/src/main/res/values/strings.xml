@@ -20,4 +20,5 @@
     <string name="back">back</string>
     <string name="violations">Violations</string>
     <string name="inspection_type">Inspection Type</string>
+    <string name="na">N/A</string>
 </resources>

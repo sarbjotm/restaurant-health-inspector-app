@@ -48,6 +48,7 @@
         android:layout_height="wrap_content"
         android:text="@string/name"
         android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/rest_toolbar"
         app:layout_constraintHorizontal_bias="0.118"
         app:layout_constraintStart_toEndOf="@+id/rest_imgRestaurant"

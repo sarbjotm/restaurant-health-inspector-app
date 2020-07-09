@@ -1,11 +1,8 @@
+package com.example.restauranthealthinspector.model;
+
 /**
  * An inspections class with attributes for an inspection report.
  */
-package com.example.restauranthealthinspector.model;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 public class Inspection {
     private Date inspectionDate;
     private String inspectionType;
@@ -46,17 +43,5 @@ public class Inspection {
 
     public ViolationManager getViolationManager() {
         return violationManager;
-    }
-
-    @Override
-    public String toString() {
-        return "Inspection{" +
-                ", inspectionDate=" + inspectionDate +
-                ", inspectionType='" + inspectionType + '\'' +
-                ", numCritical=" + numCritical +
-                ", numNonCritical=" + numNonCritical +
-                ", hazardRating='" + hazardRating + '\'' +
-                ", violationManager='" + violationManager + '\'' +
-                '}';
     }
 }

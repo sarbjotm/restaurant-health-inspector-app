@@ -59,6 +59,7 @@
         android:layout_weight="1"
         android:text="@string/date"
         android:textAlignment="viewStart"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/listI_imgHazard"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -1,10 +1,10 @@
-/**
- * An array list of violations.
- */
 package com.example.restauranthealthinspector.model;
 
 import java.util.ArrayList;
 
+/**
+ * An array list of violations.
+ */
 public class ViolationManager {
     private ArrayList<Violation> violationList = new ArrayList<>();
 
@@ -27,10 +27,5 @@ public class ViolationManager {
     public ArrayList<Violation> getViolationList() {
         return violationList;
     }
-    @Override
-    public String toString() {
-        return "ViolationManager{" +
-                "violationList=" + violationList +
-                '}';
-    }
+
 }

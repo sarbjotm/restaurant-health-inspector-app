@@ -1,8 +1,8 @@
+package com.example.restauranthealthinspector.model;
+
 /**
  * Address of a restaurant with attributes address, city and GPS coordinates.
  */
-package com.example.restauranthealthinspector.model;
-
 public class Address {
     private String streetAddress;
     private String city;
@@ -30,15 +30,5 @@ public class Address {
 
     public double getLongitude() {
         return longitude;
-    }
-
-    @Override
-    public String toString() {
-        return "Address{" +
-                "streetAddress='" + streetAddress + '\'' +
-                ", city='" + city + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                '}';
     }
 }

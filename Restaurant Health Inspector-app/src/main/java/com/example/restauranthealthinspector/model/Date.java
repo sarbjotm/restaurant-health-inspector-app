@@ -1,6 +1,3 @@
-/**
- * Date of inspection reports with attributes day, month and year.
- */
 package com.example.restauranthealthinspector.model;
 
 import android.annotation.SuppressLint;
@@ -9,6 +6,9 @@ import java.text.SimpleDateFormat;
 import java.text.DateFormatSymbols;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Date of inspection reports with attributes day, month and year.
+ */
 public class Date {
     private int day;
     private int month;
@@ -18,18 +18,6 @@ public class Date {
         this.day = day;
         this.month = month;
         this.year = year;
-    }
-
-    public int getDay() {
-        return day;
-    }
-
-    public int getMonth() {
-        return month;
-    }
-
-    public int getYear() {
-        return year;
     }
 
     public int getNumberDate() {

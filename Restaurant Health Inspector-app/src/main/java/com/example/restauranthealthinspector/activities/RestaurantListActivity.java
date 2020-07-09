@@ -116,11 +116,11 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                         } else {
                                 restaurantIssues.setText(Integer.toString(0));
-                                restaurantHazardLevel.setText("N/A");
-                                restaurantDate.setText("N/A");
+                                String na = getResources().getString(R.string.na);
+                                restaurantHazardLevel.setText(na);
+                                restaurantDate.setText(na);
                                 restaurantHazardImage.setVisibility(View.INVISIBLE);
                         }
-
                         return itemView;
                 }
         }

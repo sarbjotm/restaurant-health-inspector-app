@@ -4,6 +4,9 @@ import android.content.Context;
 
 import com.example.restauranthealthinspector.R;
 
+/**
+ * RestaurantIcon to store different icons for each restaurant.
+ */
 public class RestaurantIcon {
     private String restaurantCode;
     private int iconID;
