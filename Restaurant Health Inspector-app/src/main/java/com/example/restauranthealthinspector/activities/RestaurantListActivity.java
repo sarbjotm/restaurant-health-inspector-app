@@ -84,12 +84,14 @@ public class RestaurantListActivity extends AppCompatActivity {
                         if (itemView == null){
                                 itemView = getLayoutInflater().inflate(R.layout.list_restaurants, parent, false);
                         }
+
                         Restaurant currentRestaurant = myRestaurants.get(position);
 
                         TextView restaurantName = itemView.findViewById(R.id.listR_txtRestaurantName);
                         restaurantName.setText(currentRestaurant.getRestaurantName());
 
-                        restaurantImage(itemView, currentRestaurant);
+                        ImageView restaurantImage = itemView.findViewById(R.id.listR_imgRestaurantIcon);
+                        restaurantImage.setImageResource(currentRestaurant.getIconID(RestaurantListActivity.this));
 
                         TextView restaurantIssues = itemView.findViewById(R.id.listR_txtIssuesNum);
                         ArrayList<Inspection> inspections = currentRestaurant.getInspectionsManager().getInspectionList();
@@ -114,34 +116,12 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                         } else {
                                 restaurantIssues.setText(Integer.toString(0));
-                                restaurantHazardLevel.setText("N/A");
-                                restaurantDate.setText("N/A");
+                                String na = getResources().getString(R.string.na);
+                                restaurantHazardLevel.setText(na);
+                                restaurantDate.setText(na);
                                 restaurantHazardImage.setVisibility(View.INVISIBLE);
                         }
-
                         return itemView;
-                }
-        }
-
-        private void restaurantImage(View itemView, Restaurant restaurant) {
-                ImageView restaurantImage = itemView.findViewById(R.id.listR_imgRestaurantIcon);
-                switch (restaurant.getRestaurantName()) {
-                        case "104 Sushi & Co.":
-                                restaurantImage.setImageResource(R.drawable.restaurant_icon_sushi);
-                                break;
-                        case "Lee Yuen Seafood Restaurant":
-                                restaurantImage.setImageResource(R.drawable.restaurant_icon_seafood);
-                                break;
-                        case "Pattullo A&W":
-                                restaurantImage.setImageResource(R.drawable.restaurant_icon_burger);
-                                break;
-                        case "Zugba Flame Grilled Chicken":
-                                restaurantImage.setImageResource(R.drawable.restaurant_icon_chicken);
-                                break;
-                        case "Top in Town Pizza":
-                        case "Top In Town Pizza":
-                                restaurantImage.setImageResource(R.drawable.restaurant_icon_pizza);
-                                break;
                 }
         }
 

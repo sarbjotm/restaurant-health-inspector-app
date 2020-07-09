@@ -1,16 +1,15 @@
-/**
- * Icon IDs to store different icons for each violation.
- */
 package com.example.restauranthealthinspector.model;
 
 import android.content.Context;
 
 import com.example.restauranthealthinspector.R;
 
-public class IconID {
-    private int code;
+/**
+ * ViolationIcon to store different icons for each violation.
+ */
+public class ViolationIcon {
+    private int violationCode;
     private int iconID;
-
     private int[] savedIcon = {R.drawable.icon_violation_permit,
             R.drawable.icon_violation_cook,
             R.drawable.icon_violation_thermometer,
@@ -21,56 +20,51 @@ public class IconID {
             R.drawable.icon_violation_animal,
             R.drawable.icon_violation_foodsafe};
 
-    public IconID(int code) {
-        this.code = code;
+    public ViolationIcon(Context context, int violationCode) {
+        this.violationCode = violationCode;
+        generateIconID(context);
     }
 
-    public int getCode() {
-        return code;
+    public int getIconID() {
+        return iconID;
     }
 
-    public void setCode(int code) {
-        this.code = code;
-    }
+    public void generateIconID(Context context){
 
-    public int getIconID(Context context){
-
-        if((code >= 101 && code <= 104)  || code == 311 || code == 312){
+        if((violationCode >= 101 && violationCode <= 104)  || violationCode == 311 || violationCode == 312){
             iconID = savedIcon[0];
         }
 
-        else if(code >= 201 && code <=204){
+        else if(violationCode >= 201 && violationCode <=204){
             iconID = savedIcon[1];
         }
 
-        else if(code == 205 || code == 206 || code == 211 || code == 315){
+        else if(violationCode == 205 || violationCode == 206 || violationCode == 211 || violationCode == 315){
             iconID = savedIcon[2];
         }
 
-        else if((code >= 208 && code <= 210) || code == 212){
+        else if((violationCode >= 208 && violationCode <= 210) || violationCode == 212){
             iconID = savedIcon[3];
         }
 
-        else if (code >= 301 && code <= 303){
+        else if (violationCode >= 301 && violationCode <= 303){
             iconID = savedIcon[4];
         }
 
-        else if (code == 304 || code == 305){
+        else if (violationCode == 304 || violationCode == 305){
             iconID = savedIcon[5];
         }
 
-        else if((code >= 306 && code <= 310) || code == 314 || (code >= 401 && code <= 404)){
+        else if((violationCode >= 306 && violationCode <= 310) || violationCode == 314 || (violationCode >= 401 && violationCode <= 404)){
             iconID = savedIcon[6];
         }
 
-        else if(code == 313){
+        else if(violationCode == 313){
             iconID = savedIcon[7];
         }
 
         else{
             iconID = savedIcon[8];
         }
-
-        return iconID;
     }
 }

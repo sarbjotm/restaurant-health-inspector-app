@@ -1,6 +1,3 @@
-/**
- * An array list to store a list of inspection reports.
- */
 package com.example.restauranthealthinspector.model;
 
 import java.util.ArrayList;
@@ -8,6 +5,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 
+/**
+ * An array list to store a list of inspection reports.
+ */
 public class InspectionsManager implements Iterable<Inspection> {
     private ArrayList<Inspection> inspectionList = new ArrayList<>();
 
@@ -48,10 +48,6 @@ public class InspectionsManager implements Iterable<Inspection> {
                 return i2.getInspectionDate().getNumberDate() - i1.getInspectionDate().getNumberDate();
             }
         });
-    }
-
-    public void add(Inspection inspection){
-        inspectionList.add(inspection);
     }
 
     public Inspection get(int i){

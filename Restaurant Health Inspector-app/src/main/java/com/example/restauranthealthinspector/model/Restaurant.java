@@ -1,15 +1,16 @@
+package com.example.restauranthealthinspector.model;
+
+import android.content.Context;
+
 /**
  * A restaurant class to store the tracking number, name , address,
  * inspections reports and an icon ID for a restaurant.
  */
-package com.example.restauranthealthinspector.model;
-
 public class Restaurant {
     private String trackingNumber;
     private String restaurantName;
     private Address address;
     private InspectionsManager inspectionsManager = new InspectionsManager();
-    private int iconID;
 
     public Restaurant(String trackingNumber, String restaurantName, Address address) {
         this.trackingNumber = trackingNumber;
@@ -33,17 +34,10 @@ public class Restaurant {
         return inspectionsManager;
     }
 
-    public int getIconID() {
-        return iconID;
-    }
+    public int getIconID(Context context) {
 
-    @Override
-    public String toString() {
-        return "Restaurant{" +
-                "trackingNumber='" + trackingNumber + '\'' +
-                ", restaurantName='" + restaurantName + '\'' +
-                ", address=" + address +
-                ", inspectionsManager=" + inspectionsManager +
-                '}';
+        RestaurantIcon currentID = new RestaurantIcon(context, trackingNumber);
+
+        return currentID.getIconID();
     }
 }

@@ -43,6 +43,7 @@
             android:layout_marginTop="10dp"
             android:text="@string/brief_description"
             android:textSize="14sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/listV_imgViolation"
             app:layout_constraintTop_toTopOf="parent" />
 
