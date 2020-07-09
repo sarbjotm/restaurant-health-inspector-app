@@ -43,11 +43,15 @@ public class RestaurantActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         setUpBackButton();
         loadRestaurant();
         fillRestaurantDetails();
+
         populateListView();
         setUpInspectionClick();
+
+        noInspectionsMessage();
     }
 
     private void setUpBackButton() {
@@ -167,5 +171,12 @@ public class RestaurantActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void noInspectionsMessage() {
+        if (restaurant.getInspectionsManager().getInspectionList().size() != 0) {
+            TextView textView = findViewById(R.id.rest_txtNoInspections);
+            textView.setVisibility(View.INVISIBLE);
+        }
     }
 }

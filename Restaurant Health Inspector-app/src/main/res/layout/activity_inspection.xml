@@ -138,6 +138,17 @@
         app:layout_constraintStart_toEndOf="@+id/inspect_txtCritical"
         app:layout_constraintTop_toTopOf="@+id/inspect_txtCritical" />
 
+    <TextView
+        android:id="@+id/inspect_txtNoViolations"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/no_violations_found"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/inspect_listViolations" />
+
     <ListView
         android:id="@+id/inspect_listViolations"
         android:layout_width="0dp"

@@ -35,7 +35,7 @@
         android:layout_marginTop="5dp"
         android:text="@string/issues"
         app:layout_constraintStart_toEndOf="@+id/listR_imgRestaurantIcon"
-        app:layout_constraintTop_toBottomOf="@+id/listR_txtRecent" />
+        app:layout_constraintTop_toBottomOf="@+id/listR_txtInspection" />
 
     <TextView
         android:id="@+id/listR_txtIssuesNum"
@@ -74,12 +74,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="@string/date"
-        app:layout_constraintBottom_toBottomOf="@+id/listR_txtRecent"
-        app:layout_constraintStart_toEndOf="@+id/listR_txtRecent"
-        app:layout_constraintTop_toTopOf="@+id/listR_txtRecent" />
+        app:layout_constraintBottom_toBottomOf="@+id/listR_txtInspection"
+        app:layout_constraintStart_toEndOf="@+id/listR_txtInspection"
+        app:layout_constraintTop_toTopOf="@+id/listR_txtInspection" />
 
     <TextView
-        android:id="@+id/listR_txtRecent"
+        android:id="@+id/listR_txtInspection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"

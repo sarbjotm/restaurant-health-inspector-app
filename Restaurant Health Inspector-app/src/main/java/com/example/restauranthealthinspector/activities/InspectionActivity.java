@@ -52,22 +52,10 @@ public class InspectionActivity extends AppCompatActivity {
         loadInspection();
         setupInspection();
         populateListView();
-        setUpBackButton();
         setUpToastMessageOnclick();
-    }
 
-    private void setUpBackButton() {
-        ImageButton btn = findViewById(R.id.inspect_imgbtnBack);
-        btn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(InspectionActivity.this, RestaurantActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("indexRestaurant", indexRestaurant);
-                startActivity(intent);
-            }
-        });
+        setUpBackButton();
+        noViolationsMessage();
     }
 
     private void loadInspection() {
@@ -140,7 +128,8 @@ public class InspectionActivity extends AppCompatActivity {
 
             //Fill the description
             TextView briefDescription = listViolations.findViewById(R.id.listV_txtBriefDescription);
-            briefDescription.setText("" + currentViolation.getViolationID());
+            String violationID = String.valueOf(currentViolation.getViolationID());
+            briefDescription.setText(violationID);
 
             //Fill the severity
             TextView severity = listViolations.findViewById(R.id.listV_txtSeverity);
@@ -174,5 +163,26 @@ public class InspectionActivity extends AppCompatActivity {
                 Toast.makeText(InspectionActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setUpBackButton() {
+        ImageButton btn = findViewById(R.id.inspect_imgbtnBack);
+        btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(InspectionActivity.this, RestaurantActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("indexRestaurant", indexRestaurant);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void noViolationsMessage() {
+        if (inspection.getViolationManager().getViolationList().size() != 0) {
+            TextView textView = findViewById(R.id.inspect_txtNoViolations);
+            textView.setVisibility(View.INVISIBLE);
+        }
     }
 }
