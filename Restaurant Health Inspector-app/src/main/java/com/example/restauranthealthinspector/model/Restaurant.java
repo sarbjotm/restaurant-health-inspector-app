@@ -4,6 +4,8 @@
  */
 package com.example.restauranthealthinspector.model;
 
+import android.content.Context;
+
 public class Restaurant {
     private String trackingNumber;
     private String restaurantName;
@@ -33,8 +35,11 @@ public class Restaurant {
         return inspectionsManager;
     }
 
-    public int getIconID() {
-        return iconID;
+    public int getIconID(Context context) {
+
+        RestaurantIcon currentID = new RestaurantIcon(context, trackingNumber);
+
+        return currentID.getIconID();
     }
 
     @Override

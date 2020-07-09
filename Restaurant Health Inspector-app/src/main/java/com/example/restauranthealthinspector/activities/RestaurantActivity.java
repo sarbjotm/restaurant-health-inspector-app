@@ -44,6 +44,7 @@ public class RestaurantActivity extends AppCompatActivity {
         }
         setUpBackButton();
         loadRestaurant();
+        fillRestaurantDetails();
         populateListView();
         setUpInspectionClick();
     }
@@ -59,6 +60,36 @@ public class RestaurantActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void loadRestaurant() {
+        Intent intent = getIntent();
+        indexRestaurant = intent.getIntExtra("indexRestaurant", 0);
+        restaurant = myRestaurants.get(indexRestaurant);
+        inspections = restaurant.getInspectionsManager().getInspectionList();
+    }
+
+    private void fillRestaurantDetails() {
+        ImageView restaurantImage = findViewById(R.id.rest_imgRestaurant);
+        TextView restName = findViewById(R.id.rest_txtName);
+        String restaurantName = restaurant.getRestaurantName();
+        restName.setText(restaurantName);
+
+        restaurantImage.setImageResource(restaurant.getIconID(RestaurantActivity.this));
+
+        TextView restAddress = (TextView)findViewById(R.id.rest_txtAddress);
+        String restaurantAddress = restaurant.getAddress().getStreetAddress() +
+                ", " + restaurant.getAddress().getCity();
+        restAddress.setText("Address: " + restaurantAddress);
+
+        TextView restLatitude = (TextView)findViewById(R.id.rest_txtLatitude);
+        double restaurantLatitude = restaurant.getAddress().getLatitude();
+        restLatitude.setText("Latitude: " + Double.toString(restaurantLatitude));
+
+
+        TextView restLongitude = (TextView)findViewById(R.id.rest_txtLongitude);
+        double restaurantLongitude = restaurant.getAddress().getLongitude();
+        restLongitude.setText("Longitude: " + Double.toString(restaurantLongitude));
     }
 
     private void populateListView(){
@@ -109,52 +140,6 @@ public class RestaurantActivity extends AppCompatActivity {
             }
             return itemView;
         }
-    }
-
-    private void loadRestaurant() {
-        Intent intent = getIntent();
-        indexRestaurant = intent.getIntExtra("indexRestaurant", 0);
-        restaurant = myRestaurants.get(indexRestaurant);
-        inspections = restaurant.getInspectionsManager().getInspectionList();
-        ImageView restaurantImage = (ImageView) findViewById(R.id.rest_imgRestaurant);
-        TextView restName = (TextView)findViewById(R.id.rest_txtName);
-        String restaurantName = restaurant.getRestaurantName();
-        restName.setText(restaurantName);
-
-        if ( (restaurantName.equals("104 Sushi & Co."))){
-            restaurantImage.setImageResource(R.drawable.restaurant_icon_sushi);
-        }
-
-        else if(restaurantName.equals("Lee Yuen Seafood Restaurant")){
-            restaurantImage.setImageResource(R.drawable.restaurant_icon_seafood);
-        }
-
-        else if(restaurantName.equals("Pattullo A&W")){
-            restaurantImage.setImageResource(R.drawable.restaurant_icon_burger);
-        }
-
-        else if(restaurantName.equals("Zugba Flame Grilled Chicken")){
-            restaurantImage.setImageResource(R.drawable.restaurant_icon_chicken);
-        }
-
-        else if((restaurantName.equals("Top in Town Pizza")) || restaurantName.equals("Top In Town Pizza")){
-            restaurantImage.setImageResource(R.drawable.restaurant_icon_pizza);
-        }
-
-
-        TextView restAddress = (TextView)findViewById(R.id.rest_txtAddress);
-        String restaurantAddress = restaurant.getAddress().getStreetAddress() +
-                        ", " + restaurant.getAddress().getCity();
-        restAddress.setText("Address: " + restaurantAddress);
-
-        TextView restLatitude = (TextView)findViewById(R.id.rest_txtLatitude);
-        double restaurantLatitude = restaurant.getAddress().getLatitude();
-        restLatitude.setText("Latitude: " + Double.toString(restaurantLatitude));
-
-
-        TextView restLongitude = (TextView)findViewById(R.id.rest_txtLongitude);
-        double restaurantLongitude = restaurant.getAddress().getLongitude();
-        restLongitude.setText("Longitude: " + Double.toString(restaurantLongitude));
     }
 
     private void setUpInspectionClick() {
