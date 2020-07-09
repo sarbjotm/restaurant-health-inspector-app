@@ -31,18 +31,19 @@
     <TextView
         android:id="@+id/listI_txtNonCriticalNum"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
         android:layout_weight="1"
         android:text="@string/non_critical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listI_txtDateNum" />
+        app:layout_constraintBottom_toBottomOf="@+id/listI_txtCriticalNum"
+        app:layout_constraintStart_toEndOf="@+id/listI_txtCriticalNumAmount"
+        app:layout_constraintTop_toTopOf="@+id/listI_txtCriticalNum"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/listI_txtCriticalNum"
         android:layout_width="wrap_content"
-        android:layout_height="33dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="10dp"
         android:layout_weight="1"
@@ -52,7 +53,7 @@
 
     <TextView
         android:id="@+id/listI_txtDateNum"
-        android:layout_width="320dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="16dp"
@@ -67,20 +68,21 @@
         android:id="@+id/listI_txtCriticalNumAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="8dp"
         android:text="@string/number"
+        app:layout_constraintBottom_toBottomOf="@+id/listI_txtCriticalNum"
         app:layout_constraintStart_toEndOf="@+id/listI_txtCriticalNum"
-        app:layout_constraintTop_toBottomOf="@+id/listI_txtDateNum" />
+        app:layout_constraintTop_toTopOf="@+id/listI_txtCriticalNum"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/listI_txtNonCriticalNumAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
         android:text="@string/number"
+        app:layout_constraintBottom_toBottomOf="@+id/listI_txtNonCriticalNum"
         app:layout_constraintStart_toEndOf="@+id/listI_txtNonCriticalNum"
-        app:layout_constraintTop_toBottomOf="@+id/listI_txtDateNum" />
+        app:layout_constraintTop_toTopOf="@+id/listI_txtNonCriticalNum" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

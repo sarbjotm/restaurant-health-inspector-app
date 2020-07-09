@@ -8,7 +8,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/inspect_tool"
-        android:layout_width="409dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
         android:minHeight="?attr/actionBarSize"
@@ -48,29 +48,31 @@
         android:id="@+id/inspect_txtType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="5dp"
-        android:text="@string/inspection_type"
+        android:text="@string/type"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/inspect_imgHazard"
-        app:layout_constraintStart_toStartOf="@+id/inspect_txtDate"
-        app:layout_constraintTop_toBottomOf="@+id/inspect_txtDate" />
+        app:layout_constraintBottom_toBottomOf="@+id/inspect_txtDate"
+        app:layout_constraintStart_toEndOf="@+id/inspect_txtDate"
+        app:layout_constraintTop_toTopOf="@+id/inspect_txtDate"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/inspect_txtNonCritical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="12dp"
         android:layout_weight="1"
         android:text="@string/non_critical"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/inspect_txtCritical"
-        app:layout_constraintTop_toBottomOf="@+id/inspect_txtCritical" />
+        app:layout_constraintStart_toEndOf="@+id/inspect_txtCriticalNum"
+        app:layout_constraintTop_toTopOf="@+id/inspect_txtCritical" />
 
     <TextView
         android:id="@+id/inspect_txtDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:text="@string/date"
         android:textSize="14sp"
@@ -81,12 +83,12 @@
         android:id="@+id/inspect_txtCritical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
         android:layout_weight="1"
         android:text="@string/critical"
         android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/inspect_txtDate"
-        app:layout_constraintTop_toTopOf="@+id/inspect_txtDate" />
+        app:layout_constraintStart_toStartOf="@+id/inspect_txtDate"
+        app:layout_constraintTop_toBottomOf="@+id/inspect_txtDate" />
 
     <ImageView
         android:id="@+id/inspect_imgHazard"
@@ -113,21 +115,23 @@
 
     <TextView
         android:id="@+id/inspect_txtNonCriticalNum"
-        android:layout_width="26dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="12dp"
         android:layout_weight="1"
         android:text="@string/number"
         android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/inspect_txtNonCritical"
         app:layout_constraintStart_toEndOf="@+id/inspect_txtNonCritical"
-        app:layout_constraintTop_toBottomOf="@+id/inspect_txtCriticalNum" />
+        app:layout_constraintTop_toTopOf="@+id/inspect_txtNonCritical"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/inspect_txtCriticalNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="4dp"
         android:layout_weight="1"
         android:text="@string/number"
         android:textSize="14sp"
@@ -136,7 +140,7 @@
 
     <ListView
         android:id="@+id/inspect_listViolations"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
