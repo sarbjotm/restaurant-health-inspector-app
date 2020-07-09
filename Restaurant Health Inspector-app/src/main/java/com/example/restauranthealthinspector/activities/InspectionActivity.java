@@ -140,7 +140,7 @@ public class InspectionActivity extends AppCompatActivity {
 
             //Fill the description
             TextView briefDescription = listViolations.findViewById(R.id.listV_txtBriefDescription);
-            briefDescription.setText(currentViolation.getBriefDescription(InspectionActivity.this));
+            briefDescription.setText("" + currentViolation.getViolationID());
 
             //Fill the severity
             TextView severity = listViolations.findViewById(R.id.listV_txtSeverity);
