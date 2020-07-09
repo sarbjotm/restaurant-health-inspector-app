@@ -8,7 +8,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/rest_toolbar"
-        android:layout_width="409dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
         android:minHeight="?attr/actionBarSize"
@@ -80,15 +80,28 @@
         app:layout_constraintStart_toStartOf="@+id/rest_txtAddress"
         app:layout_constraintTop_toBottomOf="@+id/rest_txtAddress" />
 
+    <TextView
+        android:id="@+id/rest_txtNoInspections"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/no_inspections_recorded"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rest_listInspections" />
+
     <ListView
         android:id="@+id/rest_listInspections"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rest_txtLatitude" />
+        app:layout_constraintTop_toBottomOf="@+id/rest_txtLatitude" >
+
+    </ListView>
 
     <ImageView
         android:id="@+id/rest_imgRestaurant"

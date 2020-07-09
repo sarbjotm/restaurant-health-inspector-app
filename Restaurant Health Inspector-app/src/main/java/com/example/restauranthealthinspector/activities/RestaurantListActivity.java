@@ -115,11 +115,17 @@ public class RestaurantListActivity extends AppCompatActivity {
                                 }
 
                         } else {
-                                restaurantIssues.setText(Integer.toString(0));
-                                String na = getResources().getString(R.string.na);
-                                restaurantHazardLevel.setText(na);
-                                restaurantDate.setText(na);
+                                TextView issues = itemView.findViewById(R.id.listR_txtIssues);
+                                issues.setVisibility(View.INVISIBLE);
+                                restaurantIssues.setVisibility(View.INVISIBLE);
+                                restaurantHazardLevel.setVisibility(View.INVISIBLE);
+                                restaurantDate.setVisibility(View.INVISIBLE);
                                 restaurantHazardImage.setVisibility(View.INVISIBLE);
+
+                                TextView inspection = itemView.findViewById(R.id.listR_txtInspection);
+                                String noInspection = getResources().getString(R.string.no_inspections_recorded);
+                                inspection.setText(noInspection);
+
                         }
                         return itemView;
                 }
