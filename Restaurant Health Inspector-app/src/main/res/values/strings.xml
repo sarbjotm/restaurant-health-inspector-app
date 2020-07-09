@@ -21,7 +21,6 @@
     <string name="violations">Violations</string>
     <string name="inspection_type">Inspection Type</string>
     <string name="type">Type</string>
-    <string name="na">N/A</string>
-    <string name="no_violations_found">No violations found</string>
+    <string name="no_violations_found">No Violations Found</string>
     <string name="no_inspections_recorded">No Inspections Recorded</string>
 </resources>
