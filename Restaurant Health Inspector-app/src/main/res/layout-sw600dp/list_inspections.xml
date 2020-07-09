@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/listI_imgHazard"
+        android:layout_width="105dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:contentDescription="@string/hazard_level"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/hazard_high" />
+
+    <TextView
+        android:id="@+id/listI_txtHazardNum"
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:layout_weight="1"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:text="@string/hazard_level"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/listI_imgHazard"
+        app:layout_constraintStart_toStartOf="@+id/listI_imgHazard"
+        app:layout_constraintTop_toBottomOf="@+id/listI_imgHazard" />
+
+    <TextView
+        android:id="@+id/listI_txtNonCriticalNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_weight="1"
+        android:text="@string/non_critical"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/listI_txtCriticalNum"
+        app:layout_constraintStart_toEndOf="@+id/listI_txtCriticalNumAmount"
+        app:layout_constraintTop_toTopOf="@+id/listI_txtCriticalNum"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/listI_txtCriticalNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:text="@string/critical"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/listI_imgHazard"
+        app:layout_constraintTop_toBottomOf="@+id/listI_txtDateNum" />
+
+    <TextView
+        android:id="@+id/listI_txtDateNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1"
+        android:text="@string/date"
+        android:textAlignment="viewStart"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/listI_imgHazard"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/listI_txtCriticalNumAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/number"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/listI_txtCriticalNum"
+        app:layout_constraintStart_toEndOf="@+id/listI_txtCriticalNum"
+        app:layout_constraintTop_toTopOf="@+id/listI_txtCriticalNum"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/listI_txtNonCriticalNumAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="@string/number"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/listI_txtNonCriticalNum"
+        app:layout_constraintStart_toEndOf="@+id/listI_txtNonCriticalNum"
+        app:layout_constraintTop_toTopOf="@+id/listI_txtNonCriticalNum" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
