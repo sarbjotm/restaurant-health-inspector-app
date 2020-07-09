@@ -1,10 +1,9 @@
-/**
- * A class to store a violations's code, descriptions, severity and an icon.
- */
 package com.example.restauranthealthinspector.model;
 
 import android.content.Context;
-
+/**
+ * A class to store a violations's code, descriptions, severity and an icon.
+ */
 public class Violation {
     private int violationID;
     private String longDescription;
@@ -54,21 +53,13 @@ public class Violation {
 
     public int getIconID(Context context) {
 
-        IconID currentID = new IconID(violationID);
+        ViolationIcon currentID = new ViolationIcon(context, violationID);
 
-        return currentID.getIconID(context);
+        return currentID.getIconID();
     }
 
     public void setIconID(int iconID) {
         this.iconID = iconID;
     }
 
-    @Override
-    public String toString() {
-        return "Violation{" +
-                "violationID=" + violationID +
-                ", longDescription='" + longDescription + '\'' +
-                ", severity='" + severity + '\'' +
-                '}';
-    }
 }
