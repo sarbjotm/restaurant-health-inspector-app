@@ -9,7 +9,6 @@ public class Violation {
     private int violationID;
     private String longDescription;
     private String severity;
-    private String briefDescription;
     private int iconID;
 
     public Violation(int violationID, String longDescription, String severity) {
@@ -40,16 +39,6 @@ public class Violation {
 
     public void setSeverity(String severity) {
         this.severity = severity;
-    }
-
-    public String getBriefDescription(Context context) {
-        BriefDescription message = new BriefDescription(violationID);
-
-        return message.getBriefDescription(context);
-    }
-
-    public void setBriefDescription(String briefDescription) {
-        this.briefDescription = briefDescription;
     }
 
     public int getIconID(Context context) {
