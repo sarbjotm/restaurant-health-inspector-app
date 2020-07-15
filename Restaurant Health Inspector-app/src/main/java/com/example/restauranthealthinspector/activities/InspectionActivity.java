@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.restauranthealthinspector.MapsActivity;
 import com.example.restauranthealthinspector.R;
 import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.InspectionsManager;
