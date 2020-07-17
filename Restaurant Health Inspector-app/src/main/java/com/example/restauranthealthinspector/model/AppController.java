@@ -1,6 +1,7 @@
 package com.example.restauranthealthinspector.model;
 
 import android.app.Application;
+import android.text.TextUtils;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -9,6 +10,7 @@ import com.android.volley.toolbox.Volley;
 // Code refer from Android JSON parsing using Volley
 // https://www.androidhive.info/2014/09/android-json-parsing-using-volley/
 public class AppController extends Application {
+    public static final String TAG = AppController.class.getSimpleName();
     private RequestQueue requestQueue;
     private static AppController instance;
 
@@ -31,6 +33,7 @@ public class AppController extends Application {
     }
 
     public <T> void addToRequestQueue(Request<T> req) {
+        req.setTag(TAG);
         getRequestQueue().add(req);
     }
 

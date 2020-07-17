@@ -74,14 +74,13 @@ public class RestaurantListActivity extends AppCompatActivity {
                 getData(inspectionURL);
         }
 
+        // Code refer from Android JSON parsing using Volley
+        // https://www.androidhive.info/2014/09/android-json-parsing-using-volley/
         private void getData(String url) {
-
-
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                         new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
-
                                         try {
                                                 JSONObject result = response.getJSONObject("result");
                                                 JSONArray resourceArray = result.getJSONArray("resources");
