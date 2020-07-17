@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,12 +15,22 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.restauranthealthinspector.MapsActivity;
 import com.example.restauranthealthinspector.R;
+import com.example.restauranthealthinspector.model.AppController;
 import com.example.restauranthealthinspector.model.Date;
 import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
+
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,6 +39,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A list of restaurants with brief inspections report.
@@ -50,6 +62,57 @@ public class RestaurantListActivity extends AppCompatActivity {
                 populateListView();
                 setUpRestaurantClick();
 
+                loadData();
+
+
+        }
+
+        private void loadData() {
+                String restaurantURL = getResources().getString(R.string.restaurantURL);
+                String inspectionURL = getResources().getString(R.string.inspectionURL);
+                getData(restaurantURL);
+                getData(inspectionURL);
+        }
+
+        private void getData(String url) {
+
+
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                        new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+
+                                        try {
+                                                JSONObject result = response.getJSONObject("result");
+                                                JSONArray resourceArray = result.getJSONArray("resources");
+
+                                                for (int i = 0; i < resourceArray.length(); i++) {
+                                                        JSONObject resource = (JSONObject) resourceArray.get(i);
+
+                                                        String format = resource.getString("format");
+                                                        if (format.equals("CSV")) {
+                                                                String lastModified = resource.getString("last_modified");
+                                                                String url = resource.getString("url");
+
+                                                                Log.i("URL", url);
+                                                                Log.i("lastModified", lastModified);
+                                                                break;
+                                                        }
+                                                }
+
+                                        } catch (JSONException e) {
+                                                e.printStackTrace();
+                                                Log.i("data", Objects.requireNonNull(e.getMessage()));
+                                        }
+                                }
+
+                                }, new Response.ErrorListener () {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                        Log.i("data", Objects.requireNonNull(error.getMessage()));
+                                }
+                        } );
+                AppController.getInstance().addToRequestQueue(request);
         }
 
         // Code from Brian Fraser videos
