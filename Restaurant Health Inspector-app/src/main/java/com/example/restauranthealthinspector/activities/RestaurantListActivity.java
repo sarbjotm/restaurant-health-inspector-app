@@ -3,9 +3,13 @@ package com.example.restauranthealthinspector.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,8 +73,8 @@ public class RestaurantListActivity extends AppCompatActivity {
 
         private void loadData() {
                 String restaurantURL = getResources().getString(R.string.restaurantURL);
-                String inspectionURL = getResources().getString(R.string.inspectionURL);
                 getData(restaurantURL);
+                String inspectionURL = getResources().getString(R.string.inspectionURL);
                 getData(inspectionURL);
         }
 
@@ -91,10 +95,12 @@ public class RestaurantListActivity extends AppCompatActivity {
                                                         String format = resource.getString("format");
                                                         if (format.equals("CSV")) {
                                                                 String lastModified = resource.getString("last_modified");
-                                                                String url = resource.getString("url");
+                                                                String dataURL = resource.getString("url");
+                                                                String name = resource.getString("name");
 
-                                                                Log.i("URL", url);
+                                                                Log.i("URL", dataURL);
                                                                 Log.i("lastModified", lastModified);
+                                                                downloadData(dataURL, lastModified, name);
                                                                 break;
                                                         }
                                                 }
@@ -112,6 +118,20 @@ public class RestaurantListActivity extends AppCompatActivity {
                                 }
                         } );
                 AppController.getInstance().addToRequestQueue(request);
+        }
+
+        private void downloadData(String dataURL, String lastModified, String name) {
+                String fileName = name + ".csv";
+
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(dataURL));
+                request.setDescription("Data");
+                request.setTitle(name);
+                request.allowScanningByMediaScanner();
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
+
+                DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+                manager.enqueue(request);
         }
 
         // Code from Brian Fraser videos
