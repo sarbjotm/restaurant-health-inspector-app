@@ -1,15 +1,18 @@
 package com.example.restauranthealthinspector.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +61,17 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                 startActivity(new Intent(this, MapsActivity.class));
 
+                FragmentManager manager = getSupportFragmentManager();
+                UpdateDialog dialog = new UpdateDialog();
+                dialog.show(manager, "Update");
+
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                boolean requestData = sharedPreferences.getBoolean("requestData", false);
+
+                if (requestData) {
+                        loadData();
+                }
+
                 try {
                         populateRestaurants();
                 } catch (IOException e) {
@@ -66,7 +80,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                 populateListView();
                 setUpRestaurantClick();
 
-                loadData();
+
 
 
         }
@@ -160,7 +174,6 @@ public class RestaurantListActivity extends AppCompatActivity {
                 public MyListAdapter(){
                         super(RestaurantListActivity.this, R.layout.list_restaurants, myRestaurants.getRestaurants());
                 }
-
 
                 @SuppressLint("SetTextI18n")
                 @Override
