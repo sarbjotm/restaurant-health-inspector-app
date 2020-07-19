@@ -54,6 +54,7 @@ public class UpdateDialog extends AppCompatDialogFragment {
     private InputStream inputRestaurant;
     private InputStream inputInspection;
     private ProgressBar progressBar;
+    DownloadManager manager;
 
     public UpdateDialog (Context context) {
         this.context = context;
@@ -67,7 +68,7 @@ public class UpdateDialog extends AppCompatDialogFragment {
         view = LayoutInflater.from(getActivity())
                 .inflate(R.layout.update_dialog, null);
         progressBar = view.findViewById(R.id.update_progressBar);
-        progressBar.setVisibility(View.INVISIBLE);
+        //progressBar.setVisibility(View.INVISIBLE);
 
         // Ok Button
         DialogInterface.OnClickListener okListener = new DialogInterface.OnClickListener() {
@@ -99,6 +100,7 @@ public class UpdateDialog extends AppCompatDialogFragment {
                     e.printStackTrace();
                 }
                 refreshActivity();
+
             }
         };
 
@@ -114,26 +116,29 @@ public class UpdateDialog extends AppCompatDialogFragment {
     private void loadData()  {
         String restaurantURL = getResources().getString(R.string.restaurantURL);
         getData(restaurantURL);
+        /*
         try {
             inputRestaurant = getInputStream();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
+         */
+
         String inspectionURL = getResources().getString(R.string.inspectionURL);
         getData(inspectionURL);
+        /*
         try {
             inputInspection = getInputStream();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-
-
+         */
     }
 
     private InputStream getInputStream() throws FileNotFoundException {
-        File file = context.getExternalFilesDir(fileName);
+        File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName);
         return new FileInputStream(file);
     }
 
@@ -198,7 +203,7 @@ public class UpdateDialog extends AppCompatDialogFragment {
         request.allowScanningByMediaScanner();
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setDestinationInExternalFilesDir(context, Environment.DIRECTORY_DOWNLOADS, fileName);
-        DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         manager.enqueue(request);
 
         TextView textView = view.findViewById(R.id.update_txtMsg);
