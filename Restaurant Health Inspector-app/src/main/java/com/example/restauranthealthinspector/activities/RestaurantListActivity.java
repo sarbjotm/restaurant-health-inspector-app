@@ -3,6 +3,7 @@ package com.example.restauranthealthinspector.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.content.Context;
@@ -21,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -33,6 +35,8 @@ import com.example.restauranthealthinspector.model.Date;
 import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 
 
 import org.json.JSONArray;
@@ -46,6 +50,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -60,6 +65,35 @@ public class RestaurantListActivity extends AppCompatActivity {
                 setContentView(R.layout.activity_restaurant_list);
 
                 //startActivity(new Intent(this, MapsActivity.class));
+
+                //Ask for permissions to download
+                PermissionListener permissionlistener = new PermissionListener() {
+                        @Override
+                        public void onPermissionGranted() {
+
+                        }
+
+                        @Override
+                        public void onPermissionDenied(List<String> deniedPermissions) {
+                                Toast.makeText(RestaurantListActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT)
+                                        .show();
+                                finish();
+                        }
+
+
+                };
+
+
+                TedPermission.with(RestaurantListActivity.this)
+                        .setPermissionListener(permissionlistener)
+                        .setDeniedTitle("Permission denied")
+                        .setDeniedMessage(
+                                "If you reject the permission,you can not use this application \n Please allow permissions at [Setting] > [Permission]")
+                        .setGotoSettingButtonText("Go to Settings")
+                        .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET)
+                        .check();
+
+                
 
                 boolean data = getIntent().getBooleanExtra("data", false);
 
