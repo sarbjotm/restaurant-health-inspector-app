@@ -4,7 +4,7 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/update_txtMsg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -12,5 +12,15 @@
         android:text="Do you want to Download the new files?"
         android:textAlignment="center"
         android:textSize="18sp" />
+
+    <ProgressBar
+        android:id="@+id/update_progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_below="@+id/update_txtMsg"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="19dp" />
 
 </RelativeLayout>

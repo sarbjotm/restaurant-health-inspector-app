@@ -61,17 +61,21 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                 //startActivity(new Intent(this, MapsActivity.class));
 
-                FragmentManager manager = getSupportFragmentManager();
-                UpdateDialog dialog = new UpdateDialog(this);
-                dialog.show(manager, "Update");
+                boolean data = getIntent().getBooleanExtra("data", false);
 
-                try {
-                        populateRestaurants();
-                } catch (IOException e) {
-                        e.printStackTrace();
+                if (data) {
+                        try {
+                                myRestaurants = RestaurantsManager.getInstance(null,null);
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        }
+                        populateListView();
+                        setUpRestaurantClick();
+                } else {
+                        FragmentManager manager = getSupportFragmentManager();
+                        UpdateDialog dialog = new UpdateDialog(this);
+                        dialog.show(manager, "Update");
                 }
-                populateListView();
-                setUpRestaurantClick();
 
         }
 
