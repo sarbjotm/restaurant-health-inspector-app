@@ -124,8 +124,6 @@ public class UpdateDialog extends AppCompatDialogFragment {
             e.printStackTrace();
         }
 
-
-
         String inspectionURL = getResources().getString(R.string.inspectionURL);
 
         //getData(inspectionURL);

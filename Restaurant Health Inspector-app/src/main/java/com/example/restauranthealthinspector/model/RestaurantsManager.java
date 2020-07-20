@@ -61,9 +61,7 @@ public class RestaurantsManager implements Iterable<Restaurant>{
         Collections.sort(restaurantList, new Comparator<Restaurant>() {
             @Override
             public int compare(Restaurant r1, Restaurant r2) {
-                char r1Letter = r1.getRestaurantName().charAt(0);
-                char r2Letter = r2.getRestaurantName().charAt(0);
-                return r1Letter-r2Letter;
+                return r1.getRestaurantName().compareTo(r2.getRestaurantName());
             }
         });
     }
