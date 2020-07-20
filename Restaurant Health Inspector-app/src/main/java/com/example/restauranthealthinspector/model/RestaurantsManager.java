@@ -1,5 +1,7 @@
 package com.example.restauranthealthinspector.model;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,8 +38,11 @@ public class RestaurantsManager implements Iterable<Restaurant>{
         reader.readLine();
 
         while ( (line = reader.readLine()) != null) {
-            line = line.replaceAll("\"", "");
-            String[] lineArray = line.split(",");
+            //line = line.replaceAll("\"", "");
+            String[] lineArray = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+            for (int i = 0; i < lineArray.length; i++) {
+                lineArray[i] = lineArray[i].replaceAll("\"", "");
+            }
             address = generateAddress(lineArray);
             restaurant = new Restaurant(lineArray[0], lineArray[1], address);
             instance.add(restaurant);
@@ -69,8 +74,8 @@ public class RestaurantsManager implements Iterable<Restaurant>{
         reader.readLine();
 
         while ( (line = reader.readLine()) != null) {
-            line = line.replaceAll("\"", "");
-            String[] lineArray = line.split(",");
+            //line = line.replaceAll("\"", "");
+            String[] lineArray = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
             for (Restaurant restaurant:restaurantList) {
                 trackingNumber = restaurant.getTrackingNumber();

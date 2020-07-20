@@ -77,7 +77,7 @@ public class UpdateDialog extends AppCompatDialogFragment {
                 progressBar.setVisibility(View.VISIBLE);
 
                 loadData();
-                getDefaultInput();
+                //getDefaultInput();
                 try {
                     populateRestaurants();
                 } catch (IOException e) {
@@ -115,26 +115,28 @@ public class UpdateDialog extends AppCompatDialogFragment {
 
     private void loadData()  {
         String restaurantURL = getResources().getString(R.string.restaurantURL);
-        getData(restaurantURL);
-        /*
+        //getData(restaurantURL);
+
+        fileName = "Restaurants.csv";
         try {
             inputRestaurant = getInputStream();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-         */
+
 
         String inspectionURL = getResources().getString(R.string.inspectionURL);
-        getData(inspectionURL);
-        /*
+
+        //getData(inspectionURL);
+        fileName = "Fraser Health Restaurant Inspection Reports.csv";
         try {
             inputInspection = getInputStream();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-         */
+
     }
 
     private InputStream getInputStream() throws FileNotFoundException {
