@@ -3,9 +3,11 @@ package com.example.restauranthealthinspector.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.restauranthealthinspector.MapsActivity;
 import com.example.restauranthealthinspector.R;
@@ -20,6 +23,8 @@ import com.example.restauranthealthinspector.model.Date;
 import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,14 +38,18 @@ import java.util.ArrayList;
  * A list of restaurants with brief inspections report.
  */
 public class RestaurantListActivity extends AppCompatActivity {
+        private static final String TAG = "RestaurantListActivity";
         private RestaurantsManager myRestaurants;
+        private static final int ERROR_DIALOG_REQUEST = 9001;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_restaurant_list);
 
-                startActivity(new Intent(this, MapsActivity.class));
+                if(isServicesOK()){
+                        init();
+                }
 
                 try {
                         populateRestaurants();
@@ -50,6 +59,28 @@ public class RestaurantListActivity extends AppCompatActivity {
                 populateListView();
                 setUpRestaurantClick();
 
+        }
+
+        private void init(){
+                Intent intent = new Intent(this, MapsActivity.class);
+                startActivity(intent);
+        }
+
+        public boolean isServicesOK(){ //check the user device.
+                Log.d(TAG, "isServicesOK: checking google services version");
+                int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(RestaurantListActivity.this);
+                if(available == ConnectionResult.SUCCESS){
+                        Log.d(TAG, "isServicesOK: Google Play Services is working");
+                        return true;
+                }
+                else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
+                        Log.d(TAG, "isServicesOK: an error occured but we can fix it");
+                        Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(RestaurantListActivity.this, available, ERROR_DIALOG_REQUEST);
+                }
+                else{
+                        Toast.makeText(this, "You can't make map requests", Toast.LENGTH_SHORT).show();
+                }
+                return false;
         }
 
         // Code from Brian Fraser videos
