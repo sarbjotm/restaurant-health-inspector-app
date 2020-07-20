@@ -92,7 +92,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.d(TAG, "onMapReady: map is ready");
         mMap = googleMap;
         if (mLocationPermissionsGranted) {
-            //getDeviceLocation();
+            getDeviceLocation();
             if (ActivityCompat.checkSelfPermission(
                     this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                     ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
