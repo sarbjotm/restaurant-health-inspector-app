@@ -61,7 +61,7 @@ public class RestaurantsManager implements Iterable<Restaurant>{
         Collections.sort(restaurantList, new Comparator<Restaurant>() {
             @Override
             public int compare(Restaurant r1, Restaurant r2) {
-                return r1.getRestaurantName().compareTo(r2.getRestaurantName());
+                return r1.getRestaurantName().toLowerCase().compareTo(r2.getRestaurantName().toLowerCase());
             }
         });
     }
@@ -98,7 +98,7 @@ public class RestaurantsManager implements Iterable<Restaurant>{
         return restaurantList.get(index);
     }
 
-    public ArrayList<Restaurant> getRestaurants(){
+    public static ArrayList<Restaurant> getRestaurants(){
         return restaurantList;
     }
 

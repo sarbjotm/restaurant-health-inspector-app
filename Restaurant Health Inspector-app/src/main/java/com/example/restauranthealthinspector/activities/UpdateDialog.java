@@ -11,11 +11,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -23,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.restauranthealthinspector.R;
 import com.example.restauranthealthinspector.model.AppController;
+import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
 
 import org.json.JSONArray;
@@ -84,7 +87,8 @@ public class UpdateDialog extends AppCompatDialogFragment {
                     e.printStackTrace();
                 }
 
-                refreshActivity();
+                //                refreshActivity();
+
             }
         };
 
@@ -212,9 +216,12 @@ public class UpdateDialog extends AppCompatDialogFragment {
 
     }
 
+
+
     // Code from Brian Fraser videos
     // Read CSV Resource File: Android Programming
     private void populateRestaurants() throws IOException {
+        int s = 1;
         BufferedReader readerRestaurants = new BufferedReader(
                 new InputStreamReader(inputRestaurant, StandardCharsets.UTF_8)
         );
@@ -224,12 +231,34 @@ public class UpdateDialog extends AppCompatDialogFragment {
         );
 
         RestaurantsManager.getInstance(readerRestaurants, readerInspections);
+        refreshActivity();
     }
 
-    private void refreshActivity() {
+    private void refreshActivity()  {
+        int inspections = 0;
+        for(Restaurant restaurant : RestaurantsManager.getRestaurants()){
+            inspections = inspections + restaurant.getInspectionsManager().getInspectionList().size();
+        }
+
+        int s = RestaurantsManager.getRestaurants().get(221).getInspectionsManager().getInspectionList().size();
+
+
+        Log.e("Number", Integer.toString(inspections));
+        Log.e("Number", Integer.toString(s));
+        Log.e("Number", RestaurantsManager.getRestaurants().get(221).getRestaurantName());
         Intent intent = new Intent(getContext(), RestaurantListActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("data", true);
         startActivity(intent);
     }
+
+
+//    private Handler mListViewDidLoadHanlder = new Handler(new Handler.Callback() {
+//        @Override
+//        public boolean handleMessage(Message message) {
+//            Log.e("Size123","Size123");
+//            refreshActivity();
+//            return false;
+//        }
+//    });
 }
