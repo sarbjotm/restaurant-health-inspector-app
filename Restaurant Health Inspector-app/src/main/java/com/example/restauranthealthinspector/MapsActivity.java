@@ -24,6 +24,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -36,6 +37,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_GREEN;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_ORANGE;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_RED;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_YELLOW;
 
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -80,7 +86,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 hazardLevel = inspection.getHazardRating();
             }
             String snippet = address + "\n" + hazardLevel + "\n";
-            MarkerOptions options = new MarkerOptions().position(latLng).title(name).snippet(snippet);
+            float colour;
+            if (hazardLevel.equals("High")){
+                colour = HUE_RED;
+            }
+            else if (hazardLevel.equals("Moderate")){
+                colour = HUE_ORANGE;
+            }
+            else{
+                colour = HUE_GREEN;
+            }
+            MarkerOptions options = new MarkerOptions().position(latLng).title(name).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(colour));
             mMarker = mMap.addMarker(options);
             mMarker.showInfoWindow();
         }
