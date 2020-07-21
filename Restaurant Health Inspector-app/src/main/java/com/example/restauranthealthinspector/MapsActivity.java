@@ -14,6 +14,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 
+import com.example.restauranthealthinspector.model.Inspection;
+import com.example.restauranthealthinspector.model.InspectionsManager;
+import com.example.restauranthealthinspector.model.Restaurant;
+import com.example.restauranthealthinspector.model.RestaurantsManager;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,9 +25,17 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -37,6 +49,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
+    private RestaurantsManager myRestaurants;
+    private Marker mMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +58,31 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_maps);
 
         getLocationPermission();
+        try {
+            populateRestaurants();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void pinRestaurants(){
+        for (Restaurant restaurant : myRestaurants){
+            double lat = restaurant.getAddress().getLatitude();
+            double lng = restaurant.getAddress().getLongitude();
+            LatLng latLng = new LatLng(lat, lng);
+            String name = restaurant.getRestaurantName();
+            String address = restaurant.getAddress().getStreetAddress();
+            ArrayList<Inspection> inspections = restaurant.getInspectionsManager().getInspectionList();
+            String hazardLevel = "No inspections recorded";
+            if (inspections.size() != 0){
+                Inspection inspection = inspections.get(0);
+                hazardLevel = inspection.getHazardRating();
+            }
+            String pegDescription = address + "\n" + address + "\n" + hazardLevel + "\n";
+            MarkerOptions options = new MarkerOptions().position(latLng).title(name).snippet(pegDescription);
+            mMarker = mMap.addMarker(options);
+            mMarker.showInfoWindow();
+        }
     }
 
     private void getDeviceLocation() {
@@ -86,6 +125,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
     }
 
+    private void populateRestaurants() throws IOException {
+        InputStream inputRestaurant = getResources().openRawResource(R.raw.restaurants_itr1);
+        BufferedReader readerRestaurants = new BufferedReader(
+                new InputStreamReader(inputRestaurant, StandardCharsets.UTF_8)
+        );
+
+        InputStream inputInspections = getResources().openRawResource(R.raw.inspectionreports_itr1);
+        BufferedReader readerInspections = new BufferedReader(
+                new InputStreamReader(inputInspections, StandardCharsets.UTF_8)
+        );
+
+        myRestaurants = RestaurantsManager.getInstance(readerRestaurants, readerInspections);
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
@@ -99,6 +152,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return;
             }
             mMap.setMyLocationEnabled(true);
+
+            pinRestaurants();
         }
     }
 
