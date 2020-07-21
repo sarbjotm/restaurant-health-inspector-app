@@ -1,7 +1,6 @@
-package com.example.restauranthealthinspector.model;
+package com.example.restauranthealthinspector.model.online;
 
 import android.app.Application;
-import android.text.TextUtils;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;

@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.example.restauranthealthinspector.model.Date;
 import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
+import com.example.restauranthealthinspector.model.online.DataRequest;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -33,6 +35,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A list of restaurants with brief inspections report.
@@ -46,35 +49,23 @@ public class RestaurantListActivity extends AppCompatActivity {
                 setContentView(R.layout.activity_restaurant_list);
 
                 //startActivity(new Intent(this, MapsActivity.class));
+                permissionCheck();
 
-                //Ask for permissions to download
-                PermissionListener permissionlistener = new PermissionListener() {
-                        @Override
-                        public void onPermissionGranted() {
+                if (beenXHours(20)) {
+                        String restaurantURL = getResources().getString(R.string.restaurantURL);
+                        DataRequest restaurantData = new DataRequest(restaurantURL);
+                        String inspectionURL = getResources().getString(R.string.inspectionURL);
+                        DataRequest inspectionData = new DataRequest(inspectionURL);
 
+                        if (needsUpdate(restaurantData, inspectionData)) {
+                                openDialog(restaurantData, inspectionData);
                         }
 
-                        @Override
-                        public void onPermissionDenied(List<String> deniedPermissions) {
-                                Toast.makeText(RestaurantListActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT)
-                                        .show();
-                                finish();
-                        }
+                } else {
+
+                }
 
 
-                };
-
-
-                TedPermission.with(RestaurantListActivity.this)
-                        .setPermissionListener(permissionlistener)
-                        .setDeniedTitle("Permission denied")
-                        .setDeniedMessage(
-                                "If you reject the permission,you can not use this application \n Please allow permissions at [Setting] > [Permission]")
-                        .setGotoSettingButtonText("Go to Settings")
-                        .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET)
-                        .check();
-
-                
 
                 boolean data = getIntent().getBooleanExtra("data", false);
 
@@ -87,11 +78,69 @@ public class RestaurantListActivity extends AppCompatActivity {
                         populateListView();
                         setUpRestaurantClick();
                 } else {
-                        FragmentManager manager = getSupportFragmentManager();
-                        UpdateDialog dialog = new UpdateDialog(this);
-                        dialog.show(manager, "Update");
+                        openDialog();
                 }
 
+        }
+
+        private void permissionCheck() {
+                //Ask for permissions to download
+                PermissionListener permissionlistener = new PermissionListener() {
+                        @Override
+                        public void onPermissionGranted() {
+
+                        }
+                        @Override
+                        public void onPermissionDenied(List<String> deniedPermissions) {
+                                Toast.makeText(RestaurantListActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT)
+                                        .show();
+                                finish();
+                        }
+
+                };
+                TedPermission.with(RestaurantListActivity.this)
+                        .setPermissionListener(permissionlistener)
+                        .setDeniedTitle("Permission denied")
+                        .setDeniedMessage(
+                                "If you reject the permission,you can not use this application \n Please allow permissions at [Setting] > [Permission]")
+                        .setGotoSettingButtonText("Go to Settings")
+                        .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET)
+                        .check();
+        }
+
+        private boolean beenXHours(int hours) {
+                SharedPreferences sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
+                long lastUpdated = sharedPreferences.getLong("lastUpdated", 0);
+                java.util.Date currentDate = new java.util.Date();
+
+                long timeDifference = currentDate.getTime() - lastUpdated;
+                long hoursDifference = TimeUnit.HOURS.convert(timeDifference, TimeUnit.MILLISECONDS);
+
+                return hoursDifference > hours;
+
+        }
+
+        private boolean needsUpdate(DataRequest restaurantData, DataRequest inspectionData) {
+                SharedPreferences sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
+
+                String restLastModified = sharedPreferences.getString("restaurantLastModified", "");
+                if (!restLastModified.equals(restaurantData.getLastModified())) {
+                        return true;
+                }
+
+                String inspectLastModified = sharedPreferences.getString("inspectionLastModified", "");
+                if (!inspectLastModified.equals(inspectionData.getLastModified())) {
+                        return true;
+                }
+
+                return false;
+        }
+
+
+        private void openDialog(DataRequest restaurantData, DataRequest inspectionData) {
+                FragmentManager manager = getSupportFragmentManager();
+                UpdateDialog dialog = new UpdateDialog(this, restaurantData, inspectionData);
+                dialog.show(manager, "Update");
         }
 
         // Code from Brian Fraser videos

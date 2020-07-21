@@ -6,6 +6,7 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,7 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.restauranthealthinspector.R;
-import com.example.restauranthealthinspector.model.AppController;
+import com.example.restauranthealthinspector.model.online.AppController;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
 
 import org.json.JSONArray;
@@ -51,7 +52,6 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 public class UpdateDialog extends AppCompatDialogFragment {
     private Context context;
     private View view;
-    private String fileName;
     private InputStream inputRestaurant;
     private InputStream inputInspection;
     private ProgressBar progressBar;
@@ -109,11 +109,12 @@ public class UpdateDialog extends AppCompatDialogFragment {
         super.onResume();
         final AlertDialog d = (AlertDialog) getDialog();
         if (d != null) {
-            Button positiveButton = (Button) d.getButton(Dialog.BUTTON_POSITIVE);
+            final Button positiveButton = (Button) d.getButton(Dialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     progressBar.setVisibility(View.VISIBLE);
+                    positiveButton.setEnabled(false);
 
                     loadData();
                     //getDefaultInput();
@@ -129,7 +130,7 @@ public class UpdateDialog extends AppCompatDialogFragment {
                             refreshActivity();
                             d.dismiss();
                         }
-                    }, 10000);
+                    }, 6000);
                 }
             });
         }
@@ -137,38 +138,42 @@ public class UpdateDialog extends AppCompatDialogFragment {
 
     private void loadData()  {
         String restaurantURL = getResources().getString(R.string.restaurantURL);
-        getData(restaurantURL);
+        getData(restaurantURL, 0);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                fileName = "Restaurants.csv";
                 try {
-                    inputRestaurant = getInputStream();
+                    inputRestaurant = getInputStream(fileName[0]);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
             }
-        }, 5000);
+        }, 3000);
 
         String inspectionURL = getResources().getString(R.string.inspectionURL);
-        getData(inspectionURL);
+        getData(inspectionURL, 1);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                fileName = "Fraser Health Restaurant Inspection Reports.csv";
                 try {
-                    inputInspection = getInputStream();
+                    inputInspection = getInputStream(fileName[1]);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
             }
-        }, 5000);
+        }, 4000);
 
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("filename", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("restaurant", fileName[0]);
+        editor.putString("inspection", fileName[1]);
+        editor.apply();
     }
 
-    private InputStream getInputStream() throws FileNotFoundException {
+    private InputStream getInputStream(String fileName) throws FileNotFoundException {
         Log.i("filename", fileName);
         File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName);
         return new FileInputStream(file);
@@ -179,49 +184,7 @@ public class UpdateDialog extends AppCompatDialogFragment {
         inputInspection = getResources().openRawResource(R.raw.inspectionreports_itr1);
     }
 
-    // Code refer from Android JSON parsing using Volley
-    // https://www.androidhive.info/2014/09/android-json-parsing-using-volley/
-    private void getData(String url) {
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONObject result = response.getJSONObject("result");
-                            JSONArray resourceArray = result.getJSONArray("resources");
-
-                            for (int i = 0; i < resourceArray.length(); i++) {
-                                JSONObject resource = (JSONObject) resourceArray.get(i);
-
-                                String format = resource.getString("format");
-                                if (format.equals("CSV")) {
-                                    String lastModified = resource.getString("last_modified");
-                                    String dataURL = resource.getString("url");
-                                    String name = resource.getString("name");
-
-                                    Log.i("URL", dataURL);
-                                    Log.i("lastModified", lastModified);
-                                    fileName = downloadData(dataURL, lastModified, name);
-                                    break;
-                                }
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.i("data", Objects.requireNonNull(e.getMessage()));
-                        }
-                    }
-
-                }, new Response.ErrorListener () {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i("data", Objects.requireNonNull(error.getMessage()));
-            }
-        } );
-        AppController.getInstance().addToRequestQueue(request);
-    }
-
-    private String downloadData(String dataURL, String lastModified, String name) {
+    private void downloadData(String dataURL, String lastModified, String name) {
         String fileName = name + ".csv";
         Log.i("downloading", fileName);
 
@@ -244,7 +207,6 @@ public class UpdateDialog extends AppCompatDialogFragment {
         textView.setText(text);
 
         downloading();
-        return fileName;
     }
 
     private void downloading() {
@@ -254,6 +216,11 @@ public class UpdateDialog extends AppCompatDialogFragment {
         while (downloading) {
             c = manager.query(query);
             if (c.moveToFirst()) {
+
+                int totalSize = c.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES);
+                int downloadedSize = c.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR);
+                progressBar.setProgress(downloadedSize/totalSize*100);
+
                 int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
                 if (status == DownloadManager.STATUS_SUCCESSFUL) {
                     Log.i("downloading", "done downloading");
@@ -285,6 +252,4 @@ public class UpdateDialog extends AppCompatDialogFragment {
         intent.putExtra("data", true);
         startActivity(intent);
     }
-
-
 }
