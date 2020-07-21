@@ -11,13 +11,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -25,7 +24,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.restauranthealthinspector.R;
 import com.example.restauranthealthinspector.model.AppController;
-import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
 
 import org.json.JSONArray;
@@ -57,7 +55,7 @@ public class UpdateDialog extends AppCompatDialogFragment {
     private InputStream inputRestaurant;
     private InputStream inputInspection;
     private ProgressBar progressBar;
-    DownloadManager manager;
+    private DownloadManager manager;
 
     public UpdateDialog (Context context) {
         this.context = context;
@@ -77,17 +75,6 @@ public class UpdateDialog extends AppCompatDialogFragment {
         DialogInterface.OnClickListener okListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                progressBar.setVisibility(View.VISIBLE);
-
-                loadData();
-                //getDefaultInput();
-                try {
-                    populateRestaurants();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                //                refreshActivity();
 
             }
         };
@@ -117,31 +104,72 @@ public class UpdateDialog extends AppCompatDialogFragment {
                 .create();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        final AlertDialog d = (AlertDialog) getDialog();
+        if (d != null) {
+            Button positiveButton = (Button) d.getButton(Dialog.BUTTON_POSITIVE);
+            positiveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    progressBar.setVisibility(View.VISIBLE);
+
+                    loadData();
+                    //getDefaultInput();
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                populateRestaurants();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            refreshActivity();
+                            d.dismiss();
+                        }
+                    }, 10000);
+                }
+            });
+        }
+    }
+
     private void loadData()  {
         String restaurantURL = getResources().getString(R.string.restaurantURL);
-        //getData(restaurantURL);
+        getData(restaurantURL);
 
-        fileName = "Restaurants.csv";
-        try {
-            inputRestaurant = getInputStream();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fileName = "Restaurants.csv";
+                try {
+                    inputRestaurant = getInputStream();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 5000);
 
         String inspectionURL = getResources().getString(R.string.inspectionURL);
+        getData(inspectionURL);
 
-        //getData(inspectionURL);
-        fileName = "Fraser Health Restaurant Inspection Reports.csv";
-        try {
-            inputInspection = getInputStream();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fileName = "Fraser Health Restaurant Inspection Reports.csv";
+                try {
+                    inputInspection = getInputStream();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 5000);
 
     }
 
     private InputStream getInputStream() throws FileNotFoundException {
+        Log.i("filename", fileName);
         File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName);
         return new FileInputStream(file);
     }
@@ -173,7 +201,7 @@ public class UpdateDialog extends AppCompatDialogFragment {
 
                                     Log.i("URL", dataURL);
                                     Log.i("lastModified", lastModified);
-                                    downloadData(dataURL, lastModified, name);
+                                    fileName = downloadData(dataURL, lastModified, name);
                                     break;
                                 }
                             }
@@ -193,8 +221,9 @@ public class UpdateDialog extends AppCompatDialogFragment {
         AppController.getInstance().addToRequestQueue(request);
     }
 
-    private void downloadData(String dataURL, String lastModified, String name) {
-        fileName = name + ".csv";
+    private String downloadData(String dataURL, String lastModified, String name) {
+        String fileName = name + ".csv";
+        Log.i("downloading", fileName);
 
         File oldFile = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName);
         if(oldFile.exists()){
@@ -214,14 +243,31 @@ public class UpdateDialog extends AppCompatDialogFragment {
         String text = "Downloading " + name;
         textView.setText(text);
 
+        downloading();
+        return fileName;
     }
 
+    private void downloading() {
+        boolean downloading = true;
+        DownloadManager.Query query = new DownloadManager.Query();
+        Cursor c = null;
+        while (downloading) {
+            c = manager.query(query);
+            if (c.moveToFirst()) {
+                int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
+                if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                    Log.i("downloading", "done downloading");
+                    downloading = false;
+                }
+            }
+        }
+        c.close();
+    }
 
 
     // Code from Brian Fraser videos
     // Read CSV Resource File: Android Programming
     private void populateRestaurants() throws IOException {
-        int s = 1;
         BufferedReader readerRestaurants = new BufferedReader(
                 new InputStreamReader(inputRestaurant, StandardCharsets.UTF_8)
         );
@@ -231,21 +277,9 @@ public class UpdateDialog extends AppCompatDialogFragment {
         );
 
         RestaurantsManager.getInstance(readerRestaurants, readerInspections);
-        refreshActivity();
     }
 
     private void refreshActivity()  {
-        int inspections = 0;
-        for(Restaurant restaurant : RestaurantsManager.getRestaurants()){
-            inspections = inspections + restaurant.getInspectionsManager().getInspectionList().size();
-        }
-
-        int s = RestaurantsManager.getRestaurants().get(221).getInspectionsManager().getInspectionList().size();
-
-
-        Log.e("Number", Integer.toString(inspections));
-        Log.e("Number", Integer.toString(s));
-        Log.e("Number", RestaurantsManager.getRestaurants().get(221).getRestaurantName());
         Intent intent = new Intent(getContext(), RestaurantListActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("data", true);
@@ -253,12 +287,4 @@ public class UpdateDialog extends AppCompatDialogFragment {
     }
 
 
-//    private Handler mListViewDidLoadHanlder = new Handler(new Handler.Callback() {
-//        @Override
-//        public boolean handleMessage(Message message) {
-//            Log.e("Size123","Size123");
-//            refreshActivity();
-//            return false;
-//        }
-//    });
 }

@@ -16,7 +16,7 @@ public class ViolationManager {
         for (String violationString : vioLumpArray) {
             violationString = violationString.replaceAll("\"", "");
             String[] violationArray = violationString.split(",");
-            Log.i("violation", violationArray[0]);
+            //Log.i("violation", violationArray[0]);
             int violationID = Integer.parseInt(violationArray[0]);
             String severity = violationArray[1];
             String longDescription = violationArray[2];
