@@ -67,6 +67,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void pinRestaurants(){
         for (Restaurant restaurant : myRestaurants){
+            mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(MapsActivity.this));
             double lat = restaurant.getAddress().getLatitude();
             double lng = restaurant.getAddress().getLongitude();
             LatLng latLng = new LatLng(lat, lng);
@@ -78,8 +79,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Inspection inspection = inspections.get(0);
                 hazardLevel = inspection.getHazardRating();
             }
-            String pegDescription = address + "\n" + address + "\n" + hazardLevel + "\n";
-            MarkerOptions options = new MarkerOptions().position(latLng).title(name).snippet(pegDescription);
+            String snippet = address + "\n" + hazardLevel + "\n";
+            MarkerOptions options = new MarkerOptions().position(latLng).title(name).snippet(snippet);
             mMarker = mMap.addMarker(options);
             mMarker.showInfoWindow();
         }
