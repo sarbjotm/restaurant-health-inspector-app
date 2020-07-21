@@ -252,4 +252,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         }
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        locationManager.removeUpdates(locationListener);
+    }
 }
