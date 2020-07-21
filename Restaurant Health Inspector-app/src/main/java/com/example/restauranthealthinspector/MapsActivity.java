@@ -8,6 +8,8 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -39,6 +41,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_GREEN;
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_ORANGE;
@@ -202,24 +205,51 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        Log.d(TAG, "onRequestPermissionsResult: called.");
-        mLocationPermissionsGranted = false;
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED){
 
-        switch(requestCode){
-            case LOCATION_PERMISSION_REQUEST_CODE:{
-                if(grantResults.length > 0){
-                    for (int i = 0; i < grantResults.length; i++){
-                        if(grantResults[i] != PackageManager.PERMISSION_GRANTED){
-                            mLocationPermissionsGranted = false;
-                            Log.d(TAG, "onRequestPermissionsResult: permission failed");
-                            return;
+            locationListener = new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
+                    //get the location name from latitude and longitude
+                    Geocoder geocoder = new Geocoder(getApplicationContext());
+                    try {
+                        List<Address> addresses =
+                                geocoder.getFromLocation(latitude, longitude, 1);
+                        LatLng latLng = new LatLng(latitude, longitude);
+
+                        mMap.setMaxZoomPreference(20);
+
+                        if(resume == false){
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
+                            resume = true;
                         }
-                        mLocationPermissionsGranted = true;
-                        Log.d(TAG, "onRequestPermissionsResult: permission granted");
-                        initMap();
+
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
-            }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            };
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         }
     }
 }
