@@ -14,6 +14,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 
+import com.example.restauranthealthinspector.model.Inspection;
+import com.example.restauranthealthinspector.model.InspectionsManager;
 import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -23,6 +25,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,6 +35,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -46,6 +50,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private RestaurantsManager myRestaurants;
+    private Marker mMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +71,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             double lng = restaurant.getAddress().getLongitude();
             LatLng latLng = new LatLng(lat, lng);
             String name = restaurant.getRestaurantName();
-            MarkerOptions option = new MarkerOptions().position(latLng).title(name);
-            mMap.addMarker(option);
+            String address = restaurant.getAddress().getStreetAddress();
+            ArrayList<Inspection> inspections = restaurant.getInspectionsManager().getInspectionList();
+            String hazardLevel = "No inspections recorded";
+            if (inspections.size() != 0){
+                Inspection inspection = inspections.get(0);
+                hazardLevel = inspection.getHazardRating();
+            }
+            String pegDescription = address + "\n" + address + "\n" + hazardLevel + "\n";
+            MarkerOptions options = new MarkerOptions().position(latLng).title(name).snippet(pegDescription);
+            mMarker = mMap.addMarker(options);
+            mMarker.showInfoWindow();
         }
     }
 
