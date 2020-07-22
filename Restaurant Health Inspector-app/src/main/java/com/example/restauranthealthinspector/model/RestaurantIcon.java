@@ -45,7 +45,7 @@ public class RestaurantIcon {
     }
 
     private void generateIconID (Context context) {
-        if ( (restaurantName.contains("A&W")) || (restaurantName.contains(" A & W")) ){
+        if ( (restaurantName.contains("A&W")) || (restaurantName.contains("A & W ")) ){
             iconID = savedIcon[5];
         }
 
