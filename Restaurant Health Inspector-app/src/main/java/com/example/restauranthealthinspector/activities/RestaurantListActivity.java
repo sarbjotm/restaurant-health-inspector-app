@@ -5,10 +5,12 @@ import androidx.fragment.app.FragmentManager;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,6 +29,8 @@ import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
 import com.example.restauranthealthinspector.model.online.DataLoad;
 import com.example.restauranthealthinspector.model.online.DataRequest;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -46,6 +50,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class RestaurantListActivity extends AppCompatActivity {
         private RestaurantsManager myRestaurants;
+        private static final String TAG = "RestaurantListActivity";
+        private static final int ERROR_DIALOG_REQUEST = 9001;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +61,10 @@ public class RestaurantListActivity extends AppCompatActivity {
                 //startActivity(new Intent(this, MapsActivity.class));
                 permissionCheck();
                 setupMapButton();
+
+                if(isServicesOK()){
+                        init();
+                }
 
                 Intent intent = getIntent();
                 boolean data = intent.getBooleanExtra("data", false);
@@ -96,6 +106,29 @@ public class RestaurantListActivity extends AppCompatActivity {
                 setUpRestaurantClick();
 
         }
+
+        private void init(){
+                Intent intent = new Intent(this, MapsActivity.class);
+                startActivity(intent);
+        }
+
+        public boolean isServicesOK(){ //check the user device.
+                Log.d(TAG, "isServicesOK: checking google services version");
+                int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(RestaurantListActivity.this);
+                if(available == ConnectionResult.SUCCESS){
+                        Log.d(TAG, "isServicesOK: Google Play Services is working");
+                        return true;
+                }
+                else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
+                        Log.d(TAG, "isServicesOK: an error occured but we can fix it");
+                        Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(RestaurantListActivity.this, available, ERROR_DIALOG_REQUEST);
+                }
+                else{
+                        Toast.makeText(this, "You can't make map requests", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+        }
+
 
         private void permissionCheck() {
                 //Ask for permissions to download
