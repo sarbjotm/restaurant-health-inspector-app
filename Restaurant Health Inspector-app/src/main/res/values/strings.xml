@@ -24,4 +24,7 @@
     <string name="no_violations_found">No Violations Found</string>
     <string name="no_inspections_recorded">No Inspections Recorded</string>
     <string name="title_activity_maps">Map</string>
+
+    <string name="restaurantURL">https://data.surrey.ca/api/3/action/package_show?id=restaurants</string>
+    <string name="inspectionURL">https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports</string>
 </resources>

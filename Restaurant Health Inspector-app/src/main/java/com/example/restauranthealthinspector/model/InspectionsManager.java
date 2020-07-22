@@ -15,8 +15,8 @@ public class InspectionsManager implements Iterable<Inspection> {
         Date date = intToDate(lineArray[1]);
         int numCritical = Integer.parseInt(lineArray[3]);
         int numNonCritical = Integer.parseInt(lineArray[4]);
-        ViolationManager violationManager = vioLumpToViolationManager(lineArray);
-        Inspection inspection = new Inspection(date, lineArray[2], numCritical, numNonCritical, lineArray[5], violationManager);
+        ViolationManager violationManager = vioLumpToViolationManager(lineArray[5]);
+        Inspection inspection = new Inspection(date, lineArray[2], numCritical, numNonCritical, lineArray[6], violationManager);
         inspectionList.add(inspection);
     }
 
@@ -27,15 +27,11 @@ public class InspectionsManager implements Iterable<Inspection> {
         return new Date(day, month, year);
     }
 
-    private ViolationManager vioLumpToViolationManager(String[] lineArray) {
+    private ViolationManager vioLumpToViolationManager(String line) {
         ViolationManager violationManager = new ViolationManager();
 
-        if (lineArray.length != 6) {
-            StringBuilder vioLump = new StringBuilder(lineArray[6]);
-            for (int i = 7; i < lineArray.length; i++) {
-                vioLump.append(",").append(lineArray[i]);
-            }
-            violationManager.convertVioLumpToViolations(vioLump.toString());
+        if (!line.equals("")) {
+            violationManager.convertVioLumpToViolations(line);
         }
 
         return violationManager;

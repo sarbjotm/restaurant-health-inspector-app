@@ -71,6 +71,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        // Obtain the SupportMa
+        // pFragment and get notified when the map is ready to be used.
 
         getLocationPermission();
         try {
