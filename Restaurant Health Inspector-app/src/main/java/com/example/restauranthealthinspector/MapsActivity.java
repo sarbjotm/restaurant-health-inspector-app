@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -15,11 +14,11 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.Toast;
 
 
 import com.example.restauranthealthinspector.model.Inspection;
-import com.example.restauranthealthinspector.model.InspectionsManager;
 import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -34,15 +33,19 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterManager;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_GREEN;
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_ORANGE;
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_RED;
-import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_YELLOW;
 
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -58,10 +61,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private RestaurantsManager myRestaurants;
-    private Marker mMarker;
     private LocationManager locationManager;
     private LocationListener locationListener;
-
+    private ClusterManager<ClusterPin> mClusterManger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,35 +80,85 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void pinRestaurants(){
-        for (Restaurant restaurant : myRestaurants){
+        initClusterManager();
+
+        for (Restaurant restaurant : myRestaurants) {
+            int type;
             mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(MapsActivity.this));
             double lat = restaurant.getAddress().getLatitude();
             double lng = restaurant.getAddress().getLongitude();
-            LatLng latLng = new LatLng(lat, lng);
+            final LatLng latLng = new LatLng(lat, lng);
             String name = restaurant.getRestaurantName();
             String address = restaurant.getAddress().getStreetAddress();
             ArrayList<Inspection> inspections = restaurant.getInspectionsManager().getInspectionList();
             String hazardLevel = "No inspections recorded";
-            if (inspections.size() != 0){
+            if (inspections.size() != 0) {
                 Inspection inspection = inspections.get(0);
                 hazardLevel = inspection.getHazardRating();
             }
-            String snippet = address + "\n" + hazardLevel + "\n";
+            String snippet = name + "\n" + address + "\nhazard lv : " + hazardLevel;
             float colour;
-            if (hazardLevel.equals("High")){
+            if (hazardLevel.equals("High")) {
                 colour = HUE_RED;
-            }
-            else if (hazardLevel.equals("Moderate")){
+                type = 1;
+            } else if (hazardLevel.equals("Moderate")) {
                 colour = HUE_ORANGE;
-            }
-            else{
+                type = 2;
+            } else {
                 colour = HUE_GREEN;
+                type = 3;
             }
+
             MarkerOptions options = new MarkerOptions().position(latLng).title(name).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(colour));
-            mMarker = mMap.addMarker(options);
-            mMarker.showInfoWindow();
+            Marker mMarker = mMap.addMarker(options
+                .title(name)
+                .snippet(address + "\n" + hazardLevel));
+            mMarker.setVisible(false);
+
+            mClusterManger.addItem(new ClusterPin(name, snippet, latLng,type));
         }
+
+        mClusterManger.cluster();
     }
+
+    public void initClusterManager(){
+        mClusterManger = new ClusterManager<ClusterPin>(this,mMap);
+
+        CustomClusterRenderer renderer = new CustomClusterRenderer(this, mMap, mClusterManger);
+        mClusterManger.setRenderer(renderer);
+
+        mClusterManger.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<ClusterPin>() {
+            @Override
+            public boolean onClusterClick(Cluster<ClusterPin> cluster) {
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(cluster.getPosition(),100.0f));
+                Toast.makeText(MapsActivity.this, "Cluster click", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
+        mClusterManger.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<ClusterPin>() {
+            @Override
+            public boolean onClusterItemClick(ClusterPin clusterItem) {
+                Toast.makeText(MapsActivity.this, "Cluster item click", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+        mClusterManger.getMarkerCollection().setInfoWindowAdapter(new CustomInfoViewAdapter(LayoutInflater.from(MapsActivity.this)));
+
+        mClusterManger.setOnClusterItemInfoWindowClickListener(new ClusterManager.OnClusterItemInfoWindowClickListener<ClusterPin>() {
+            @Override
+            public void onClusterItemInfoWindowClick(ClusterPin clusterItem) {
+                Toast.makeText(MapsActivity.this, "Clicked info window: " + clusterItem.getTitle(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mMap.setOnCameraIdleListener(mClusterManger);
+        mMap.setOnMarkerClickListener(mClusterManger);
+        mMap.setInfoWindowAdapter(mClusterManger.getMarkerManager());
+        mMap.setOnInfoWindowClickListener(mClusterManger);
+    }
+
+
 
     private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
