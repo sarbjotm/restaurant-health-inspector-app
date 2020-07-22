@@ -41,7 +41,6 @@ public class DataLoad {
         Log.i("saving", restaurantFileName);
         Log.i("saving", inspectionFileName);
 
-
         editor.putString("restaurantFileName", restaurantFileName);
         editor.putString("inspectionFileName", inspectionFileName);
         editor.apply();
@@ -56,7 +55,7 @@ public class DataLoad {
             updateDate();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            loadSample();
+            getSample();
         }
         try {
             populateRestaurants();
@@ -78,15 +77,9 @@ public class DataLoad {
         editor.apply();
     }
 
-    private void loadSample() {
+    private void getSample() {
         inputRestaurants = context.getResources().openRawResource(R.raw.restaurants_itr1);
         inputInspections = context.getResources().openRawResource(R.raw.inspectionreports_itr1);
-
-        try {
-            populateRestaurants();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     // Code from Brian Fraser videos
