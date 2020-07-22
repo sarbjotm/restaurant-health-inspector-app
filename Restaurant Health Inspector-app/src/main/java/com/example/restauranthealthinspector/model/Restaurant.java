@@ -36,7 +36,7 @@ public class Restaurant {
 
     public int getIconID(Context context) {
 
-        RestaurantIcon currentID = new RestaurantIcon(context, trackingNumber);
+        RestaurantIcon currentID = new RestaurantIcon(context, trackingNumber, restaurantName);
 
         return currentID.getIconID();
     }
