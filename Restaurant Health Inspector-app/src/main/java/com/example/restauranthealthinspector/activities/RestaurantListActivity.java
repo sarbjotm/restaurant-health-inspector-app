@@ -62,8 +62,8 @@ public class RestaurantListActivity extends AppCompatActivity {
                 permissionCheck();
                 setupMapButton();
 
-                if(isServicesOK()){
-                        init();
+                if(!isServicesOK()){
+                    return;
                 }
 
                 Intent intent = getIntent();
@@ -162,7 +162,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                                 Intent intent = new Intent(RestaurantListActivity.this, MapsActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                finish();
                                 startActivity(intent);
                         }
                 });
