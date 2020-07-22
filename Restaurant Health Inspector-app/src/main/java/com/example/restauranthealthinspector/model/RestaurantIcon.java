@@ -26,7 +26,9 @@ public class RestaurantIcon {
             R.drawable.restaurant_icon_seveneleven, //10
             R.drawable.restaurant_icon_fresh_slice,
             R.drawable.restaurant_icon_bp, //12
-            R.drawable.restaurant_icon,
+            R.drawable.restaurant_icon_churchs,
+            R.drawable.restaurant_icon_little_caesars, //14
+            R.drawable.restaurant_icon, // 15
             R.drawable.random_restaurant_icon1,
             R.drawable.random_restaurant_icon2,
             R.drawable.random_restaurant_icon3,
@@ -67,7 +69,11 @@ public class RestaurantIcon {
             iconID = savedIcon[9];
         }
 
-        else if (restaurantName.contains("Fresh Slice")) {
+        else if ( (restaurantName.contains("7-Eleven")) || restaurantName.contains("7-ElevenStore")) {
+            iconID = savedIcon[10];
+        }
+
+        else if (restaurantName.contains("Freshslice")) {
             iconID = savedIcon[11];
         }
 
@@ -75,9 +81,15 @@ public class RestaurantIcon {
             iconID = savedIcon[12];
         }
 
-        else if ( (restaurantName.contains("7-Eleven")) || restaurantName.contains("7-ElevenStore")) {
-            iconID = savedIcon[10];
+        else if (restaurantName.contains("Church's Chicken")) {
+            iconID = savedIcon[13];
         }
+
+        else if (restaurantName.contains("Little Caesars")) {
+            iconID = savedIcon[14];
+        }
+
+
 
         else if ( (restaurantName.contains("Burger")) || restaurantName.contains("burger")) {
             iconID = savedIcon[0];
@@ -100,7 +112,7 @@ public class RestaurantIcon {
         }
 
         else{
-            int randomNum = ThreadLocalRandom.current().nextInt(13, 17 + 1);
+            int randomNum = ThreadLocalRandom.current().nextInt(15, 19 + 1);
             iconID = savedIcon[randomNum];
 
         }
