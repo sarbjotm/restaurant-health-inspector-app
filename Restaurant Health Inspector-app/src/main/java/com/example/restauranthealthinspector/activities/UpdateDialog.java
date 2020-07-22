@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.restauranthealthinspector.R;
 import com.example.restauranthealthinspector.model.online.AppController;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
+import com.example.restauranthealthinspector.model.online.DataRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,9 +58,14 @@ public class UpdateDialog extends AppCompatDialogFragment {
     private InputStream inputInspection;
     private ProgressBar progressBar;
     private DownloadManager manager;
+    private DataRequest restaurantData;
+    private DataRequest inspectionData;
 
-    public UpdateDialog (Context context) {
-        this.context = context;
+
+    public UpdateDialog (Context context, DataRequest restaurantData, DataRequest inspectionData) {
+        this.context = context;=
+        this.restaurantData = restaurantData;
+        this.inspectionData = inspectionData;
     }
 
     @NonNull

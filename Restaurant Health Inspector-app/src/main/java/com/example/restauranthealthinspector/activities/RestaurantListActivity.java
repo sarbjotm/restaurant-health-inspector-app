@@ -23,6 +23,7 @@ import com.example.restauranthealthinspector.model.Date;
 import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
+import com.example.restauranthealthinspector.model.online.DataLoad;
 import com.example.restauranthealthinspector.model.online.DataRequest;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -51,6 +52,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                 //startActivity(new Intent(this, MapsActivity.class));
                 permissionCheck();
 
+                DataLoad dataLoad = new DataLoad(this);
                 if (beenXHours(20)) {
                         String restaurantURL = getResources().getString(R.string.restaurantURL);
                         DataRequest restaurantData = new DataRequest(restaurantURL);
@@ -59,6 +61,8 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                         if (needsUpdate(restaurantData, inspectionData)) {
                                 openDialog(restaurantData, inspectionData);
+                        } else {
+
                         }
 
                 } else {
@@ -78,7 +82,6 @@ public class RestaurantListActivity extends AppCompatActivity {
                         populateListView();
                         setUpRestaurantClick();
                 } else {
-                        openDialog();
                 }
 
         }
@@ -136,27 +139,14 @@ public class RestaurantListActivity extends AppCompatActivity {
                 return false;
         }
 
-
         private void openDialog(DataRequest restaurantData, DataRequest inspectionData) {
                 FragmentManager manager = getSupportFragmentManager();
                 UpdateDialog dialog = new UpdateDialog(this, restaurantData, inspectionData);
                 dialog.show(manager, "Update");
         }
 
-        // Code from Brian Fraser videos
-        // Read CSV Resource File: Android Programming
-        private void populateRestaurants() throws IOException {
-                InputStream inputRestaurant = getResources().openRawResource(R.raw.restaurants_itr1);
-                BufferedReader readerRestaurants = new BufferedReader(
-                        new InputStreamReader(inputRestaurant, StandardCharsets.UTF_8)
-                );
+        private void loadData() {
 
-                InputStream inputInspections = getResources().openRawResource(R.raw.inspectionreports_itr1);
-                BufferedReader readerInspections = new BufferedReader(
-                        new InputStreamReader(inputInspections, StandardCharsets.UTF_8)
-                );
-
-                myRestaurants = RestaurantsManager.getInstance(readerRestaurants, readerInspections);
         }
 
         private void populateListView() {
