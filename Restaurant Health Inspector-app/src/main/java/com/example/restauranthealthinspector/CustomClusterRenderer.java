@@ -33,8 +33,13 @@ public class CustomClusterRenderer extends DefaultClusterRenderer<ClusterPin> {
         if (item.getType() == 1) {
             BitmapDescriptor markerDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker_red);
             markerOptions.icon(markerDescriptor).snippet(item.getSnippet());
-        } else {
-            BitmapDescriptor markerDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker_red);
+        }
+        else if(item.getType() == 2){
+            BitmapDescriptor markerDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker_orange);
+            markerOptions.icon(markerDescriptor).snippet(item.getSnippet());
+        }
+        else{
+            BitmapDescriptor markerDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker_green);
             markerOptions.icon(markerDescriptor).snippet(item.getSnippet());
         }
     }
