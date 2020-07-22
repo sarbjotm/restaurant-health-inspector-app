@@ -123,11 +123,16 @@ public class UpdateDialog extends AppCompatDialogFragment {
                 public void onClick(View view) {
                     progressBar.setVisibility(View.VISIBLE);
                     positiveButton.setEnabled(false);
-                    dataLoad.saveFileName(restaurantData, inspectionData);
+                    isNetworkAvailable();
+                    if (isAvailable){
+                        dataLoad.saveFileName(restaurantData, inspectionData);
+                        downloadData(restaurantData);
+                        downloadData(inspectionData);
+                    }
 
-                    downloadData(restaurantData);
-                    downloadData(inspectionData);
-
+                    else{
+                        Toast.makeText(context,"No internet connection, cannot download updated files", Toast.LENGTH_LONG).show();
+                    }
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -142,8 +147,7 @@ public class UpdateDialog extends AppCompatDialogFragment {
     }
 
     private void downloadData(DataRequest data) {
-        isNetworkAvailable();
-        if (isAvailable){
+
             String name = data.getName();
             String dataURL = data.getDataURL();
 
@@ -172,15 +176,8 @@ public class UpdateDialog extends AppCompatDialogFragment {
             downloading();
         }
 
-        else{
-            Log.d("INTERNET", "No internet!");
-            Toast.makeText(this.context,
-                    "Unable to download new data since internet is not available",
-                    Toast.LENGTH_LONG)
-                    .show();
-        }
 
-    }
+
 
     private void downloading() {
         boolean downloading = true;
@@ -204,14 +201,6 @@ public class UpdateDialog extends AppCompatDialogFragment {
         c.close();
     }
 
-
-    private void refreshActivity() {
-        Intent intent = new Intent(getContext(), RestaurantListActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("data", true);
-        startActivity(intent);
-    }
-
     private void isNetworkAvailable() {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkCapabilities capabilities = manager.getNetworkCapabilities(manager.getActiveNetwork());
@@ -224,8 +213,21 @@ public class UpdateDialog extends AppCompatDialogFragment {
             } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
                 isAvailable = true;
             }
+            else{
+                isAvailable = false;
+            }
         }
 
 
+
     }
+
+    private void refreshActivity() {
+        Intent intent = new Intent(getContext(), RestaurantListActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("data", true);
+        startActivity(intent);
+    }
+
+
 }

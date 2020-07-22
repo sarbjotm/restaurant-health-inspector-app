@@ -6,9 +6,12 @@ import androidx.fragment.app.FragmentManager;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -52,6 +55,7 @@ public class RestaurantListActivity extends AppCompatActivity {
         private RestaurantsManager myRestaurants;
         private static final String TAG = "RestaurantListActivity";
         private static final int ERROR_DIALOG_REQUEST = 9001;
+        private boolean isAvailable = false;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +85,8 @@ public class RestaurantListActivity extends AppCompatActivity {
 
 
                 DataLoad dataLoad = new DataLoad(this);
-                if (beenXHours(20)) {
+                isNetworkAvailable();
+                if ((beenXHours(20)) && (isAvailable)) {
                         String restaurantURL = getResources().getString(R.string.restaurantURL);
                         DataRequest restaurantData = new DataRequest(restaurantURL);
                         String inspectionURL = getResources().getString(R.string.inspectionURL);
@@ -105,12 +110,37 @@ public class RestaurantListActivity extends AppCompatActivity {
                 populateListView();
                 setUpRestaurantClick();
 
+
         }
+
+
 
         private void init(){
                 Intent intent = new Intent(this, MapsActivity.class);
                 startActivity(intent);
         }
+
+        private void isNetworkAvailable() {
+                ConnectivityManager manager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkCapabilities capabilities = manager.getNetworkCapabilities(manager.getActiveNetwork());
+
+                if (capabilities != null) {
+                        if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                                isAvailable = true;
+                        } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                                isAvailable = true;
+                        } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                                isAvailable = true;
+                        }
+                        else{
+                                isAvailable = false;
+                        }
+                }
+
+
+
+        }
+
 
         public boolean isServicesOK(){ //check the user device.
                 Log.d(TAG, "isServicesOK: checking google services version");
