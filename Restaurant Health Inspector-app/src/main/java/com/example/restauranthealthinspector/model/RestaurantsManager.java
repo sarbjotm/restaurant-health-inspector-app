@@ -1,5 +1,7 @@
 package com.example.restauranthealthinspector.model;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,8 +38,11 @@ public class RestaurantsManager implements Iterable<Restaurant>{
         reader.readLine();
 
         while ( (line = reader.readLine()) != null) {
-            line = line.replaceAll("\"", "");
-            String[] lineArray = line.split(",");
+            //line = line.replaceAll("\"", "");
+            String[] lineArray = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+            for (int i = 0; i < lineArray.length; i++) {
+                lineArray[i] = lineArray[i].replaceAll("\"", "");
+            }
             address = generateAddress(lineArray);
             restaurant = new Restaurant(lineArray[0], lineArray[1], address);
             instance.add(restaurant);
@@ -56,9 +61,7 @@ public class RestaurantsManager implements Iterable<Restaurant>{
         Collections.sort(restaurantList, new Comparator<Restaurant>() {
             @Override
             public int compare(Restaurant r1, Restaurant r2) {
-                char r1Letter = r1.getRestaurantName().charAt(0);
-                char r2Letter = r2.getRestaurantName().charAt(0);
-                return r1Letter-r2Letter;
+                return r1.getRestaurantName().toLowerCase().compareTo(r2.getRestaurantName().toLowerCase());
             }
         });
     }
@@ -69,13 +72,14 @@ public class RestaurantsManager implements Iterable<Restaurant>{
         reader.readLine();
 
         while ( (line = reader.readLine()) != null) {
-            line = line.replaceAll("\"", "");
-            String[] lineArray = line.split(",");
+            //line = line.replaceAll("\"", "");
+            String[] lineArray = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
             for (Restaurant restaurant:restaurantList) {
                 trackingNumber = restaurant.getTrackingNumber();
                 if (trackingNumber.equals(lineArray[0])) {
-                     restaurant.getInspectionsManager().addFromLineArray(lineArray);
+                    //Log.i("inspection", line);
+                    restaurant.getInspectionsManager().addFromLineArray(lineArray);
                 }
             }
         }
@@ -95,7 +99,7 @@ public class RestaurantsManager implements Iterable<Restaurant>{
         return restaurantList.get(index);
     }
 
-    public ArrayList<Restaurant> getRestaurants(){
+    public static ArrayList<Restaurant> getRestaurants(){
         return restaurantList;
     }
 

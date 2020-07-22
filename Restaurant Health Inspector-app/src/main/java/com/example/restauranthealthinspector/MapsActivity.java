@@ -38,11 +38,7 @@ import com.google.maps.android.clustering.ClusterManager;
 
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,10 +69,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
         getLocationPermission();
         try {
-            populateRestaurants();
+            myRestaurants = RestaurantsManager.getInstance(null, null);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -201,20 +198,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-    }
-
-    private void populateRestaurants() throws IOException {
-        InputStream inputRestaurant = getResources().openRawResource(R.raw.restaurants_itr1);
-        BufferedReader readerRestaurants = new BufferedReader(
-                new InputStreamReader(inputRestaurant, StandardCharsets.UTF_8)
-        );
-
-        InputStream inputInspections = getResources().openRawResource(R.raw.inspectionreports_itr1);
-        BufferedReader readerInspections = new BufferedReader(
-                new InputStreamReader(inputInspections, StandardCharsets.UTF_8)
-        );
-
-        myRestaurants = RestaurantsManager.getInstance(readerRestaurants, readerInspections);
     }
 
     @Override
