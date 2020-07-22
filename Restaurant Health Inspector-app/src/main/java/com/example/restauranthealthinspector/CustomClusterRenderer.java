@@ -29,13 +29,13 @@ public class CustomClusterRenderer extends DefaultClusterRenderer<ClusterPin> {
 
     @Override
     protected void onBeforeClusterItemRendered(ClusterPin item, MarkerOptions markerOptions) {
-        /// 根據條件設置每個標記的外觀
+
         if (item.getType() == 1) {
             BitmapDescriptor markerDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker_black);
-            markerOptions.icon(markerDescriptor).snippet(item.getTitle());
+            markerOptions.icon(markerDescriptor).snippet(item.getSnippet());
         } else {
             BitmapDescriptor markerDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker_blue);
-            markerOptions.icon(markerDescriptor).snippet(item.getTitle());
+            markerOptions.icon(markerDescriptor).snippet(item.getSnippet());
         }
     }
 

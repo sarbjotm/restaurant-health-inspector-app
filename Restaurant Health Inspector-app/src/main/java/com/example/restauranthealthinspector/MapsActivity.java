@@ -101,7 +101,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Inspection inspection = inspections.get(0);
                 hazardLevel = inspection.getHazardRating();
             }
-            String snippet = address + "\n" + hazardLevel + "\n";
+            String snippet = name + "\n" + address + "\nhazard lv : " + hazardLevel;
             float colour;
             if (hazardLevel.equals("High")) {
                 colour = HUE_RED;
