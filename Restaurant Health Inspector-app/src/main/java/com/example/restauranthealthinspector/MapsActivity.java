@@ -66,6 +66,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationManager locationManager;
     private LocationListener locationListener;
 
+    //new code
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
