@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -62,9 +65,10 @@ public class UpdateDialog extends AppCompatDialogFragment {
     private DataRequest restaurantData;
     private DataRequest inspectionData;
     private DataLoad dataLoad;
+    private boolean isAvailable;
 
 
-    public UpdateDialog (Context context, DataRequest restaurantData, DataRequest inspectionData, DataLoad dataLoad) {
+    public UpdateDialog(Context context, DataRequest restaurantData, DataRequest inspectionData, DataLoad dataLoad) {
         this.context = context;
         this.restaurantData = restaurantData;
         this.inspectionData = inspectionData;
@@ -134,35 +138,48 @@ public class UpdateDialog extends AppCompatDialogFragment {
                 }
             });
         }
+
     }
 
     private void downloadData(DataRequest data) {
-        String name = data.getName();
-        String dataURL = data.getDataURL();
+        isNetworkAvailable();
+        if (isAvailable){
+            String name = data.getName();
+            String dataURL = data.getDataURL();
 
-        String fileName = name + ".csv";
-        Log.i("downloading", fileName);
+            String fileName = name + ".csv";
+            Log.i("downloading", fileName);
 
-        File oldFile = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName);
+            File oldFile = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName);
 
-        if(oldFile.exists()){
-            oldFile.delete();
+            if (oldFile.exists()) {
+                oldFile.delete();
+            }
+
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(dataURL));
+            request.setDescription("Data");
+            request.setTitle(name);
+            request.allowScanningByMediaScanner();
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            request.setDestinationInExternalFilesDir(context, Environment.DIRECTORY_DOWNLOADS, fileName);
+            manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+            manager.enqueue(request);
+
+            TextView textView = view.findViewById(R.id.update_txtMsg);
+            String text = "Downloading " + name;
+            textView.setText(text);
+
+            downloading();
         }
 
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(dataURL));
-        request.setDescription("Data");
-        request.setTitle(name);
-        request.allowScanningByMediaScanner();
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalFilesDir(context, Environment.DIRECTORY_DOWNLOADS, fileName);
-        manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-        manager.enqueue(request);
+        else{
+            Log.d("INTERNET", "No internet!");
+            Toast.makeText(this.context,
+                    "Unable to download new data since internet is not available",
+                    Toast.LENGTH_LONG)
+                    .show();
+        }
 
-        TextView textView = view.findViewById(R.id.update_txtMsg);
-        String text = "Downloading " + name;
-        textView.setText(text);
-
-        downloading();
     }
 
     private void downloading() {
@@ -175,7 +192,7 @@ public class UpdateDialog extends AppCompatDialogFragment {
 
                 int totalSize = c.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES);
                 int downloadedSize = c.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR);
-                progressBar.setProgress(downloadedSize/totalSize*100);
+                progressBar.setProgress(downloadedSize / totalSize * 100);
 
                 int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
                 if (status == DownloadManager.STATUS_SUCCESSFUL) {
@@ -188,10 +205,27 @@ public class UpdateDialog extends AppCompatDialogFragment {
     }
 
 
-    private void refreshActivity()  {
+    private void refreshActivity() {
         Intent intent = new Intent(getContext(), RestaurantListActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("data", true);
         startActivity(intent);
+    }
+
+    private void isNetworkAvailable() {
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkCapabilities capabilities = manager.getNetworkCapabilities(manager.getActiveNetwork());
+
+        if (capabilities != null) {
+            if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                isAvailable = true;
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                isAvailable = true;
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                isAvailable = true;
+            }
+        }
+
+
     }
 }
