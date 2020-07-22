@@ -18,13 +18,17 @@ public class RestaurantIcon {
             R.drawable.restaurant_icon_pizza,
             R.drawable.restaurant_icon_sushi,
             R.drawable.restaurant_icon_chicken,
-            R.drawable.aw, //5
-            R.drawable.burgerking,
-            R.drawable.dq,
-            R.drawable.kfc,
-            R.drawable.mcdonalds,
-            R.drawable.seveneleven, //10
-            R.drawable.restaurant_icon,
+            R.drawable.restaurant_icon_aw, //5
+            R.drawable.restaurant_icon_burgerking,
+            R.drawable.restaurant_icon_dq,
+            R.drawable.restaurant_icon_kfc,
+            R.drawable.restaurant_icon_mcdonalds,
+            R.drawable.restaurant_icon_seveneleven, //10
+            R.drawable.restaurant_icon_fresh_slice,
+            R.drawable.restaurant_icon_bp, //12
+            R.drawable.restaurant_icon_churchs,
+            R.drawable.restaurant_icon_little_caesars, //14
+            R.drawable.restaurant_icon, // 15
             R.drawable.random_restaurant_icon1,
             R.drawable.random_restaurant_icon2,
             R.drawable.random_restaurant_icon3,
@@ -69,6 +73,24 @@ public class RestaurantIcon {
             iconID = savedIcon[10];
         }
 
+        else if (restaurantName.contains("Freshslice")) {
+            iconID = savedIcon[11];
+        }
+
+        else if (restaurantName.contains("Boston Pizza")) {
+            iconID = savedIcon[12];
+        }
+
+        else if (restaurantName.contains("Church's Chicken")) {
+            iconID = savedIcon[13];
+        }
+
+        else if (restaurantName.contains("Little Caesars")) {
+            iconID = savedIcon[14];
+        }
+
+
+
         else if ( (restaurantName.contains("Burger")) || restaurantName.contains("burger")) {
             iconID = savedIcon[0];
         }
@@ -90,7 +112,7 @@ public class RestaurantIcon {
         }
 
         else{
-            int randomNum = ThreadLocalRandom.current().nextInt(11, 15 + 1);
+            int randomNum = ThreadLocalRandom.current().nextInt(15, 19 + 1);
             iconID = savedIcon[randomNum];
 
         }
