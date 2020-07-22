@@ -31,10 +31,10 @@ public class CustomClusterRenderer extends DefaultClusterRenderer<ClusterPin> {
     protected void onBeforeClusterItemRendered(ClusterPin item, MarkerOptions markerOptions) {
 
         if (item.getType() == 1) {
-            BitmapDescriptor markerDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker_black);
+            BitmapDescriptor markerDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker_red);
             markerOptions.icon(markerDescriptor).snippet(item.getSnippet());
         } else {
-            BitmapDescriptor markerDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker_blue);
+            BitmapDescriptor markerDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker_red);
             markerOptions.icon(markerDescriptor).snippet(item.getSnippet());
         }
     }

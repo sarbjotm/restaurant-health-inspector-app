@@ -83,12 +83,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void pinRestaurants(){
-
-        //new code
         initClusterManager();
 
         for (Restaurant restaurant : myRestaurants) {
-
+            int type;
             mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(MapsActivity.this));
             double lat = restaurant.getAddress().getLatitude();
             double lng = restaurant.getAddress().getLongitude();
@@ -105,23 +103,22 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             float colour;
             if (hazardLevel.equals("High")) {
                 colour = HUE_RED;
+                type = 1;
             } else if (hazardLevel.equals("Moderate")) {
                 colour = HUE_ORANGE;
+                type = 2;
             } else {
                 colour = HUE_GREEN;
+                type = 3;
             }
-
 
             MarkerOptions options = new MarkerOptions().position(latLng).title(name).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(colour));
             Marker mMarker = mMap.addMarker(options
                 .title(name)
                 .snippet(address + "\n" + hazardLevel));
-
             mMarker.setVisible(false);
 
-
-            //new code
-            mClusterManger.addItem(new ClusterPin(name, snippet, latLng,1));
+            mClusterManger.addItem(new ClusterPin(name, snippet, latLng,type));
         }
 
         mClusterManger.cluster();
