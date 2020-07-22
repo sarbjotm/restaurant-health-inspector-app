@@ -27,6 +27,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.restauranthealthinspector.R;
 import com.example.restauranthealthinspector.model.online.AppController;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
+import com.example.restauranthealthinspector.model.online.DataLoad;
 import com.example.restauranthealthinspector.model.online.DataRequest;
 
 import org.json.JSONArray;
@@ -47,6 +48,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * UpdateDialog class manages the update dialog, shown at the start of the app
  * The dialog is represented with the update layout
@@ -54,18 +57,18 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 public class UpdateDialog extends AppCompatDialogFragment {
     private Context context;
     private View view;
-    private InputStream inputRestaurant;
-    private InputStream inputInspection;
     private ProgressBar progressBar;
     private DownloadManager manager;
     private DataRequest restaurantData;
     private DataRequest inspectionData;
+    private DataLoad dataLoad;
 
 
-    public UpdateDialog (Context context, DataRequest restaurantData, DataRequest inspectionData) {
-        this.context = context;=
+    public UpdateDialog (Context context, DataRequest restaurantData, DataRequest inspectionData, DataLoad dataLoad) {
+        this.context = context;
         this.restaurantData = restaurantData;
         this.inspectionData = inspectionData;
+        this.dataLoad = dataLoad;
     }
 
     @NonNull
@@ -76,7 +79,7 @@ public class UpdateDialog extends AppCompatDialogFragment {
         view = LayoutInflater.from(getActivity())
                 .inflate(R.layout.update_dialog, null);
         progressBar = view.findViewById(R.id.update_progressBar);
-        //progressBar.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
 
         // Ok Button
         DialogInterface.OnClickListener okListener = new DialogInterface.OnClickListener() {
@@ -90,13 +93,7 @@ public class UpdateDialog extends AppCompatDialogFragment {
         DialogInterface.OnClickListener noListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                getDefaultInput();
-
-                try {
-                    populateRestaurants();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                dataLoad.loadData();
                 refreshActivity();
 
             }
@@ -122,80 +119,32 @@ public class UpdateDialog extends AppCompatDialogFragment {
                 public void onClick(View view) {
                     progressBar.setVisibility(View.VISIBLE);
                     positiveButton.setEnabled(false);
+                    dataLoad.saveFileName(restaurantData, inspectionData);
 
-                    loadData();
-                    //getDefaultInput();
+                    downloadData(restaurantData);
+                    downloadData(inspectionData);
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            try {
-                                populateRestaurants();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                            dataLoad.loadData();
                             refreshActivity();
-                            d.dismiss();
                         }
-                    }, 6000);
+                    }, 5000);
                 }
             });
         }
     }
 
-    private void loadData()  {
-        String restaurantURL = getResources().getString(R.string.restaurantURL);
-        getData(restaurantURL, 0);
+    private void downloadData(DataRequest data) {
+        String name = data.getName();
+        String dataURL = data.getDataURL();
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    inputRestaurant = getInputStream(fileName[0]);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, 3000);
-
-        String inspectionURL = getResources().getString(R.string.inspectionURL);
-        getData(inspectionURL, 1);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    inputInspection = getInputStream(fileName[1]);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, 4000);
-
-
-        SharedPreferences sharedPreferences = context.getSharedPreferences("filename", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("restaurant", fileName[0]);
-        editor.putString("inspection", fileName[1]);
-        editor.apply();
-    }
-
-    private InputStream getInputStream(String fileName) throws FileNotFoundException {
-        Log.i("filename", fileName);
-        File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName);
-        return new FileInputStream(file);
-    }
-
-    private void getDefaultInput()  {
-        inputRestaurant = getResources().openRawResource(R.raw.restaurants_itr1);
-        inputInspection = getResources().openRawResource(R.raw.inspectionreports_itr1);
-    }
-
-    private void downloadData(String dataURL, String lastModified, String name) {
         String fileName = name + ".csv";
         Log.i("downloading", fileName);
 
         File oldFile = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName);
+
         if(oldFile.exists()){
             oldFile.delete();
         }
@@ -238,20 +187,6 @@ public class UpdateDialog extends AppCompatDialogFragment {
         c.close();
     }
 
-
-    // Code from Brian Fraser videos
-    // Read CSV Resource File: Android Programming
-    private void populateRestaurants() throws IOException {
-        BufferedReader readerRestaurants = new BufferedReader(
-                new InputStreamReader(inputRestaurant, StandardCharsets.UTF_8)
-        );
-
-        BufferedReader readerInspections = new BufferedReader(
-                new InputStreamReader(inputInspection, StandardCharsets.UTF_8)
-        );
-
-        RestaurantsManager.getInstance(readerRestaurants, readerInspections);
-    }
 
     private void refreshActivity()  {
         Intent intent = new Intent(getContext(), RestaurantListActivity.class);

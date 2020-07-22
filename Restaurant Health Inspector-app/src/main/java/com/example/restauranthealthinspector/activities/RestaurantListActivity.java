@@ -52,27 +52,8 @@ public class RestaurantListActivity extends AppCompatActivity {
                 //startActivity(new Intent(this, MapsActivity.class));
                 permissionCheck();
 
-                DataLoad dataLoad = new DataLoad(this);
-                if (beenXHours(20)) {
-                        String restaurantURL = getResources().getString(R.string.restaurantURL);
-                        DataRequest restaurantData = new DataRequest(restaurantURL);
-                        String inspectionURL = getResources().getString(R.string.inspectionURL);
-                        DataRequest inspectionData = new DataRequest(inspectionURL);
-
-                        if (needsUpdate(restaurantData, inspectionData)) {
-                                openDialog(restaurantData, inspectionData);
-                        } else {
-
-                        }
-
-                } else {
-
-                }
-
-
-
-                boolean data = getIntent().getBooleanExtra("data", false);
-
+                Intent intent = getIntent();
+                boolean data = intent.getBooleanExtra("data", false);
                 if (data) {
                         try {
                                 myRestaurants = RestaurantsManager.getInstance(null,null);
@@ -81,8 +62,34 @@ public class RestaurantListActivity extends AppCompatActivity {
                         }
                         populateListView();
                         setUpRestaurantClick();
-                } else {
+                        return;
                 }
+
+
+                DataLoad dataLoad = new DataLoad(this);
+                if (beenXHours(20)) {
+                        String restaurantURL = getResources().getString(R.string.restaurantURL);
+                        DataRequest restaurantData = new DataRequest(restaurantURL);
+                        String inspectionURL = getResources().getString(R.string.inspectionURL);
+                        DataRequest inspectionData = new DataRequest(inspectionURL);
+
+                        if (needsUpdate(restaurantData, inspectionData)) {
+                                openDialog(restaurantData, inspectionData, dataLoad);
+                                return;
+                        } else {
+                                dataLoad.loadData();
+                        }
+                } else {
+                        dataLoad.loadData();
+                }
+
+                try {
+                        myRestaurants = RestaurantsManager.getInstance(null,null);
+                } catch (IOException e) {
+                        e.printStackTrace();
+                }
+                populateListView();
+                setUpRestaurantClick();
 
         }
 
@@ -139,14 +146,10 @@ public class RestaurantListActivity extends AppCompatActivity {
                 return false;
         }
 
-        private void openDialog(DataRequest restaurantData, DataRequest inspectionData) {
+        private void openDialog(DataRequest restaurantData, DataRequest inspectionData, DataLoad dataLoad) {
                 FragmentManager manager = getSupportFragmentManager();
-                UpdateDialog dialog = new UpdateDialog(this, restaurantData, inspectionData);
+                UpdateDialog dialog = new UpdateDialog(this, restaurantData, inspectionData, dataLoad);
                 dialog.show(manager, "Update");
-        }
-
-        private void loadData() {
-
         }
 
         private void populateListView() {

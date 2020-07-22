@@ -19,33 +19,41 @@ import java.nio.charset.StandardCharsets;
 
 public class DataLoad {
     private Context context;
-    private RestaurantsManager myRestaurants;
     private InputStream inputRestaurants;
     private InputStream inputInspections;
+    private String restaurantFileName;
+    private String inspectionFileName;
 
     public DataLoad(Context context) {
         this.context = context;
+        SharedPreferences sharedPreferences = context.getSharedPreferences("data", Context.MODE_PRIVATE);
+        restaurantFileName = sharedPreferences.getString("restaurantFileName", "");
+        inspectionFileName = sharedPreferences.getString("inspectionFileName", "");
+        Log.i("DataLoad", restaurantFileName);
+        Log.i("DataLoad", inspectionFileName);
     }
 
-    public void loadSample() {
-        inputRestaurants = context.getResources().openRawResource(R.raw.restaurants_itr1);
-        inputInspections = context.getResources().openRawResource(R.raw.inspectionreports_itr1);
+    public void saveFileName(DataRequest restaurantData, DataRequest inspectionData) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        restaurantFileName = restaurantData.getName() + ".csv";
+        inspectionFileName = inspectionData.getName() + ".csv";
+        Log.i("saving", restaurantFileName);
+        Log.i("saving", inspectionFileName);
 
-        try {
-            populateRestaurants();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        editor.putString("restaurantFileName", restaurantFileName);
+        editor.putString("inspectionFileName", inspectionFileName);
+        editor.apply();
     }
 
     public void loadData() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("data", Context.MODE_PRIVATE);
-        String restaurantFileName = sharedPreferences.getString("restaurantFileName", "");
-        String inspectionFileName = sharedPreferences.getString("inspectionFileName", "");
-
         try {
+            Log.i("loading", restaurantFileName);
+            Log.i("loading", inspectionFileName);
             inputRestaurants = getInputStream(restaurantFileName);
             inputInspections = getInputStream(inspectionFileName);
+            updateDate();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             loadSample();
@@ -62,6 +70,24 @@ public class DataLoad {
         return new FileInputStream(file);
     }
 
+    private void updateDate() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        java.util.Date currentDate = new java.util.Date();
+        editor.putLong("lastUpdated", currentDate.getTime());
+        editor.apply();
+    }
+
+    private void loadSample() {
+        inputRestaurants = context.getResources().openRawResource(R.raw.restaurants_itr1);
+        inputInspections = context.getResources().openRawResource(R.raw.inspectionreports_itr1);
+
+        try {
+            populateRestaurants();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     // Code from Brian Fraser videos
     // Read CSV Resource File: Android Programming
@@ -73,7 +99,7 @@ public class DataLoad {
         BufferedReader readerInspections = new BufferedReader(
                 new InputStreamReader(inputInspections, StandardCharsets.UTF_8)
         );
-        myRestaurants = RestaurantsManager.getInstance(readerRestaurants, readerInspections);
+        RestaurantsManager.getInstance(readerRestaurants, readerInspections);
     }
 
 }
