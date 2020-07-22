@@ -18,12 +18,14 @@ public class RestaurantIcon {
             R.drawable.restaurant_icon_pizza,
             R.drawable.restaurant_icon_sushi,
             R.drawable.restaurant_icon_chicken,
-            R.drawable.aw, //5
-            R.drawable.burgerking,
-            R.drawable.dq,
-            R.drawable.kfc,
-            R.drawable.mcdonalds,
-            R.drawable.seveneleven, //10
+            R.drawable.restaurant_icon_aw, //5
+            R.drawable.restaurant_icon_burgerking,
+            R.drawable.restaurant_icon_dq,
+            R.drawable.restaurant_icon_kfc,
+            R.drawable.restaurant_icon_mcdonalds,
+            R.drawable.restaurant_icon_seveneleven, //10
+            R.drawable.restaurant_icon_fresh_slice,
+            R.drawable.restaurant_icon_bp, //12
             R.drawable.restaurant_icon,
             R.drawable.random_restaurant_icon1,
             R.drawable.random_restaurant_icon2,
@@ -65,6 +67,14 @@ public class RestaurantIcon {
             iconID = savedIcon[9];
         }
 
+        else if (restaurantName.contains("Fresh Slice")) {
+            iconID = savedIcon[11];
+        }
+
+        else if (restaurantName.contains("Boston Pizza")) {
+            iconID = savedIcon[12];
+        }
+
         else if ( (restaurantName.contains("7-Eleven")) || restaurantName.contains("7-ElevenStore")) {
             iconID = savedIcon[10];
         }
@@ -90,7 +100,7 @@ public class RestaurantIcon {
         }
 
         else{
-            int randomNum = ThreadLocalRandom.current().nextInt(11, 15 + 1);
+            int randomNum = ThreadLocalRandom.current().nextInt(13, 17 + 1);
             iconID = savedIcon[randomNum];
 
         }
