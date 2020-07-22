@@ -13,11 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.restauranthealthinspector.MapsActivity;
 import com.example.restauranthealthinspector.R;
 import com.example.restauranthealthinspector.model.Date;
 import com.example.restauranthealthinspector.model.Inspection;
@@ -36,6 +38,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -51,6 +54,7 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                 //startActivity(new Intent(this, MapsActivity.class));
                 permissionCheck();
+                setupMapButton();
 
                 Intent intent = getIntent();
                 boolean data = intent.getBooleanExtra("data", false);
@@ -116,6 +120,19 @@ public class RestaurantListActivity extends AppCompatActivity {
                         .setGotoSettingButtonText("Go to Settings")
                         .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET)
                         .check();
+        }
+
+        private void setupMapButton() {
+                ImageButton btn = findViewById(R.id.restlist_imgbtnMap);
+                btn.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View view) {
+                                Intent intent = new Intent(RestaurantListActivity.this, MapsActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                        }
+                });
         }
 
         private boolean beenXHours(int hours) {
