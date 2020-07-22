@@ -67,9 +67,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private RestaurantsManager myRestaurants;
     private LocationManager locationManager;
     private LocationListener locationListener;
-
-
-    //new code
     private ClusterManager<ClusterPin> mClusterManger;
 
     @Override
@@ -131,15 +128,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void initClusterManager(){
-        //new code
         mClusterManger = new ClusterManager<ClusterPin>(this,mMap);
 
-        ////// 設定Item的外觀
         CustomClusterRenderer renderer = new CustomClusterRenderer(this, mMap, mClusterManger);
         mClusterManger.setRenderer(renderer);
 
-        ////// 設定傾聽事件
-        // Click on cluster
         mClusterManger.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<ClusterPin>() {
             @Override
             public boolean onClusterClick(Cluster<ClusterPin> cluster) {
@@ -149,7 +142,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        // 點擊群集裡的項目
         mClusterManger.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<ClusterPin>() {
             @Override
             public boolean onClusterItemClick(ClusterPin clusterItem) {
@@ -157,7 +149,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return false;
             }
         });
-        // 點擊項目的訊息框
         mClusterManger.getMarkerCollection().setInfoWindowAdapter(new CustomInfoViewAdapter(LayoutInflater.from(MapsActivity.this)));
 
         mClusterManger.setOnClusterItemInfoWindowClickListener(new ClusterManager.OnClusterItemInfoWindowClickListener<ClusterPin>() {

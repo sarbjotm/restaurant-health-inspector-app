@@ -41,19 +41,17 @@ public class CustomClusterRenderer extends DefaultClusterRenderer<ClusterPin> {
 
     @Override
     protected void onBeforeClusterRendered(Cluster<ClusterPin> cluster, MarkerOptions markerOptions) {
-        /// 根據條件設置每個聚集的外觀
+
         if (cluster.getSize() > 4) {
             mClusterIconGenerator.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_cluster_circle));
         } else {
             mClusterIconGenerator.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_cluster_circle2));
         }
-        // 如果使用setColor會使用內建的Cluster外觀，加上背景顏色，設定的Background會無效
+
         mClusterIconGenerator.setColor(Color.BLUE);
 
-        // 設定文字的Style
         mClusterIconGenerator.setTextAppearance(R.style.AppTheme_WhiteTextAppearance);
 
-        // 建立Icon
         String clusterTitle = String.valueOf(cluster.getSize());
         Bitmap icon = mClusterIconGenerator.makeIcon(clusterTitle);
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
