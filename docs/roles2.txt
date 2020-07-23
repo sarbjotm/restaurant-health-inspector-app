@@ -1,0 +1,4 @@
+Scrum Master: Tung
+Product Owner: Sarbjot
+Repo Manager: Rick
+Team Member: Travis
