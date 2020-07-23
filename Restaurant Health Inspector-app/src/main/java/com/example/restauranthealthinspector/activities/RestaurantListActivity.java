@@ -29,6 +29,7 @@ import com.example.restauranthealthinspector.R;
 import com.example.restauranthealthinspector.model.Date;
 import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
+import com.example.restauranthealthinspector.model.RestaurantIcon;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
 import com.example.restauranthealthinspector.model.online.DataLoad;
 import com.example.restauranthealthinspector.model.online.DataRequest;
@@ -252,12 +253,14 @@ public class RestaurantListActivity extends AppCompatActivity {
                         }
 
                         Restaurant currentRestaurant = myRestaurants.get(position);
+//                        RestaurantIcon currentID = new RestaurantIcon(RestaurantListActivity.this,currentRestaurant.getRestaurantName());
+                        currentRestaurant.setIconID(RestaurantListActivity.this, currentRestaurant.getRestaurantName());
 
                         TextView restaurantName = itemView.findViewById(R.id.listR_txtRestaurantName);
                         restaurantName.setText(currentRestaurant.getRestaurantName());
 
                         ImageView restaurantImage = itemView.findViewById(R.id.listR_imgRestaurantIcon);
-                        restaurantImage.setImageResource(currentRestaurant.getIconID(RestaurantListActivity.this));
+                        restaurantImage.setImageResource(currentRestaurant.getIconID());
 
                         TextView restaurantIssues = itemView.findViewById(R.id.listR_txtIssuesNum);
                         ArrayList<Inspection> inspections = currentRestaurant.getInspectionsManager().getInspectionList();

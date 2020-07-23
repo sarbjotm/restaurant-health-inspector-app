@@ -18,6 +18,7 @@ import com.example.restauranthealthinspector.R;
 import com.example.restauranthealthinspector.model.Address;
 import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
+import com.example.restauranthealthinspector.model.RestaurantIcon;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
 
 import java.io.IOException;
@@ -80,7 +81,8 @@ public class RestaurantActivity extends AppCompatActivity {
         String restaurantName = restaurant.getRestaurantName();
         restName.setText(restaurantName);
 
-        restaurantImage.setImageResource(restaurant.getIconID(RestaurantActivity.this));
+//        RestaurantIcon restaurantIcon = new RestaurantIcon(RestaurantActivity.this, restaurantName);
+        restaurantImage.setImageResource(restaurant.getIconID());
 
         Address address = restaurant.getAddress();
         TextView restAddress = findViewById(R.id.rest_txtAddress);

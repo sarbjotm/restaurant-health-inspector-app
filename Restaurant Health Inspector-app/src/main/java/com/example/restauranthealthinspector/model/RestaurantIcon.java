@@ -2,6 +2,8 @@ package com.example.restauranthealthinspector.model;
 
 import android.content.Context;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.restauranthealthinspector.R;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -38,8 +40,8 @@ public class RestaurantIcon {
 
     };
 
-    public RestaurantIcon(Context context, String restaurantCode, String restaurantName) {
-        this.restaurantCode = restaurantCode;
+    public RestaurantIcon(Context context,String restaurantName) {
+//        this.restaurantCode = restaurantCode;
         this.restaurantName = restaurantName;
         generateIconID(context);
     }
