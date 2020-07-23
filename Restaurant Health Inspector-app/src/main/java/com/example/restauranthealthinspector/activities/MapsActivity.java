@@ -296,7 +296,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 geocoder.getFromLocation(latitude, longitude, 1);
                         LatLng latLng = new LatLng(latitude, longitude);
 
-                        mMap.setMaxZoomPreference(20);
+                        mMap.setMaxZoomPreference(1);
 
                         if(resume == false){
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
