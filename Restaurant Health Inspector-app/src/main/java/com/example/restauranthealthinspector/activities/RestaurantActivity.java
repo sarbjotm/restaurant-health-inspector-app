@@ -65,7 +65,13 @@ public class RestaurantActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(RestaurantActivity.this, RestaurantListActivity.class);
+                Intent intent;
+                if(!fromMap){
+                    intent = new Intent(RestaurantActivity.this, RestaurantListActivity.class);
+                }
+                else{
+                    intent = new Intent(RestaurantActivity.this, MapsActivity.class);
+                }
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
