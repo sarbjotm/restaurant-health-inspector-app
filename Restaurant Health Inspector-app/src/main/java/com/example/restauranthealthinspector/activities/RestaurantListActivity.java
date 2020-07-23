@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.os.Bundle;
@@ -187,14 +188,36 @@ public class RestaurantListActivity extends AppCompatActivity {
         }
 
         private void setupMapButton() {
+
                 ImageButton btn = findViewById(R.id.restlist_imgbtnMap);
                 btn.setOnClickListener(new View.OnClickListener() {
 
                         @Override
                         public void onClick(View view) {
-                                Intent intent = new Intent(RestaurantListActivity.this, MapsActivity.class);
-                                finish();
-                                startActivity(intent);
+                                // https://stackoverflow.com/questions/10311834/how-to-check-if-location-services-are-enabled
+                                LocationManager lm = (LocationManager)RestaurantListActivity.this.getSystemService(Context.LOCATION_SERVICE);
+                                boolean gps_enabled = false;
+                                boolean network_enabled = false;
+
+                                try {
+                                        gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                                } catch(Exception ex) {}
+
+                                try {
+                                        network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                                } catch(Exception ex) {}
+
+                                if(!gps_enabled && !network_enabled) {
+                                        Toast.makeText(RestaurantListActivity.this, "Turn on Location to use the map feature", Toast.LENGTH_SHORT).show();
+
+                                }
+                                else {
+
+
+                                        Intent intent = new Intent(RestaurantListActivity.this, MapsActivity.class);
+                                        finish();
+                                        startActivity(intent);
+                                }
                         }
                 });
         }
