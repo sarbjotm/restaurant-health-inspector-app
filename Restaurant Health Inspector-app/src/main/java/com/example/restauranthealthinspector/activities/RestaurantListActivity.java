@@ -50,23 +50,23 @@ public class RestaurantListActivity extends AppCompatActivity {
         private RestaurantsManager myRestaurants;
         private static final String TAG = "RestaurantListActivity";
         private static final int ERROR_DIALOG_REQUEST = 9001;
-        private boolean isAvailable = false;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_restaurant_list);
 
-                //startActivity(new Intent(this, MapsActivity.class));
                 permissionCheck();
                 setupMapButton();
 
-                if(!isServicesOK()){
-                    return;
-                }
+//                if(!isServicesOK()){
+//                    return;
+//                }
 
                 Intent intent = getIntent();
                 boolean data = intent.getBooleanExtra("data", false);
+                boolean fromDialog = intent.getBooleanExtra("fromDialog", false);
+
                 if (data) {
                         try {
                                 myRestaurants = RestaurantsManager.getInstance(null,null);
@@ -78,10 +78,13 @@ public class RestaurantListActivity extends AppCompatActivity {
                         return;
                 }
 
+                if (fromDialog) {
+                        startMapActivity();
+                }
 
                 DataLoad dataLoad = new DataLoad(this);
-                isNetworkAvailable();
-                if ((beenXHours(20)) && (isAvailable)) {
+
+                if ((beenXHours(20)) && isNetworkAvailable()) {
                         String restaurantURL = getResources().getString(R.string.restaurantURL);
                         DataRequest restaurantData = new DataRequest(restaurantURL);
                         String inspectionURL = getResources().getString(R.string.inspectionURL);
@@ -97,43 +100,50 @@ public class RestaurantListActivity extends AppCompatActivity {
                         dataLoad.loadData();
                 }
 
+                startMapActivity();
+        }
+
+
+
+        private void startMapActivity(){
+                // https://stackoverflow.com/questions/10311834/how-to-check-if-location-services-are-enabled
+                LocationManager lm = (LocationManager)RestaurantListActivity.this.getSystemService(Context.LOCATION_SERVICE);
+                boolean gps_enabled = false;
+                boolean network_enabled = false;
+
                 try {
-                        myRestaurants = RestaurantsManager.getInstance(null,null);
-                } catch (IOException e) {
-                        e.printStackTrace();
+                        gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                        network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                } catch(Exception ex) {}
+
+
+                if(!gps_enabled && !network_enabled) {
+                        Toast.makeText(RestaurantListActivity.this, "Turn on Location to use the map feature", Toast.LENGTH_SHORT).show();
                 }
-                populateListView();
-                setUpRestaurantClick();
-
-
+                else {
+                        Intent intent = new Intent(RestaurantListActivity.this, MapsActivity.class);
+                        finish();
+                        startActivity(intent);
+                }
         }
 
-
-
-        private void init(){
-                Intent intent = new Intent(this, MapsActivity.class);
-                startActivity(intent);
-        }
-
-        private void isNetworkAvailable() {
+        private boolean isNetworkAvailable() {
                 ConnectivityManager manager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkCapabilities capabilities = manager.getNetworkCapabilities(manager.getActiveNetwork());
 
                 if (capabilities != null) {
                         if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                                isAvailable = true;
+                                return true;
                         } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                                isAvailable = true;
+                                return true;
                         } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                                isAvailable = true;
+                                return true;
                         }
                         else{
-                                isAvailable = false;
+                                return false;
                         }
                 }
-
-
-
+                return false;
         }
 
 
@@ -187,30 +197,7 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                         @Override
                         public void onClick(View view) {
-                                // https://stackoverflow.com/questions/10311834/how-to-check-if-location-services-are-enabled
-                                LocationManager lm = (LocationManager)RestaurantListActivity.this.getSystemService(Context.LOCATION_SERVICE);
-                                boolean gps_enabled = false;
-                                boolean network_enabled = false;
-
-                                try {
-                                        gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-                                } catch(Exception ex) {}
-
-                                try {
-                                        network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-                                } catch(Exception ex) {}
-
-                                if(!gps_enabled && !network_enabled) {
-                                        Toast.makeText(RestaurantListActivity.this, "Turn on Location to use the map feature", Toast.LENGTH_SHORT).show();
-
-                                }
-                                else {
-
-
-                                        Intent intent = new Intent(RestaurantListActivity.this, MapsActivity.class);
-                                        finish();
-                                        startActivity(intent);
-                                }
+                                startMapActivity();
                         }
                 });
         }

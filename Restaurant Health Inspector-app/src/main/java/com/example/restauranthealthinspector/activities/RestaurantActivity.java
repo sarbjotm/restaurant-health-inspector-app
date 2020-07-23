@@ -80,7 +80,7 @@ public class RestaurantActivity extends AppCompatActivity {
         indexRestaurant = intent.getIntExtra("indexRestaurant", 0);
         fromMap = intent.getBooleanExtra("fromMap", false);
         nameRestaurant = intent.getStringExtra("nameRestaurant");
-        if(fromMap == true){
+        if(fromMap){
             indexRestaurant = findIndexRestaurant(nameRestaurant);
         }
         restaurant = myRestaurants.get(indexRestaurant);

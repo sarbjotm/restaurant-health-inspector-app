@@ -67,7 +67,6 @@ public class UpdateDialog extends AppCompatDialogFragment {
     private DataLoad dataLoad;
     private boolean isAvailable;
 
-
     public UpdateDialog(Context context, DataRequest restaurantData, DataRequest inspectionData, DataLoad dataLoad) {
         this.context = context;
         this.restaurantData = restaurantData;
@@ -152,7 +151,6 @@ public class UpdateDialog extends AppCompatDialogFragment {
     }
 
     private void downloadData(DataRequest data) {
-
             String name = data.getName();
             String dataURL = data.getDataURL();
 
@@ -180,9 +178,6 @@ public class UpdateDialog extends AppCompatDialogFragment {
 
             downloading();
         }
-
-
-
 
     private void downloading() {
         boolean downloading = true;
@@ -222,17 +217,12 @@ public class UpdateDialog extends AppCompatDialogFragment {
                 isAvailable = false;
             }
         }
-
-
-
     }
 
     private void refreshActivity() {
         Intent intent = new Intent(getContext(), RestaurantListActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("data", true);
+        intent.putExtra("fromDialog", true);
         startActivity(intent);
     }
-
-
 }
