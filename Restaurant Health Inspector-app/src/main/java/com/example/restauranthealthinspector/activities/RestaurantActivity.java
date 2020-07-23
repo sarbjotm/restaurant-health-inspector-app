@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.restauranthealthinspector.R;
 import com.example.restauranthealthinspector.model.Address;
@@ -47,6 +48,7 @@ public class RestaurantActivity extends AppCompatActivity {
         }
 
         setUpBackButton();
+        setUpToMapButton();
         loadRestaurant();
         fillRestaurantDetails();
 
@@ -55,6 +57,35 @@ public class RestaurantActivity extends AppCompatActivity {
 
         noInspectionsMessage();
     }
+
+    private void setUpToMapButton(){
+        TextView lngBtn = findViewById(R.id.rest_txtLongitude);
+        TextView latBtn = findViewById(R.id.rest_txtLatitude);
+        lngBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RestaurantActivity.this, MapsActivity.class);
+                Toast.makeText(RestaurantActivity.this, "latitude:" + restaurant.getAddress().getLatitude(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(RestaurantActivity.this, "longitude:" + restaurant.getAddress().getLongitude(), Toast.LENGTH_SHORT).show();
+                intent.putExtra("longitude", restaurant.getAddress().getLongitude());
+                intent.putExtra("latitude", restaurant.getAddress().getLatitude());
+                intent.putExtra("fromGPS", true);
+                startActivity(intent);
+            }
+        });
+        latBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RestaurantActivity.this, MapsActivity.class);
+                Toast.makeText(RestaurantActivity.this, "latitude:" + restaurant.getAddress().getLatitude(), Toast.LENGTH_SHORT).show();
+                intent.putExtra("longitude", restaurant.getAddress().getLongitude());
+                intent.putExtra("latitude", restaurant.getAddress().getLatitude());
+                intent.putExtra("fromGPS", true);
+                startActivity(intent);
+            }
+        });
+    }
+
 
     private void setUpBackButton() {
         ImageButton btn = findViewById(R.id.rest_imgbtnBack);

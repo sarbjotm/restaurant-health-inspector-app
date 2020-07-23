@@ -228,7 +228,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.d(TAG, "onMapReady: map is ready");
         mMap = googleMap;
         if (mLocationPermissionsGranted) {
-            getDeviceLocation();
+            Intent intent = getIntent();
+            Boolean fromGPS = intent.getBooleanExtra("fromGPS", false);
+            if (!fromGPS){
+                getDeviceLocation();
+            }
+            else{
+                double lat = intent.getDoubleExtra("latitude", 0);
+                double lng = intent.getDoubleExtra("longitude", 0);
+                Toast.makeText(MapsActivity.this, "latitude:" + lat, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapsActivity.this, "longitude:" + lng, Toast.LENGTH_SHORT).show();
+                LatLng latLng = new LatLng(lat, lng);
+                moveCamera(latLng, DEFAULT_ZOOM);
+            }
             if (ActivityCompat.checkSelfPermission(
                     this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                     ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -239,6 +251,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             pinRestaurants();
         }
     }
+
 
     private void getLocationPermission(){
         Log.d(TAG, "getLocationPermission: getting location permissions");

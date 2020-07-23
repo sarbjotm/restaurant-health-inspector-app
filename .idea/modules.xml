@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Restaurant Health Inspector-app/AndroidStudioProjects-group-5-Restaurant Health Inspector-app-Restaurant_Health_Inspector-app.iml" filepath="$PROJECT_DIR$/.idea/modules/Restaurant Health Inspector-app/AndroidStudioProjects-group-5-Restaurant Health Inspector-app-Restaurant_Health_Inspector-app.iml" group="Restaurant Health Inspector/Restaurant Health Inspector-app" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/AndroidStudioProjects-group-5-Restaurant_Health_Inspector.iml" filepath="$PROJECT_DIR$/.idea/modules/AndroidStudioProjects-group-5-Restaurant_Health_Inspector.iml" group="Restaurant_Health_Inspector" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Restaurant Health Inspector-app/Restaurant Health Inspector-Restaurant_Health_Inspector-app.iml" filepath="$PROJECT_DIR$/.idea/modules/Restaurant Health Inspector-app/Restaurant Health Inspector-Restaurant_Health_Inspector-app.iml" group="Restaurant Health Inspector/Restaurant Health Inspector-app" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Restaurant Health Inspector-app/Restaurant Health Inspector-app-Restaurant_Health_Inspector-app.iml" filepath="$PROJECT_DIR$/.idea/modules/Restaurant Health Inspector-app/Restaurant Health Inspector-app-Restaurant_Health_Inspector-app.iml" group="Restaurant Health Inspector/Restaurant Health Inspector-app" />
@@ -11,6 +12,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/group-5-Restaurant_Health_Inspector.iml" filepath="$PROJECT_DIR$/.idea/modules/group-5-Restaurant_Health_Inspector.iml" group="Restaurant_Health_Inspector" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/rattlecruiser-AndroidStudioProjects-group-5-Restaurant_Health_Inspector.iml" filepath="$PROJECT_DIR$/.idea/modules/rattlecruiser-AndroidStudioProjects-group-5-Restaurant_Health_Inspector.iml" group="Restaurant_Health_Inspector" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/rattlecruiser-AndroidStudioProjects-group-5-Restaurant_Health_Inspector~1.iml" filepath="$PROJECT_DIR$/.idea/modules/rattlecruiser-AndroidStudioProjects-group-5-Restaurant_Health_Inspector~1.iml" group="Restaurant_Health_Inspector" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rattlecruiser-AndroidStudioProjects-group-5-Restaurant_Health_Inspector~2.iml" filepath="$PROJECT_DIR$/.idea/modules/rattlecruiser-AndroidStudioProjects-group-5-Restaurant_Health_Inspector~2.iml" group="Restaurant_Health_Inspector" />
     </modules>
   </component>
 </project>
