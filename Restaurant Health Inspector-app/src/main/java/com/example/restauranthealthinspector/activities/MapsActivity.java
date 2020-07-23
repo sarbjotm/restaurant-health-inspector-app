@@ -1,4 +1,4 @@
-package com.example.restauranthealthinspector;
+package com.example.restauranthealthinspector.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,8 +21,9 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 
-import com.example.restauranthealthinspector.activities.RestaurantActivity;
-import com.example.restauranthealthinspector.activities.RestaurantListActivity;
+import com.example.restauranthealthinspector.model.map.ClusterPin;
+import com.example.restauranthealthinspector.model.map.CustomClusterRenderer;
+import com.example.restauranthealthinspector.R;
 import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
@@ -41,11 +42,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_GREEN;
