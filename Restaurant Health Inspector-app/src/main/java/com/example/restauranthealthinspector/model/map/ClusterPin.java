@@ -1,4 +1,4 @@
-package com.example.restauranthealthinspector;
+package com.example.restauranthealthinspector.model.map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

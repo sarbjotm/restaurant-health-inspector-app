@@ -13,14 +13,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.restauranthealthinspector.MapsActivity;
 import com.example.restauranthealthinspector.R;
 import com.example.restauranthealthinspector.model.Address;
 import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
-import com.example.restauranthealthinspector.model.RestaurantIcon;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
 
 import java.io.IOException;

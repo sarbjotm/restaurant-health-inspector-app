@@ -25,12 +25,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.restauranthealthinspector.MapsActivity;
 import com.example.restauranthealthinspector.R;
 import com.example.restauranthealthinspector.model.Date;
 import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
-import com.example.restauranthealthinspector.model.RestaurantIcon;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
 import com.example.restauranthealthinspector.model.online.DataLoad;
 import com.example.restauranthealthinspector.model.online.DataRequest;
@@ -39,15 +37,10 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
