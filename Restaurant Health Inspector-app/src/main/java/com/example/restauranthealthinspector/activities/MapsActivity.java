@@ -50,7 +50,10 @@ import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_GREE
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_ORANGE;
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_RED;
 
-
+/**
+ *  Map Activity displays the maps with restaurant pegs
+ *  It stores the necessary things to get user location and displays these pegs
+ */
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -114,7 +117,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Inspection inspection = inspections.get(0);
                 hazardLevel = inspection.getHazardRating();
             }
-            String snippet = name + "\n" + address + "\nhazard lv : " + hazardLevel;
+            String hazardMsg = getString(R.string.hazard_level);
+
+            String snippet = name + "\n" + address + "\n" + hazardMsg + ": " + hazardLevel;
             float colour;
             if (hazardLevel.equals("High")) {
                 colour = HUE_RED;
@@ -149,7 +154,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public boolean onClusterClick(Cluster<ClusterPin> cluster) {
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(cluster.getPosition(),100.0f));
-                Toast.makeText(MapsActivity.this, "Cluster click", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MapsActivity.this, "Cluster click", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -157,7 +162,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mClusterManger.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<ClusterPin>() {
             @Override
             public boolean onClusterItemClick(ClusterPin clusterItem) {
-                Toast.makeText(MapsActivity.this, "Cluster item click", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MapsActivity.this, "Cluster item click", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -166,7 +171,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mClusterManger.setOnClusterItemInfoWindowClickListener(new ClusterManager.OnClusterItemInfoWindowClickListener<ClusterPin>() {
             @Override
             public void onClusterItemInfoWindowClick(ClusterPin clusterItem) {
-                Toast.makeText(MapsActivity.this, "Clicked info window: " + clusterItem.getTitle(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MapsActivity.this, "Clicked info window: " + clusterItem.getTitle(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MapsActivity.this, RestaurantActivity.class);
                 intent.putExtra("nameRestaurant", clusterItem.getTitle());
                 intent.putExtra("fromMap", true);
@@ -200,7 +205,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             moveCamera(latLng, DEFAULT_ZOOM);
                         } else {
                             Log.d(TAG, "onComplete: current location is null");
-                            Toast.makeText(MapsActivity.this, "unable to get current location", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MapsActivity.this, getString(R.string.no_location), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -224,7 +229,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onMapReady: map is ready");
         mMap = googleMap;
         if (mLocationPermissionsGranted) {
@@ -236,8 +241,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             else{
                 double lat = intent.getDoubleExtra("latitude", 0);
                 double lng = intent.getDoubleExtra("longitude", 0);
-                Toast.makeText(MapsActivity.this, "latitude:" + lat, Toast.LENGTH_SHORT).show();
-                Toast.makeText(MapsActivity.this, "longitude:" + lng, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MapsActivity.this, "latitude:" + lat, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MapsActivity.this, "longitude:" + lng, Toast.LENGTH_SHORT).show();
                 LatLng latLng = new LatLng(lat, lng);
                 moveCamera(latLng, DEFAULT_ZOOM);
             }
@@ -291,7 +296,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 geocoder.getFromLocation(latitude, longitude, 1);
                         LatLng latLng = new LatLng(latitude, longitude);
 
-                        mMap.setMaxZoomPreference(20);
+                        mMap.setMaxZoomPreference(1);
 
                         if(resume == false){
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));

@@ -59,10 +59,6 @@ public class RestaurantListActivity extends AppCompatActivity {
                 permissionCheck();
                 setupMapButton();
 
-//                if(!isServicesOK()){
-//                    return;
-//                }
-
                 Intent intent = getIntent();
                 boolean data = intent.getBooleanExtra("data", false);
                 boolean fromDialog = intent.getBooleanExtra("fromDialog", false);
@@ -103,10 +99,9 @@ public class RestaurantListActivity extends AppCompatActivity {
                 startMapActivity();
         }
 
-
-
+        // Code refer from stack overflow
+        // https://stackoverflow.com/questions/10311834/how-to-check-if-location-services-are-enabled
         private void startMapActivity(){
-                // https://stackoverflow.com/questions/10311834/how-to-check-if-location-services-are-enabled
                 LocationManager lm = (LocationManager)RestaurantListActivity.this.getSystemService(Context.LOCATION_SERVICE);
                 boolean gps_enabled = false;
                 boolean network_enabled = false;
@@ -118,7 +113,8 @@ public class RestaurantListActivity extends AppCompatActivity {
 
 
                 if(!gps_enabled && !network_enabled) {
-                        Toast.makeText(RestaurantListActivity.this, "Turn on Location to use the map feature", Toast.LENGTH_SHORT).show();
+                        String locationText = getString(R.string.turn_on_location);
+                        Toast.makeText(RestaurantListActivity.this, locationText, Toast.LENGTH_SHORT).show();
                 }
                 else {
                         Intent intent = new Intent(RestaurantListActivity.this, MapsActivity.class);
@@ -145,26 +141,6 @@ public class RestaurantListActivity extends AppCompatActivity {
                 }
                 return false;
         }
-
-
-        public boolean isServicesOK(){ //check the user device.
-                Log.d(TAG, "isServicesOK: checking google services version");
-                int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(RestaurantListActivity.this);
-                if(available == ConnectionResult.SUCCESS){
-                        Log.d(TAG, "isServicesOK: Google Play Services is working");
-                        return true;
-                }
-                else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
-                        Log.d(TAG, "isServicesOK: an error occured but we can fix it");
-                        Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(RestaurantListActivity.this, available, ERROR_DIALOG_REQUEST);
-                }
-                else{
-                        Toast.makeText(this, "You can't make map requests", Toast.LENGTH_SHORT).show();
-                }
-                return false;
-        }
-
-
         private void permissionCheck() {
                 //Ask for permissions to download
                 PermissionListener permissionlistener = new PermissionListener() {
@@ -174,7 +150,8 @@ public class RestaurantListActivity extends AppCompatActivity {
                         }
                         @Override
                         public void onPermissionDenied(List<String> deniedPermissions) {
-                                Toast.makeText(RestaurantListActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT)
+                                String permissionText = getString(R.string.permission_denied);
+                                Toast.makeText(RestaurantListActivity.this, permissionText + "\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT)
                                         .show();
                                 finish();
                         }
@@ -182,10 +159,9 @@ public class RestaurantListActivity extends AppCompatActivity {
                 };
                 TedPermission.with(RestaurantListActivity.this)
                         .setPermissionListener(permissionlistener)
-                        .setDeniedTitle("Permission denied")
-                        .setDeniedMessage(
-                                "If you reject the permission,you can not use this application \n Please allow permissions at [Setting] > [Permission]")
-                        .setGotoSettingButtonText("Go to Settings")
+                        .setDeniedTitle(getString(R.string.permission_denied))
+                        .setDeniedMessage(getString(R.string.denied_message))
+                        .setGotoSettingButtonText(R.string.go_to_setting)
                         .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET)
                         .check();
         }
@@ -256,7 +232,6 @@ public class RestaurantListActivity extends AppCompatActivity {
                         }
 
                         Restaurant currentRestaurant = myRestaurants.get(position);
-//                        RestaurantIcon currentID = new RestaurantIcon(RestaurantListActivity.this,currentRestaurant.getRestaurantName());
                         currentRestaurant.setIconID(RestaurantListActivity.this, currentRestaurant.getRestaurantName());
 
                         TextView restaurantName = itemView.findViewById(R.id.listR_txtRestaurantName);
@@ -295,7 +270,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                                 restaurantHazardImage.setVisibility(View.INVISIBLE);
 
                                 TextView inspection = itemView.findViewById(R.id.listR_txtInspection);
-                                String noInspection = getResources().getString(R.string.no_inspections_recorded);
+                                String noInspection = getString(R.string.no_inspections_recorded);
                                 inspection.setText(noInspection);
 
                         }

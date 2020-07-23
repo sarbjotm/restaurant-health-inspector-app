@@ -1,5 +1,6 @@
 package com.example.restauranthealthinspector.activities;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DownloadManager;
@@ -74,6 +75,7 @@ public class UpdateDialog extends AppCompatDialogFragment {
         this.dataLoad = dataLoad;
     }
 
+    @SuppressLint("InflateParams")
     @NonNull
     @Override
     // Refer to Brian Fraser video: AlertDialog via Fragment: Android Programming
@@ -135,7 +137,8 @@ public class UpdateDialog extends AppCompatDialogFragment {
                     }
 
                     else{
-                        Toast.makeText(context,"No internet connection, cannot download updated files", Toast.LENGTH_LONG).show();
+                        String noInternet = getString(R.string.no_internet);
+                        Toast.makeText(context,noInternet, Toast.LENGTH_LONG).show();
                     }
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -173,7 +176,8 @@ public class UpdateDialog extends AppCompatDialogFragment {
             manager.enqueue(request);
 
             TextView textView = view.findViewById(R.id.update_txtMsg);
-            String text = "Downloading " + name;
+            String text = getString(R.string.downloading);
+            text += " " + name;
             textView.setText(text);
 
             downloading();
