@@ -101,8 +101,12 @@ public class RestaurantActivity extends AppCompatActivity {
         String restaurantName = restaurant.getRestaurantName();
         restName.setText(restaurantName);
 
+        for(Restaurant r : myRestaurants){
+            r.setIconID(RestaurantActivity.this, r.getRestaurantName());
+
+
+        }
 //        RestaurantIcon restaurantIcon = new RestaurantIcon(RestaurantActivity.this, restaurantName);
-        restaurantImage.setImageResource(restaurant.getIconID());
 
         Address address = restaurant.getAddress();
         TextView restAddress = findViewById(R.id.rest_txtAddress);
