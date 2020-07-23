@@ -1,5 +1,6 @@
 package com.example.restauranthealthinspector.activities;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DownloadManager;
@@ -74,6 +75,7 @@ public class UpdateDialog extends AppCompatDialogFragment {
         this.dataLoad = dataLoad;
     }
 
+    @SuppressLint("InflateParams")
     @NonNull
     @Override
     // Refer to Brian Fraser video: AlertDialog via Fragment: Android Programming

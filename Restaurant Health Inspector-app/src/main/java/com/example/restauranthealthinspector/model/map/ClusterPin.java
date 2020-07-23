@@ -6,6 +6,10 @@ import androidx.annotation.Nullable;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 
+/**
+ * ClusterPin is a custom ClusterItem
+ * Stores the map position, title, snippet, and type
+ */
 public class ClusterPin implements ClusterItem {
     private final LatLng mPosition;
     private final String mTitle;

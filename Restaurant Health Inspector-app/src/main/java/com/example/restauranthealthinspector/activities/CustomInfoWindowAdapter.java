@@ -9,6 +9,9 @@ import com.example.restauranthealthinspector.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
+/**
+ *  CustomInfoWindowAdapter is a adapter for Google Map info window
+ */
 public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
     private final View mWindow;

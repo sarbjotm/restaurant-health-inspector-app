@@ -50,7 +50,10 @@ import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_GREE
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_ORANGE;
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_RED;
 
-
+/**
+ *  Map Activity displays the maps with restaurant pegs
+ *  It stores the necessary things to get user location and displays these pegs
+ */
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;

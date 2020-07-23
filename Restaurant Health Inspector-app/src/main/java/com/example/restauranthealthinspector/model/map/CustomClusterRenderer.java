@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.example.restauranthealthinspector.R;
@@ -16,8 +17,11 @@ import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.google.maps.android.ui.IconGenerator;
 
+/**
+ * CustomClusterRender creates a custom CustomRenderer
+ * Has different types of icons for different markers
+ */
 public class CustomClusterRenderer extends DefaultClusterRenderer<ClusterPin> {
-
     private final IconGenerator mClusterIconGenerator;
     private final Context mContext;
 
@@ -29,7 +33,7 @@ public class CustomClusterRenderer extends DefaultClusterRenderer<ClusterPin> {
     }
 
     @Override
-    protected void onBeforeClusterItemRendered(ClusterPin item, MarkerOptions markerOptions) {
+    protected void onBeforeClusterItemRendered(ClusterPin item, @NonNull MarkerOptions markerOptions) {
 
         if (item.getType() == 1) {
             BitmapDescriptor markerDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker_red);
@@ -46,7 +50,7 @@ public class CustomClusterRenderer extends DefaultClusterRenderer<ClusterPin> {
     }
 
     @Override
-    protected void onBeforeClusterRendered(Cluster<ClusterPin> cluster, MarkerOptions markerOptions) {
+    protected void onBeforeClusterRendered(Cluster<ClusterPin> cluster, @NonNull MarkerOptions markerOptions) {
 
         if (cluster.getSize() > 4) {
             mClusterIconGenerator.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_cluster_circle));
