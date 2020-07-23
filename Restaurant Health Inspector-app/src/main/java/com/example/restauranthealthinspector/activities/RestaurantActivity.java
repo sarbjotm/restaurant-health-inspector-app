@@ -13,7 +13,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.restauranthealthinspector.MapsActivity;
 import com.example.restauranthealthinspector.R;
 import com.example.restauranthealthinspector.model.Address;
 import com.example.restauranthealthinspector.model.Inspection;
@@ -32,6 +34,8 @@ public class RestaurantActivity extends AppCompatActivity {
     private RestaurantsManager myRestaurants;
     private Restaurant restaurant;
     private int indexRestaurant;
+    private String nameRestaurant;
+    private boolean fromMap;
     ArrayList<Inspection> inspections;
 
     @Override
@@ -71,8 +75,24 @@ public class RestaurantActivity extends AppCompatActivity {
     private void loadRestaurant() {
         Intent intent = getIntent();
         indexRestaurant = intent.getIntExtra("indexRestaurant", 0);
+        fromMap = intent.getBooleanExtra("fromMap", false);
+        nameRestaurant = intent.getStringExtra("nameRestaurant");
+        if(fromMap == true){
+            indexRestaurant = findIndexRestaurant(nameRestaurant);
+        }
         restaurant = myRestaurants.get(indexRestaurant);
         inspections = restaurant.getInspectionsManager().getInspectionList();
+    }
+
+    private int findIndexRestaurant(String nameRestaurant){
+        int i = 0;
+        for (Restaurant restaurant : myRestaurants){
+            if (restaurant.getRestaurantName().equals(nameRestaurant)){
+                return i;
+            }
+            i++;
+        }
+        return 0;
     }
 
     private void fillRestaurantDetails() {
