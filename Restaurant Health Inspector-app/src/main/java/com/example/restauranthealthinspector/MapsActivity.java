@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -15,9 +16,12 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 
+import com.example.restauranthealthinspector.activities.RestaurantListActivity;
 import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
@@ -72,11 +76,25 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
         getLocationPermission();
+        setupListButton();
         try {
             myRestaurants = RestaurantsManager.getInstance(null, null);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setupListButton() {
+        ImageButton btn = findViewById(R.id.map_imgbtnList);
+        btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MapsActivity.this, RestaurantListActivity.class);
+                finish();
+                startActivity(intent);
+            }
+        });
     }
 
     private void pinRestaurants(){
@@ -291,6 +309,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onStop() {
         super.onStop();
-        locationManager.removeUpdates(locationListener);
+        //locationManager.removeUpdates(locationListener);
     }
 }
