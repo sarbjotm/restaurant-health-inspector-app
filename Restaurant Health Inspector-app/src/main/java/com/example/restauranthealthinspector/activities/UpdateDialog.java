@@ -118,6 +118,7 @@ public class UpdateDialog extends AppCompatDialogFragment {
     public void onResume() {
         super.onResume();
         final AlertDialog d = (AlertDialog) getDialog();
+        //Dialog will not close if back button or press outside of dialog box
         d.setCanceledOnTouchOutside(false);
         d.setCancelable(false);
         if (d != null) {
