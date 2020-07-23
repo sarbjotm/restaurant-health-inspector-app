@@ -332,6 +332,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                                                 int position, long id) {
                                 Intent intent = new Intent(RestaurantListActivity.this, RestaurantActivity.class);
                                 intent.putExtra("indexRestaurant", position);
+                                intent.putExtra("fromMap", false);
                                 startActivity(intent);
                         }
                 });

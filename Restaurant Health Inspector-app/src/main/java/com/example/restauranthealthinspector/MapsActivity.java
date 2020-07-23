@@ -21,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 
+import com.example.restauranthealthinspector.activities.RestaurantActivity;
 import com.example.restauranthealthinspector.activities.RestaurantListActivity;
 import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
@@ -168,6 +169,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClusterItemInfoWindowClick(ClusterPin clusterItem) {
                 Toast.makeText(MapsActivity.this, "Clicked info window: " + clusterItem.getTitle(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MapsActivity.this, RestaurantActivity.class);
+                intent.putExtra("nameRestaurant", clusterItem.getTitle());
+                intent.putExtra("fromMap", true);
+                startActivity(intent);
             }
         });
 
