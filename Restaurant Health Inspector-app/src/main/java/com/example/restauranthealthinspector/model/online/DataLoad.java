@@ -43,6 +43,9 @@ public class DataLoad {
 
         editor.putString("restaurantFileName", restaurantFileName);
         editor.putString("inspectionFileName", inspectionFileName);
+
+        editor.putString("restaurantLastModified", restaurantData.getLastModified());
+        editor.putString("inspectionLastModified", inspectionData.getLastModified());
         editor.apply();
     }
 
