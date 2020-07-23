@@ -137,7 +137,8 @@ public class UpdateDialog extends AppCompatDialogFragment {
                     }
 
                     else{
-                        Toast.makeText(context,"No internet connection, cannot download updated files", Toast.LENGTH_LONG).show();
+                        String noInternet = getString(R.string.no_internet);
+                        Toast.makeText(context,noInternet, Toast.LENGTH_LONG).show();
                     }
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -175,7 +176,8 @@ public class UpdateDialog extends AppCompatDialogFragment {
             manager.enqueue(request);
 
             TextView textView = view.findViewById(R.id.update_txtMsg);
-            String text = "Downloading " + name;
+            String text = getString(R.string.downloading);
+            text += " " + name;
             textView.setText(text);
 
             downloading();
