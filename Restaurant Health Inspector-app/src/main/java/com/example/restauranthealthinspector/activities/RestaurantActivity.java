@@ -87,6 +87,7 @@ public class RestaurantActivity extends AppCompatActivity {
     private int findIndexRestaurant(String nameRestaurant){
         int i = 0;
         for (Restaurant restaurant : myRestaurants){
+           restaurant.setIconID(RestaurantActivity.this, restaurant.getRestaurantName());
             if (restaurant.getRestaurantName().equals(nameRestaurant)){
                 return i;
             }
@@ -101,11 +102,8 @@ public class RestaurantActivity extends AppCompatActivity {
         String restaurantName = restaurant.getRestaurantName();
         restName.setText(restaurantName);
 
-        for(Restaurant r : myRestaurants){
-            r.setIconID(RestaurantActivity.this, r.getRestaurantName());
+        restaurantImage.setImageResource(restaurant.getIconID());
 
-
-        }
 //        RestaurantIcon restaurantIcon = new RestaurantIcon(RestaurantActivity.this, restaurantName);
 
         Address address = restaurant.getAddress();
