@@ -109,13 +109,18 @@ public class UpdateDialog extends AppCompatDialogFragment {
                 .setView(view)
                 .setPositiveButton(android.R.string.ok, okListener)
                 .setNegativeButton(android.R.string.no, noListener)
+                .setCancelable(false)
                 .create();
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         final AlertDialog d = (AlertDialog) getDialog();
+        //Dialog will not close if back button or press outside of dialog box
+        d.setCanceledOnTouchOutside(false);
+        d.setCancelable(false);
         if (d != null) {
             final Button positiveButton = (Button) d.getButton(Dialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(new View.OnClickListener() {
