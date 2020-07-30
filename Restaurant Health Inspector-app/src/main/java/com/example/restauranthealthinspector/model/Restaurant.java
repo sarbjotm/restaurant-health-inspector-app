@@ -11,6 +11,7 @@ public class Restaurant {
     private String restaurantName;
     private Address address;
     private RestaurantIcon setCurrentID;
+    private boolean favourite;
     private InspectionsManager inspectionsManager = new InspectionsManager();
 
     public Restaurant(String trackingNumber, String restaurantName, Address address) {
@@ -47,5 +48,13 @@ public class Restaurant {
     public void setIconID(Context context, String restaurantName){
         setCurrentID = new RestaurantIcon(context,restaurantName);
 
+    }
+
+    public void setFavourite(boolean favourite){
+        this.favourite = favourite;
+    }
+
+    public boolean getFavourite(){
+        return favourite;
     }
 }

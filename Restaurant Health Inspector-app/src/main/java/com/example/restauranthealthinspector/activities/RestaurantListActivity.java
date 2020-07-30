@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -71,6 +72,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                         }
                         populateListView();
                         setUpRestaurantClick();
+                        setUpFavouriteButtonClick();
                         return;
                 }
 
@@ -274,6 +276,21 @@ public class RestaurantListActivity extends AppCompatActivity {
                                 inspection.setText(noInspection);
 
                         }
+                        if ( (currentRestaurant.getRestaurantName().contains("A&W"))){
+                                currentRestaurant.setFavourite(true);
+                        }
+
+                        if(currentRestaurant.getFavourite()){
+                             restaurantName.setTextColor(Color.parseColor("#FFFF00"));
+                             restaurantDate.setTextColor(Color.parseColor("#FFFF00"));
+                             restaurantIssues.setTextColor(Color.parseColor("#FFFF00"));
+
+                        }
+//                        else{
+//                            Button btn = (Button) findViewById(R.id.listR_btnFavourite);
+//                                btn.setText("Not Favourite");
+//                                btn.setBackgroundColor(Color.RED);
+//                        }
                         return itemView;
                 }
         }
@@ -301,6 +318,18 @@ public class RestaurantListActivity extends AppCompatActivity {
                 }
 
         }
+
+        private  void setUpFavouriteButtonClick(){
+                ListView list = findViewById(R.id.restlist_listRestaurants);
+                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View viewClicked,
+                                                int position, long id) {
+
+                        }
+                });
+        }
+
 
         private void setUpRestaurantClick() {
                 ListView list = findViewById(R.id.restlist_listRestaurants);
