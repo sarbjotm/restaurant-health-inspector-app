@@ -44,8 +44,8 @@
 
     <TextView
         android:id="@+id/rest_txtName"
-        android:layout_width="328dp"
-        android:layout_height="35dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="@string/name"
         android:textSize="14sp"
@@ -62,7 +62,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="12dp"
         android:text="@string/address"
-        app:layout_constraintStart_toStartOf="@+id/rest_txtName"
+        app:layout_constraintStart_toEndOf="@+id/rest_imgRestaurant"
         app:layout_constraintTop_toBottomOf="@+id/rest_txtName" />
 
     <TextView
@@ -78,7 +78,7 @@
         android:id="@+id/rest_txtLongitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="5dp"
         android:text="@string/longitude"
         app:layout_constraintStart_toStartOf="@+id/rest_txtAddress"
         app:layout_constraintTop_toBottomOf="@+id/rest_txtAddress" />
@@ -102,7 +102,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rest_txtLatitude" >
+        app:layout_constraintTop_toBottomOf="@+id/rest_txtLatitude">
 
     </ListView>
 
@@ -116,5 +116,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rest_toolbar"
         app:srcCompat="@drawable/restaurant_icon" />
+
+    <Button
+        android:textAllCaps="false"
+        android:id="@+id/rest_btnFavourite"
+        android:layout_width="109dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="#2196F3"
+        android:text="@string/favourite"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rest_txtName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,7 +12,7 @@ public class Restaurant {
     private Address address;
     private RestaurantIcon setCurrentID;
     private InspectionsManager inspectionsManager = new InspectionsManager();
-    private boolean isFavourite;
+    private boolean isFavourite = false;
 
     public Restaurant(String trackingNumber, String restaurantName, Address address) {
         this.trackingNumber = trackingNumber;

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -56,6 +57,34 @@ public class RestaurantActivity extends AppCompatActivity {
         setUpInspectionClick();
 
         noInspectionsMessage();
+
+        setUpFavouriteButton();
+
+
+
+    }
+
+    private void setUpFavouriteButton(){
+        final Button btn = (Button) findViewById(R.id.rest_btnFavourite);
+//        final Button btn = (Button) findViewById(R.id.rest_btnFavourite);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (btn.getText().toString().contains("Favourite")){
+                    restaurant.setFavourite(true);
+                    btn.setText(R.string.unfavourite);
+                    Toast.makeText(RestaurantActivity.this, "Favourited Restaurant", Toast.LENGTH_SHORT).show();
+
+                }
+
+                else if(btn.getText().toString().contains("Un-favourite")){
+                    restaurant.setFavourite(false);
+                    btn.setText(R.string.favourite);
+                    Toast.makeText(RestaurantActivity.this, "Un-Favourited Restaurant", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
     }
 
     private void setUpToMapButton(){
@@ -131,6 +160,7 @@ public class RestaurantActivity extends AppCompatActivity {
     }
 
     private void fillRestaurantDetails() {
+        Button btn = (Button) findViewById(R.id.rest_btnFavourite);
         ImageView restaurantImage = findViewById(R.id.rest_imgRestaurant);
         TextView restName = findViewById(R.id.rest_txtName);
         String restaurantName = restaurant.getRestaurantName();
@@ -154,6 +184,19 @@ public class RestaurantActivity extends AppCompatActivity {
         String longitude = getResources().getString(R.string.longitude);
         longitude += " " + address.getLongitude();
         restLongitude.setText(longitude);
+
+
+        if(restaurant.getFavourite()){
+            btn.setText(R.string.unfavourite);
+        }
+
+        else{
+            btn.setText(R.string.favourite);
+        }
+
+
+
+
     }
 
     private void populateListView(){
