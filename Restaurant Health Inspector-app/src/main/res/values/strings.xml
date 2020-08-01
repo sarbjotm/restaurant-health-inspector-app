@@ -34,4 +34,5 @@
 
     <string name="restaurantURL">https://data.surrey.ca/api/3/action/package_show?id=restaurants</string>
     <string name="inspectionURL">https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports</string>
+    <string name="favourite">Favourite</string>
 </resources>
