@@ -274,6 +274,25 @@ public class RestaurantListActivity extends AppCompatActivity {
                                 inspection.setText(noInspection);
 
                         }
+
+                        if ( (currentRestaurant.getRestaurantName().contains("A&W")) ){
+                                currentRestaurant.setFavourite(true);
+                        }
+
+                        else{
+                                currentRestaurant.setFavourite(false);
+                        }
+
+                        if (currentRestaurant.getFavourite()){
+                                restaurantName.setTextColor(Color.parseColor("#FFFF00"));
+                        }
+
+                        else{
+                                restaurantName.setTextColor(Color.parseColor("#FFFFFF"));
+                        }
+
+
+
                         return itemView;
                 }
         }
