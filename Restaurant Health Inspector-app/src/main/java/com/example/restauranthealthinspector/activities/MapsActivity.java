@@ -15,9 +15,13 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -70,19 +74,86 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationManager locationManager;
     private LocationListener locationListener;
     private ClusterManager<ClusterPin> mClusterManger;
+    private EditText mSearchText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
+        mSearchText = (EditText) findViewById(R.id.input_search);
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         getLocationPermission();
         setupListButton();
         try {
             myRestaurants = RestaurantsManager.getInstance(null, null);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        //Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "onMapReady: map is ready");
+        mMap = googleMap;
+        if (mLocationPermissionsGranted) {
+            Intent intent = getIntent();
+            Boolean fromGPS = intent.getBooleanExtra("fromGPS", false);
+            if (!fromGPS){
+                getDeviceLocation();
+            }
+            else{
+                double lat = intent.getDoubleExtra("latitude", 0);
+                double lng = intent.getDoubleExtra("longitude", 0);
+                //Toast.makeText(MapsActivity.this, "latitude:" + lat, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MapsActivity.this, "longitude:" + lng, Toast.LENGTH_SHORT).show();
+                LatLng latLng = new LatLng(lat, lng);
+                moveCamera(latLng, DEFAULT_ZOOM);
+            }
+            if (ActivityCompat.checkSelfPermission(
+                    this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            mMap.setMyLocationEnabled(true);
+
+            pinRestaurants();
+            init();
+        }
+    }
+
+    private void init(){
+        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || event.getAction() == event.ACTION_DOWN
+                        || event.getAction() == event.KEYCODE_ENTER){
+                    //execute our method for searching
+                    geoLocate();
+                }
+                return false;
+            }
+        });
+    }
+
+    private void geoLocate(){
+        String searchString = mSearchText.getText().toString();
+
+        Geocoder geocoder = new Geocoder(MapsActivity.this);
+        List<Address> list = new ArrayList<>();
+        try {
+            list = geocoder.getFromLocationName(searchString, 1);
+        }catch (IOException e){
+            Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
+        };
+
+        if(list.size() > 0){
+            Address address = list.get(0);
+
+            Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -226,37 +297,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        //Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "onMapReady: map is ready");
-        mMap = googleMap;
-        if (mLocationPermissionsGranted) {
-            Intent intent = getIntent();
-            Boolean fromGPS = intent.getBooleanExtra("fromGPS", false);
-            if (!fromGPS){
-                getDeviceLocation();
-            }
-            else{
-                double lat = intent.getDoubleExtra("latitude", 0);
-                double lng = intent.getDoubleExtra("longitude", 0);
-                //Toast.makeText(MapsActivity.this, "latitude:" + lat, Toast.LENGTH_SHORT).show();
-                //Toast.makeText(MapsActivity.this, "longitude:" + lng, Toast.LENGTH_SHORT).show();
-                LatLng latLng = new LatLng(lat, lng);
-                moveCamera(latLng, DEFAULT_ZOOM);
-            }
-            if (ActivityCompat.checkSelfPermission(
-                    this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            mMap.setMyLocationEnabled(true);
-
-            pinRestaurants();
-        }
-    }
-
 
     private void getLocationPermission(){
         Log.d(TAG, "getLocationPermission: getting location permissions");
