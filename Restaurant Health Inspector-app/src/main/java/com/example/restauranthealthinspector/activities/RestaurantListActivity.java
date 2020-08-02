@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.Manifest;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
@@ -14,14 +15,18 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +43,7 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +52,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * A list of restaurants with brief inspections report.
  */
-public class RestaurantListActivity extends AppCompatActivity {
+public class RestaurantListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
         private RestaurantsManager myRestaurants;
         private static final String TAG = "RestaurantListActivity";
         private static final int ERROR_DIALOG_REQUEST = 9001;
@@ -71,6 +77,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                         }
                         populateListView();
                         setUpRestaurantClick();
+                        setUpSearch();
                         return;
                 }
 
@@ -167,7 +174,6 @@ public class RestaurantListActivity extends AppCompatActivity {
         }
 
         private void setupMapButton() {
-
                 ImageButton btn = findViewById(R.id.restlist_imgbtnMap);
                 btn.setOnClickListener(new View.OnClickListener() {
 
@@ -216,11 +222,79 @@ public class RestaurantListActivity extends AppCompatActivity {
                 ArrayAdapter<Restaurant> adapter = new MyListAdapter();
                 ListView list = findViewById(R.id.restlist_listRestaurants);
                 list.setAdapter(adapter);
+                list.setTextFilterEnabled(true);
         }
 
-        private class MyListAdapter extends ArrayAdapter<Restaurant>{
+        private void  setUpSearch() {
+                SearchView searchView = findViewById(R.id.restlist_search);
+                //searchView.setIconifiedByDefault(false);
+                searchView.setOnQueryTextListener(this);
+                searchView.setSubmitButtonEnabled(true);
+        }
+
+
+        @Override
+        public boolean onQueryTextChange(String text) {
+                ListView list = findViewById(R.id.restlist_listRestaurants);
+                if (TextUtils.isEmpty(text)) {
+                        list.clearTextFilter();
+                } else {
+                        list.setFilterText(text);
+                }
+                return true;
+        }
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+                return false;
+        }
+
+        private class MyListAdapter extends ArrayAdapter<Restaurant> implements Filterable {
+                private ArrayList<Restaurant> originalRestaurants;
+                private ArrayList<Restaurant> restaurants;
+
                 public MyListAdapter(){
                         super(RestaurantListActivity.this, R.layout.list_restaurants, myRestaurants.getRestaurants());
+                        this.restaurants = myRestaurants.getRestaurants();
+                }
+
+                // Refer from StackOverflow
+                // https://stackoverflow.com/questions/23422072/searchview-in-listview-having-a-custom-adapter
+                public Filter getFilter() {
+                        return new Filter() {
+
+                                @Override
+                                protected FilterResults performFiltering(CharSequence charSequence) {
+                                        final FilterResults filterResults = new FilterResults();
+                                        final ArrayList<Restaurant> results = new ArrayList<>();
+                                        if (originalRestaurants == null) {
+                                                originalRestaurants = restaurants;
+                                        }
+
+                                        if (charSequence != null) {
+                                                if (originalRestaurants != null && originalRestaurants.size() > 0) {
+                                                        for (final Restaurant restaurant : originalRestaurants) {
+                                                                if (restaurant.getRestaurantName().toLowerCase().contains(charSequence.toString())) {
+                                                                        results.add(restaurant);
+                                                                }
+                                                        }
+                                                }
+                                                filterResults.values = results;
+                                        }
+                                        return filterResults;
+                                }
+
+                                @SuppressWarnings("unchecked")
+                                @Override
+                                protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                                       restaurants = (ArrayList<Restaurant>) filterResults.values;
+                                       notifyDataSetChanged();
+                                }
+                        };
+                }
+
+                public void notifyDataSetChanged() {
+                        super.notifyDataSetChanged();
                 }
 
                 @SuppressLint("SetTextI18n")
@@ -231,7 +305,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                                 itemView = getLayoutInflater().inflate(R.layout.list_restaurants, parent, false);
                         }
 
-                        Restaurant currentRestaurant = myRestaurants.get(position);
+                        Restaurant currentRestaurant = restaurants.get(position);
                         currentRestaurant.setIconID(RestaurantListActivity.this, currentRestaurant.getRestaurantName());
 
                         TextView restaurantName = itemView.findViewById(R.id.listR_txtRestaurantName);
@@ -276,6 +350,22 @@ public class RestaurantListActivity extends AppCompatActivity {
                         }
                         return itemView;
                 }
+
+                @Override
+                public int getCount() {
+                      return restaurants.size();
+                }
+
+                @Override
+                public Restaurant getItem(int position) {
+                        return restaurants.get(position);
+                }
+
+                @Override
+                public long getItemId(int position) {
+                        return position;
+                }
+
         }
 
         private void hazard(View itemView, Inspection inspection) {
