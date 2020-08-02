@@ -37,6 +37,8 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -48,6 +50,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class RestaurantListActivity extends AppCompatActivity {
         private RestaurantsManager myRestaurants;
+        private static RestaurantsManager myFavouriteRestaurants;
+
         private static final String TAG = "RestaurantListActivity";
         private static final int ERROR_DIALOG_REQUEST = 9001;
 
@@ -275,20 +279,21 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                         }
 
-//                        if ( (currentRestaurant.getRestaurantName().contains("A&W")) ){
-//                                currentRestaurant.setFavourite(true);
-//                        }
-//
-//                        else{
-//                                currentRestaurant.setFavourite(false);
-//                        }
+
 
                         if (currentRestaurant.getFavourite()){
+                                TextView restaurantFavourite = (TextView) findViewById(R.id.listR_txtFavourite);
                                 restaurantName.setTextColor(Color.parseColor("#FFFF00"));
+                                restaurantFavourite.setVisibility(View.VISIBLE);
+
                         }
 
                         else{
+                                TextView restaurantFavourite = (TextView) findViewById(R.id.listR_txtFavourite);
+                                restaurantFavourite.setVisibility(View.INVISIBLE);
                                 restaurantName.setTextColor(Color.parseColor("#FFFFFF"));
+
+
                         }
 
 

@@ -31,6 +31,7 @@ import java.util.ArrayList;
  */
 public class RestaurantActivity extends AppCompatActivity {
     private RestaurantsManager myRestaurants;
+    private static favouriteRestaurantsManager myFavouriteRestaurants;
     private Restaurant restaurant;
     private int indexRestaurant;
     private String nameRestaurant;
@@ -73,13 +74,16 @@ public class RestaurantActivity extends AppCompatActivity {
                 if (btn.getText().toString().contains("Favourite")){
                     restaurant.setFavourite(true);
                     btn.setText(R.string.unfavourite);
+                    myFavouriteRestaurants.add(restaurant);
                     Toast.makeText(RestaurantActivity.this, "Favourited Restaurant", Toast.LENGTH_SHORT).show();
 
                 }
 
                 else if(btn.getText().toString().contains("Un-favourite")){
+                    myFavouriteRestaurants.delete(restaurant);
                     restaurant.setFavourite(false);
                     btn.setText(R.string.favourite);
+
                     Toast.makeText(RestaurantActivity.this, "Un-Favourited Restaurant", Toast.LENGTH_SHORT).show();
 
                 }
