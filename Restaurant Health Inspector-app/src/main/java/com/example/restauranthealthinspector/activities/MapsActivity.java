@@ -116,7 +116,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return;
             }
             mMap.setMyLocationEnabled(true);
-
+            pinRestaurants();
             getUserInput();
         }
     }
@@ -179,7 +179,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .snippet(address + "\n" + hazardLevel));
             mMarker.setVisible(false);
 
-            if ( name.toLowerCase().indexOf(userKeyboardInput.toLowerCase()) != -1 ) {
+            if (userKeyboardInput.equals("")){
+                mClusterManger.addItem(new ClusterPin(name, snippet, latLng, type));
+            }
+
+            else if (name.toLowerCase().indexOf(userKeyboardInput.toLowerCase()) != -1) {
                 mClusterManger.addItem(new ClusterPin(name, snippet, latLng, type));
             }
         }
