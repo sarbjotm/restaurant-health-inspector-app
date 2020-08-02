@@ -231,19 +231,26 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
                 //searchView.setIconifiedByDefault(false);
                 searchView.setOnQueryTextListener(this);
                 searchView.setSubmitButtonEnabled(true);
+                searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+                        @Override
+                        public void onFocusChange(View view, boolean isFocused) {
+                                TextView textView = findViewById(R.id.restlist_txtRestaurant);
+                                if (isFocused) {
+                                        textView.setVisibility(View.INVISIBLE);
+                                } else {
+                                        textView.setVisibility(View.VISIBLE);
+                                }
+                        }
+                });
         }
-
 
         @Override
         public boolean onQueryTextChange(String text) {
                 Filter filter = adapter.getFilter();
-                TextView textView = findViewById(R.id.restlist_txtRestaurant);
                 if (TextUtils.isEmpty(text)) {
                         filter.filter("");
-                        textView.setVisibility(View.VISIBLE);
                 } else {
                         filter.filter(text);
-                        textView.setVisibility(View.INVISIBLE);
                 }
                 return true;
         }
