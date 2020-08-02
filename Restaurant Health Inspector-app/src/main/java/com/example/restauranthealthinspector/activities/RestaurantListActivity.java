@@ -56,6 +56,7 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
         private RestaurantsManager myRestaurants;
         private static final String TAG = "RestaurantListActivity";
         private static final int ERROR_DIALOG_REQUEST = 9001;
+        private ArrayAdapter<Restaurant> adapter;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -219,7 +220,7 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
         }
 
         private void populateListView() {
-                ArrayAdapter<Restaurant> adapter = new MyListAdapter();
+                adapter = new MyListAdapter();
                 ListView list = findViewById(R.id.restlist_listRestaurants);
                 list.setAdapter(adapter);
                 list.setTextFilterEnabled(true);
@@ -365,7 +366,6 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
                 public long getItemId(int position) {
                         return position;
                 }
-
         }
 
         private void hazard(View itemView, Inspection inspection) {
@@ -399,7 +399,7 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
                         public void onItemClick(AdapterView<?> parent, View viewClicked,
                                                 int position, long id) {
                                 Intent intent = new Intent(RestaurantListActivity.this, RestaurantActivity.class);
-                                intent.putExtra("indexRestaurant", position);
+                                intent.putExtra("nameRestaurant", adapter.getItem(position).getRestaurantName());
                                 intent.putExtra("fromMap", false);
                                 startActivity(intent);
                         }
