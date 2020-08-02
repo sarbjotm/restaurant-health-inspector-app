@@ -236,11 +236,14 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
 
         @Override
         public boolean onQueryTextChange(String text) {
-                ListView list = findViewById(R.id.restlist_listRestaurants);
+                Filter filter = adapter.getFilter();
+                TextView textView = findViewById(R.id.restlist_txtRestaurant);
                 if (TextUtils.isEmpty(text)) {
-                        list.clearTextFilter();
+                        filter.filter("");
+                        textView.setVisibility(View.VISIBLE);
                 } else {
-                        list.setFilterText(text);
+                        filter.filter(text);
+                        textView.setVisibility(View.INVISIBLE);
                 }
                 return true;
         }
