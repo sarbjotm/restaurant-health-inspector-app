@@ -34,6 +34,7 @@ public class RestaurantActivity extends AppCompatActivity {
     private int indexRestaurant;
     private String nameRestaurant;
     private boolean fromMap;
+    private String keepUserInput;
     ArrayList<Inspection> inspections;
 
     @Override
@@ -101,6 +102,7 @@ public class RestaurantActivity extends AppCompatActivity {
                     intent = new Intent(RestaurantActivity.this, MapsActivity.class);
                 }
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("keepUserInput", keepUserInput);
                 startActivity(intent);
             }
         });
@@ -109,6 +111,7 @@ public class RestaurantActivity extends AppCompatActivity {
     private void loadRestaurant() {
         Intent intent = getIntent();
         //indexRestaurant = intent.getIntExtra("indexRestaurant", 0);
+        keepUserInput = intent.getStringExtra("userInput");
         fromMap = intent.getBooleanExtra("fromMap", false);
         nameRestaurant = intent.getStringExtra("nameRestaurant");
         indexRestaurant = findIndexRestaurant(nameRestaurant);
