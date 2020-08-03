@@ -1,12 +1,14 @@
 package com.example.restauranthealthinspector.model;
 
+import java.util.ArrayList;
+
 public class SearchFilter {
     private String search;
     private String word;
     private Restaurant restaurant;
     private boolean checkFlag;
 
-    public boolean isSearched(Restaurant restaurant) {
+    public boolean inFilter(Restaurant restaurant) {
         this.restaurant = restaurant;
         String[] searchWords = search.split(" ");
 
@@ -14,15 +16,25 @@ public class SearchFilter {
             checkFlag = false;
             word = word.toLowerCase();
 
+            if (hasHazardLevel() || hasNCriticalViolations() || hasFavourite()) {
+                continue;
+            }
+
+            if (checkFlag) {
+                return false;
+            }
+
+            if (!hasName()) {
+                return false;
+            }
         }
 
-
-        return false;
+        return true;
     }
 
     private boolean hasHazardLevel() {
-        if (word.equals("high") || word.equals("medium") || word.equals("low")) {
-
+        if (word.equals("high") || word.equals("moderate") || word.equals("low")) {
+            checkFlag = true;
             if (!hasInspections()) {
                 return false;
             }
@@ -31,12 +43,11 @@ public class SearchFilter {
             hazard = hazard.toLowerCase();
 
             if (word.equals(hazard)) {
-                checkFlag = true;
                 return true;
             }
         }
 
-        return true;
+        return false;
     }
 
     private boolean hasInspections() {
@@ -44,13 +55,37 @@ public class SearchFilter {
     }
 
     private boolean hasNCriticalViolations() {
-        return true;
+        if (word.contains("<=") || word.contains(">=")) {
+            int violationCount = 0;
+            checkFlag = true;
+
+            if (!hasInspections()) {
+                return false;
+            }
+            ArrayList<Inspection> inspections = restaurant.getInspectionsManager().getInspectionList();
+
+            for (Inspection inspection : inspections) {
+                if (isYearOld(inspection)) {
+                    break;
+                }
+                violationCount += inspection.getNumCritical() + inspection.getNumNonCritical();
+            }
+
+
+        }
+
+        return false;
+    }
+
+    private boolean isYearOld (Inspection inspection) {
+
+        return false;
     }
 
     private boolean hasFavourite() {
         if (word.equals("favourite")) {
-
             checkFlag = true;
+
             return false;
         }
 
