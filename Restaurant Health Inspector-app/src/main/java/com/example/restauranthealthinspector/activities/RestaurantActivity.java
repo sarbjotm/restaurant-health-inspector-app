@@ -48,6 +48,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
         try {
             myRestaurants = RestaurantsManager.getInstance(null, null);
+            myFavouriteRestaurants = FavouriteRestaurantManager.getInstance();
         } catch (IOException e) {
             e.printStackTrace();
         }
