@@ -163,12 +163,10 @@ public class RestaurantActivity extends AppCompatActivity {
 
     private void loadRestaurant() {
         Intent intent = getIntent();
-        indexRestaurant = intent.getIntExtra("indexRestaurant", 0);
+        //indexRestaurant = intent.getIntExtra("indexRestaurant", 0);
         fromMap = intent.getBooleanExtra("fromMap", false);
         nameRestaurant = intent.getStringExtra("nameRestaurant");
-        if(fromMap){
-            indexRestaurant = findIndexRestaurant(nameRestaurant);
-        }
+        indexRestaurant = findIndexRestaurant(nameRestaurant);
         restaurant = myRestaurants.get(indexRestaurant);
         inspections = restaurant.getInspectionsManager().getInspectionList();
     }
