@@ -183,7 +183,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 keepUserInput = "";
             }
 
-            if (!keepUserInput.equals("")){
+            if (!keepUserInput.equals("") && userKeyboardInput.equals("")){
                 if (name.toLowerCase().indexOf(keepUserInput.toLowerCase()) != -1) {
                     mClusterManger.addItem(new ClusterPin(name, snippet, latLng, type));
                 }
