@@ -35,15 +35,21 @@ import com.example.restauranthealthinspector.model.Date;
 import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
+import com.example.restauranthealthinspector.model.FavouriteRestaurantManager;
 import com.example.restauranthealthinspector.model.online.DataLoad;
 import com.example.restauranthealthinspector.model.online.DataRequest;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,9 +60,15 @@ import java.util.concurrent.TimeUnit;
  */
 public class RestaurantListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
         private RestaurantsManager myRestaurants;
+        private FavouriteRestaurantManager myFavouriteRestaurants;
+//        private static ArrayList<Restaurant> favouriteRestaurantListActivity = new ArrayList<>();
         private static final String TAG = "RestaurantListActivity";
         private static final int ERROR_DIALOG_REQUEST = 9001;
         private ArrayAdapter<Restaurant> adapter;
+        ArrayList<Restaurant> favouriteRestaurant;
+        ArrayList<String> favouriteRestaurantNames = new ArrayList<String>();
+
+
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +82,12 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
                 boolean data = intent.getBooleanExtra("data", false);
                 boolean fromDialog = intent.getBooleanExtra("fromDialog", false);
 
+
+
                 if (data) {
                         try {
                                 myRestaurants = RestaurantsManager.getInstance(null,null);
+                                myFavouriteRestaurants = FavouriteRestaurantManager.getInstance();
                         } catch (IOException e) {
                                 e.printStackTrace();
                         }
@@ -99,6 +114,8 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
                                 return;
                         } else {
                                 dataLoad.loadData();
+
+
                         }
                 } else {
                         dataLoad.loadData();
@@ -332,6 +349,10 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
                         ImageView restaurantHazardImage = itemView.findViewById(R.id.listR_imgHazard);
                         TextView restaurantDate = itemView.findViewById(R.id.listR_txtCustomDate);
 
+                        ImageView restaurantImageFav = itemView.findViewById(R.id.listR_imgRestaurantFavourite);
+
+//                        restFav.setVisibility(View.INVISIBLE);
+
                         if (inspections.size() != 0 ) {
                                 Inspection inspection = inspections.get(0);
                                 hazard(itemView, inspection);
@@ -359,6 +380,30 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
                                 inspection.setText(noInspection);
 
                         }
+
+
+                                loadDataFavourite();
+                                saveData();
+
+
+                        if ((currentRestaurant.getFavourite())|| (myFavouriteRestaurants.getFavouriteList().contains(currentRestaurant))){
+                                currentRestaurant.setFavourite(true);
+                                restaurantName.setTextColor(Color.parseColor("#FFFF00"));
+                                restaurantImageFav.setVisibility(View.VISIBLE);
+                        }
+
+                        else if(favouriteRestaurantNames.contains(currentRestaurant.getRestaurantName())){
+                                currentRestaurant.setFavourite(true);
+                                restaurantName.setTextColor(Color.parseColor("#FFFF00"));
+                                restaurantImageFav.setVisibility(View.VISIBLE);
+                        }
+
+                        else{
+                                restaurantName.setTextColor(Color.parseColor("#FFFFFF"));
+                                restaurantImageFav.setVisibility(View.INVISIBLE);
+
+                        }
+
                         return itemView;
                 }
 
@@ -377,6 +422,52 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
                         return position;
                 }
         }
+
+        private void saveData() {
+                SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                Gson gson = new Gson();
+                String json = gson.toJson(myFavouriteRestaurants.getFavouriteList());
+                editor.putString("task list", json);
+                editor.apply();
+        }
+
+
+                private void loadDataFavourite() {
+                Log.e("YES","YESINLOAD");
+                SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+                Gson gson = new Gson();
+                String json = sharedPreferences.getString("task list", null);
+                Type type = new TypeToken<ArrayList<Restaurant>>() {}.getType();
+                favouriteRestaurant = gson.fromJson(json, type);
+                if (favouriteRestaurant == null) {
+                        Log.e("YES","YESINNULL");
+                        favouriteRestaurant = new ArrayList<Restaurant>();
+                }
+
+                else{
+//                        Log.e("YES","YESINELSE");
+
+                        for(int i = 0; i < favouriteRestaurant.size(); i++){
+
+                                try {
+//                                        Log.e("YES","ADDING");
+                                        if(!favouriteRestaurantNames.contains(favouriteRestaurant.get(i).getRestaurantName()))
+                                                favouriteRestaurantNames.add(favouriteRestaurant.get(i).getRestaurantName());
+//                                        Log.e("YES", "SizeofR" + Integer.toString(favouriteRestaurant.size()));
+
+                                }
+
+                                catch(Exception e){
+                                        Log.e("Nothing", "nothing found");
+                                }
+                        }
+                }
+
+
+                }
+
+
 
         private void hazard(View itemView, Inspection inspection) {
                 String hazardRating = inspection.getHazardRating();
@@ -415,6 +506,18 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
                         }
                 });
         }
+
+        @Override
+        public void onRestart()
+        {
+                super.onRestart();
+                finish();
+                startActivity(getIntent());
+
+
+        }
+
+
 
 
 }

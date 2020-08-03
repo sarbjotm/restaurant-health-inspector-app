@@ -3,12 +3,14 @@ package com.example.restauranthealthinspector.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -17,9 +19,11 @@ import android.widget.Toast;
 
 import com.example.restauranthealthinspector.R;
 import com.example.restauranthealthinspector.model.Address;
+import com.example.restauranthealthinspector.model.FavouriteRestaurantManager;
 import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -35,7 +39,10 @@ public class RestaurantActivity extends AppCompatActivity {
     private String nameRestaurant;
     private boolean fromMap;
     private String keepUserInput;
+    private FavouriteRestaurantManager myFavouriteRestaurants;
     ArrayList<Inspection> inspections;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
         try {
             myRestaurants = RestaurantsManager.getInstance(null, null);
+            myFavouriteRestaurants = FavouriteRestaurantManager.getInstance();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,7 +65,54 @@ public class RestaurantActivity extends AppCompatActivity {
         setUpInspectionClick();
 
         noInspectionsMessage();
+
+        setUpFavouriteButton();
+
+
+
     }
+
+    private void setUpFavouriteButton(){
+        final Button btn = (Button) findViewById(R.id.rest_btnFavourite);
+        final TextView restName = findViewById(R.id.rest_txtName);
+        final TextView restFav = findViewById(R.id.rest_txtFav);
+//        final Button btn = (Button) findViewById(R.id.rest_btnFavourite);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (btn.getText().toString().contains("Favourite")){
+                    restaurant.setFavourite(true);
+                    btn.setText(R.string.unfavourite);
+                    myFavouriteRestaurants.add(restaurant);
+                    restName.setTextColor(Color.parseColor("#FFFF00"));
+                    restFav.setVisibility(View.VISIBLE);
+                    Toast.makeText(RestaurantActivity.this, "Favourited Restaurant", Toast.LENGTH_SHORT).show();
+                    saveData();
+                }
+
+                else if(btn.getText().toString().contains("Un-favourite")){
+                    myFavouriteRestaurants.delete(restaurant);
+                    restaurant.setFavourite(false);
+                    btn.setText(R.string.favourite);
+                    restName.setTextColor(Color.parseColor("#FFFFFF"));
+                    restFav.setVisibility(View.INVISIBLE);
+                    Toast.makeText(RestaurantActivity.this, "Un-Favourited Restaurant", Toast.LENGTH_SHORT).show();
+                    saveData();
+                }
+            }
+        });
+    }
+
+    private void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(myFavouriteRestaurants.getFavouriteList());
+        editor.putString("task list", json);
+        editor.apply();
+    }
+
+
 
     private void setUpToMapButton(){
         TextView lngBtn = findViewById(R.id.rest_txtLongitude);
@@ -132,10 +187,27 @@ public class RestaurantActivity extends AppCompatActivity {
     }
 
     private void fillRestaurantDetails() {
+        Button btn = (Button) findViewById(R.id.rest_btnFavourite);
+        TextView restFav = findViewById(R.id.rest_txtFav);
+
         ImageView restaurantImage = findViewById(R.id.rest_imgRestaurant);
         TextView restName = findViewById(R.id.rest_txtName);
         String restaurantName = restaurant.getRestaurantName();
         restName.setText(restaurantName);
+        if ( (restaurant.getFavourite()) || (myFavouriteRestaurants.getFavouriteList().contains(restaurant))){
+
+            restName.setTextColor(Color.parseColor("#FFFF00"));
+            restFav.setVisibility(View.VISIBLE);
+
+
+        }
+
+        else{
+
+            restName.setTextColor(Color.parseColor("#FFFFFF"));
+            restFav.setVisibility(View.INVISIBLE);
+
+        }
 
         restaurantImage.setImageResource(restaurant.getIconID());
 
@@ -155,6 +227,19 @@ public class RestaurantActivity extends AppCompatActivity {
         String longitude = getResources().getString(R.string.longitude);
         longitude += " " + address.getLongitude();
         restLongitude.setText(longitude);
+
+
+        if(restaurant.getFavourite()){
+            btn.setText(R.string.unfavourite);
+        }
+
+        else{
+            btn.setText(R.string.favourite);
+        }
+
+
+
+
     }
 
     private void populateListView(){

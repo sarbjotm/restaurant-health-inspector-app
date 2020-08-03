@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -18,7 +19,7 @@
 
     <TextView
         android:id="@+id/listR_txtRestaurantName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
@@ -87,4 +88,13 @@
         android:text="@string/inspection"
         app:layout_constraintStart_toEndOf="@+id/listR_imgRestaurantIcon"
         app:layout_constraintTop_toBottomOf="@+id/listR_txtRestaurantName" />
+
+    <ImageView
+        android:id="@+id/listR_imgRestaurantFavourite"
+        android:layout_width="26dp"
+        android:layout_height="29dp"
+        app:srcCompat="@android:drawable/btn_star_big_on"
+        tools:layout_editor_absoluteX="10dp"
+        tools:layout_editor_absoluteY="19dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
