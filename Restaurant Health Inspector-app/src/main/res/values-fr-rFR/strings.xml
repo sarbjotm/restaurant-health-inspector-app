@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Inspecteur de la santé des restaurants</string>
+    <string name="issues">Problèmes</string>
+    <string name="hazard_level">Niveau de danger</string>
+    <string name="date">Date</string>
+    <string name="inspection">Inspection</string>
+    <string name="non_critical">Non critique</string>
+    <string name="critical">Critique</string>
+    <string name="severity">"Gravité "</string>
+    <string name="brief_description">Brève description</string>
+    <string name="violation">"Violation "</string>
+    <string name="restaurant">Restaurant</string>
+    <string name="name">"Nom "</string>
+    <string name="number">Nombre</string>
+    <string name="inspection_reports">Rapports d\'inspection</string>
+    <string name="address">Adresse</string>
+    <string name="latitude">"Latitude: "</string>
+    <string name="longitude">"Longitude: "</string>
+    <string name="back">arrière</string>
+    <string name="violations">Violations</string>
+    <string name="inspection_type">Type d\'inspection</string>
+    <string name="type">Type</string>
+    <string name="no_violations_found">Aucune violation trouvée</string>
+    <string name="no_inspections_recorded">Aucune inspection enregistrée</string>
+    <string name="title_activity_maps">Carte</string>
+    <string name="downloading">Téléchargement</string>
+    <string name="no_internet">Pas de connexion Internet, impossible de télécharger les fichiers mis à jour</string>
+    <string name="turn_on_location">Activez la localisation pour utiliser la fonction de carte</string>
+    <string name="permission_denied">Permission refusée</string>
+    <string name="denied_message">Si vous refusez l\'autorisation, vous ne pouvez pas utiliser cette application Veuillez autoriser les autorisations dans [Paramètres]> [Permission]</string>
+    <string name="go_to_setting">Aller aux paramètres</string>
+    <string name="no_location">Impossible d\'obtenir la position actuelle</string>
+    <string name="restaurantURL">https://data.surrey.ca/api/3/action/package_show?id=restaurants</string>
+    <string name="inspectionURL">https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports</string>
+</resources>
