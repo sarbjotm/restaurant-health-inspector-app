@@ -282,7 +282,7 @@ public class RestaurantListActivity extends AppCompatActivity {
 
 
 
-                        if (currentRestaurant.getFavourite()){
+                        if ( (currentRestaurant.getFavourite()) || (myFavouriteRestaurants.getFavouriteList().contains(currentRestaurant))){
 //                                TextView restaurantFavourite = (TextView) findViewById(R.id.listR_txtFavourite);
                                 restaurantName.setTextColor(Color.parseColor("#FFFF00"));
 //                                restaurantFavourite.setVisibility(View.VISIBLE);
@@ -296,6 +296,8 @@ public class RestaurantListActivity extends AppCompatActivity {
 
 
                         }
+
+
 
 
                         Log.e("SIZE123", Integer.toString((myFavouriteRestaurants.getFavouriteList().size())));
@@ -339,6 +341,14 @@ public class RestaurantListActivity extends AppCompatActivity {
                                 startActivity(intent);
                         }
                 });
+        }
+
+        @Override
+        public void onRestart()
+        {
+                super.onRestart();
+                finish();
+                startActivity(getIntent());
         }
 
 
