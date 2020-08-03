@@ -89,17 +89,12 @@
         app:layout_constraintStart_toEndOf="@+id/listR_imgRestaurantIcon"
         app:layout_constraintTop_toBottomOf="@+id/listR_txtRestaurantName" />
 
-    <TextView
-        android:id="@+id/listR_txtFavourite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:background="#2196F3"
-        android:backgroundTint="#2196F3"
-        android:text="@string/favourite"
-        android:textSize="12sp"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listR_imgRestaurantIcon" />
+    <ImageView
+        android:id="@+id/listR_imgRestaurantFavourite"
+        android:layout_width="26dp"
+        android:layout_height="29dp"
+        app:srcCompat="@android:drawable/btn_star_big_on"
+        tools:layout_editor_absoluteX="10dp"
+        tools:layout_editor_absoluteY="19dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

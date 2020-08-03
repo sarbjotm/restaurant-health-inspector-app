@@ -67,6 +67,8 @@ public class RestaurantListActivity extends AppCompatActivity {
                 boolean data = intent.getBooleanExtra("data", false);
                 boolean fromDialog = intent.getBooleanExtra("fromDialog", false);
 
+
+
                 if (data) {
                         try {
                                 myRestaurants = RestaurantsManager.getInstance(null,null);
@@ -231,6 +233,9 @@ public class RestaurantListActivity extends AppCompatActivity {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
+
+
+
                         View itemView = convertView;
                         if (itemView == null){
                                 itemView = getLayoutInflater().inflate(R.layout.list_restaurants, parent, false);
@@ -251,6 +256,10 @@ public class RestaurantListActivity extends AppCompatActivity {
                         TextView restaurantHazardLevel = itemView.findViewById(R.id.listR_txtHazardLevel);
                         ImageView restaurantHazardImage = itemView.findViewById(R.id.listR_imgHazard);
                         TextView restaurantDate = itemView.findViewById(R.id.listR_txtCustomDate);
+
+                        ImageView restaurantImageFav = itemView.findViewById(R.id.listR_imgRestaurantFavourite);
+
+//                        restFav.setVisibility(View.INVISIBLE);
 
                         if (inspections.size() != 0 ) {
                                 Inspection inspection = inspections.get(0);
@@ -283,24 +292,17 @@ public class RestaurantListActivity extends AppCompatActivity {
 
 
                         if ( (currentRestaurant.getFavourite()) || (myFavouriteRestaurants.getFavouriteList().contains(currentRestaurant))){
-//                                TextView restaurantFavourite = (TextView) findViewById(R.id.listR_txtFavourite);
                                 restaurantName.setTextColor(Color.parseColor("#FFFF00"));
-//                                restaurantFavourite.setVisibility(View.VISIBLE);
-
+                                restaurantImageFav.setVisibility(View.VISIBLE);
                         }
 
                         else{
-//                                TextView restaurantFavourite = (TextView) findViewById(R.id.listR_txtFavourite);
-//                                restaurantFavourite.setVisibility(View.INVISIBLE);
                                 restaurantName.setTextColor(Color.parseColor("#FFFFFF"));
-
+                                restaurantImageFav.setVisibility(View.INVISIBLE);
 
                         }
 
 
-
-
-                        Log.e("SIZE123", Integer.toString((myFavouriteRestaurants.getFavouriteList().size())));
                         return itemView;
                 }
         }
