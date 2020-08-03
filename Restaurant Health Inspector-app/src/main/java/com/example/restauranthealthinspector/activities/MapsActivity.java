@@ -76,6 +76,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ClusterManager<ClusterPin> mClusterManger;
     private EditText mSearchText;
     private String userKeyboardInput = "";
+    private String keepUserInput = "";
+    private String safeString = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,10 +127,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_SEARCH
-                        || actionId == EditorInfo.IME_ACTION_DONE
-                        || event.getAction() == event.ACTION_DOWN
-                        || event.getAction() == event.KEYCODE_ENTER){
+                //if(actionId == EditorInfo.IME_ACTION_SEARCH
+                  //      || actionId == EditorInfo.IME_ACTION_DONE
+                    //    || event.getAction() == event.ACTION_DOWN
+                      //  || event.getAction() == event.KEYCODE_ENTER)
+                {
                     //execute our method for searching
                     userKeyboardInput = String.valueOf(mSearchText.getText());
                     showText(userKeyboardInput);
@@ -161,30 +164,39 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             String hazardMsg = getString(R.string.hazard_level);
 
             String snippet = name + "\n" + address + "\n" + hazardMsg + ": " + hazardLevel;
-            float colour;
+
             if (hazardLevel.equals("High")) {
-                colour = HUE_RED;
                 type = 1;
             } else if (hazardLevel.equals("Moderate")) {
-                colour = HUE_ORANGE;
                 type = 2;
             } else {
-                colour = HUE_GREEN;
                 type = 3;
             }
 
-            MarkerOptions options = new MarkerOptions().position(latLng).title(name).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(colour));
-            Marker mMarker = mMap.addMarker(options
-                .title(name)
-                .snippet(address + "\n" + hazardLevel));
-            mMarker.setVisible(false);
+            //if (!keepUserInput.equals("")){
 
-            if (userKeyboardInput.equals("")){
-                mClusterManger.addItem(new ClusterPin(name, snippet, latLng, type));
+            //}
+            Intent intent = getIntent();
+            keepUserInput = intent.getStringExtra("keepUserInput");
+
+            if (keepUserInput == null){
+                keepUserInput = "";
             }
 
-            else if (name.toLowerCase().indexOf(userKeyboardInput.toLowerCase()) != -1) {
-                mClusterManger.addItem(new ClusterPin(name, snippet, latLng, type));
+            if (!keepUserInput.equals("") && userKeyboardInput.equals("")){
+                if (name.toLowerCase().indexOf(keepUserInput.toLowerCase()) != -1) {
+                    mClusterManger.addItem(new ClusterPin(name, snippet, latLng, type));
+                }
+            }
+
+            else{
+                if (userKeyboardInput.equals("")){
+                    mClusterManger.addItem(new ClusterPin(name, snippet, latLng, type));
+                }
+
+                else if (name.toLowerCase().indexOf(userKeyboardInput.toLowerCase()) != -1) {
+                    mClusterManger.addItem(new ClusterPin(name, snippet, latLng, type));
+                }
             }
         }
         mClusterManger.cluster();
@@ -221,6 +233,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Intent intent = new Intent(MapsActivity.this, RestaurantActivity.class);
                 intent.putExtra("nameRestaurant", clusterItem.getTitle());
                 intent.putExtra("fromMap", true);
+                intent.putExtra("userInput", userKeyboardInput);
                 startActivity(intent);
             }
         });
