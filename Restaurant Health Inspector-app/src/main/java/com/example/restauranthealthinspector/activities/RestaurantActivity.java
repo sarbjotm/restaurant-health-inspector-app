@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.restauranthealthinspector.R;
 import com.example.restauranthealthinspector.model.Address;
+import com.example.restauranthealthinspector.model.FavouriteRestaurantManager;
 import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
@@ -31,12 +32,14 @@ import java.util.ArrayList;
  */
 public class RestaurantActivity extends AppCompatActivity {
     private RestaurantsManager myRestaurants;
-    private static favouriteRestaurantsManager myFavouriteRestaurants;
     private Restaurant restaurant;
     private int indexRestaurant;
     private String nameRestaurant;
     private boolean fromMap;
+    private FavouriteRestaurantManager myFavouriteRestaurants;
     ArrayList<Inspection> inspections;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +78,7 @@ public class RestaurantActivity extends AppCompatActivity {
                     restaurant.setFavourite(true);
                     btn.setText(R.string.unfavourite);
                     myFavouriteRestaurants.add(restaurant);
+
                     Toast.makeText(RestaurantActivity.this, "Favourited Restaurant", Toast.LENGTH_SHORT).show();
 
                 }

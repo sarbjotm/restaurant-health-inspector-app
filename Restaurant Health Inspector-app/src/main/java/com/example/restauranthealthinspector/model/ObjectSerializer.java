@@ -34,7 +34,8 @@ public class ObjectSerializer {
 //    private static final Log log = LogFactory.getLog(ObjectSerializer.class);
     
     public static String serialize(Serializable obj) throws IOException {
-        if (obj == null) return "";
+        if (obj == null)
+            return "";
         try {
             ByteArrayOutputStream serialObj = new ByteArrayOutputStream();
             ObjectOutputStream objStream = new ObjectOutputStream(serialObj);
@@ -42,8 +43,11 @@ public class ObjectSerializer {
             objStream.close();
             return encodeBytes(serialObj.toByteArray());
         } catch (Exception e) {
-//            throw WrappedIOException.wrap("Serialization error: " + e.getMessage(), e);
+            throw new RuntimeException(e);
         }
+
+
+
     }
     
     public static Object deserialize(String str) throws IOException {
@@ -53,7 +57,7 @@ public class ObjectSerializer {
             ObjectInputStream objStream = new ObjectInputStream(serialObj);
             return objStream.readObject();
         } catch (Exception e) {
-//            throw WrappedIOException.wrap("Deserialization error: " + e.getMessage(), e);
+            throw new RuntimeException(e);
         }
 
     }

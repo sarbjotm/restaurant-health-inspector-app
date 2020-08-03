@@ -30,6 +30,7 @@ import com.example.restauranthealthinspector.model.Date;
 import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
+import com.example.restauranthealthinspector.model.FavouriteRestaurantManager;
 import com.example.restauranthealthinspector.model.online.DataLoad;
 import com.example.restauranthealthinspector.model.online.DataRequest;
 import com.google.android.gms.common.ConnectionResult;
@@ -50,8 +51,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class RestaurantListActivity extends AppCompatActivity {
         private RestaurantsManager myRestaurants;
-        private static RestaurantsManager myFavouriteRestaurants;
-
+        private FavouriteRestaurantManager myFavouriteRestaurants;
         private static final String TAG = "RestaurantListActivity";
         private static final int ERROR_DIALOG_REQUEST = 9001;
 
@@ -70,6 +70,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                 if (data) {
                         try {
                                 myRestaurants = RestaurantsManager.getInstance(null,null);
+                                myFavouriteRestaurants = FavouriteRestaurantManager.getInstance();
                         } catch (IOException e) {
                                 e.printStackTrace();
                         }
@@ -282,22 +283,22 @@ public class RestaurantListActivity extends AppCompatActivity {
 
 
                         if (currentRestaurant.getFavourite()){
-                                TextView restaurantFavourite = (TextView) findViewById(R.id.listR_txtFavourite);
+//                                TextView restaurantFavourite = (TextView) findViewById(R.id.listR_txtFavourite);
                                 restaurantName.setTextColor(Color.parseColor("#FFFF00"));
-                                restaurantFavourite.setVisibility(View.VISIBLE);
+//                                restaurantFavourite.setVisibility(View.VISIBLE);
 
                         }
 
                         else{
-                                TextView restaurantFavourite = (TextView) findViewById(R.id.listR_txtFavourite);
-                                restaurantFavourite.setVisibility(View.INVISIBLE);
+//                                TextView restaurantFavourite = (TextView) findViewById(R.id.listR_txtFavourite);
+//                                restaurantFavourite.setVisibility(View.INVISIBLE);
                                 restaurantName.setTextColor(Color.parseColor("#FFFFFF"));
 
 
                         }
 
 
-
+                        Log.e("SIZE123", Integer.toString((myFavouriteRestaurants.getFavouriteList().size())));
                         return itemView;
                 }
         }
