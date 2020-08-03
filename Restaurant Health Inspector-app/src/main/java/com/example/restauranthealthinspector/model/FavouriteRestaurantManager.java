@@ -21,7 +21,6 @@ public class FavouriteRestaurantManager implements Iterable<Restaurant>{
     public static FavouriteRestaurantManager getInstance(){
         if (instance == null){
             instance = new FavouriteRestaurantManager();
-            Log.e("ERROR123","123");
         }
         return instance;
     }
@@ -42,15 +41,15 @@ public class FavouriteRestaurantManager implements Iterable<Restaurant>{
         favouriteRestaurantList.add(restaurant);
     }
 
+//
+//
+//    public Restaurant get(int index){
+//        return favouriteRestaurantList.get(index);
+//    }
 
-
-    public Restaurant get(int index){
-        return favouriteRestaurantList.get(index);
-    }
-
-    public static ArrayList<Restaurant> getRestaurants(){
-        return favouriteRestaurantList;
-    }
+//    public static ArrayList<Restaurant> getRestaurants(){
+//        return favouriteRestaurantList;
+//    }
 
     public void delete(Restaurant restaurant){
         favouriteRestaurantList.remove(restaurant);

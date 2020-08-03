@@ -3,6 +3,7 @@ package com.example.restauranthealthinspector.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.example.restauranthealthinspector.model.FavouriteRestaurantManager;
 import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -84,7 +86,7 @@ public class RestaurantActivity extends AppCompatActivity {
                     restName.setTextColor(Color.parseColor("#FFFF00"));
                     restFav.setVisibility(View.VISIBLE);
                     Toast.makeText(RestaurantActivity.this, "Favourited Restaurant", Toast.LENGTH_SHORT).show();
-
+                    saveData();
                 }
 
                 else if(btn.getText().toString().contains("Un-favourite")){
@@ -94,11 +96,22 @@ public class RestaurantActivity extends AppCompatActivity {
                     restName.setTextColor(Color.parseColor("#FFFFFF"));
                     restFav.setVisibility(View.INVISIBLE);
                     Toast.makeText(RestaurantActivity.this, "Un-Favourited Restaurant", Toast.LENGTH_SHORT).show();
-
+                    saveData();
                 }
             }
         });
     }
+
+    private void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(myFavouriteRestaurants.getFavouriteList());
+        editor.putString("task list", json);
+        editor.apply();
+    }
+
+
 
     private void setUpToMapButton(){
         TextView lngBtn = findViewById(R.id.rest_txtLongitude);

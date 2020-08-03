@@ -35,12 +35,15 @@ import com.example.restauranthealthinspector.model.online.DataLoad;
 import com.example.restauranthealthinspector.model.online.DataRequest;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,15 +55,18 @@ import java.util.concurrent.TimeUnit;
 public class RestaurantListActivity extends AppCompatActivity {
         private RestaurantsManager myRestaurants;
         private FavouriteRestaurantManager myFavouriteRestaurants;
+//        private static ArrayList<Restaurant> favouriteRestaurantListActivity = new ArrayList<>();
         private static final String TAG = "RestaurantListActivity";
         private static final int ERROR_DIALOG_REQUEST = 9001;
+        ArrayList<Restaurant> favouriteRestaurant;
+        ArrayList<String> favouriteRestaurantNames = new ArrayList<String>();
+
+
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_restaurant_list);
-
-                permissionCheck();
                 setupMapButton();
 
                 Intent intent = getIntent();
@@ -98,13 +104,17 @@ public class RestaurantListActivity extends AppCompatActivity {
                                 return;
                         } else {
                                 dataLoad.loadData();
+
+
                         }
                 } else {
                         dataLoad.loadData();
                 }
 
                 startMapActivity();
+
         }
+
 
         // Code refer from stack overflow
         // https://stackoverflow.com/questions/10311834/how-to-check-if-location-services-are-enabled
@@ -223,6 +233,10 @@ public class RestaurantListActivity extends AppCompatActivity {
                 ArrayAdapter<Restaurant> adapter = new MyListAdapter();
                 ListView list = findViewById(R.id.restlist_listRestaurants);
                 list.setAdapter(adapter);
+
+
+
+
         }
 
         private class MyListAdapter extends ArrayAdapter<Restaurant>{
@@ -290,8 +304,18 @@ public class RestaurantListActivity extends AppCompatActivity {
                         }
 
 
+                                loadDataFavourite();
+                                saveData();
 
-                        if ( (currentRestaurant.getFavourite()) || (myFavouriteRestaurants.getFavouriteList().contains(currentRestaurant))){
+
+                        if ((currentRestaurant.getFavourite())|| (myFavouriteRestaurants.getFavouriteList().contains(currentRestaurant))){
+                                currentRestaurant.setFavourite(true);
+                                restaurantName.setTextColor(Color.parseColor("#FFFF00"));
+                                restaurantImageFav.setVisibility(View.VISIBLE);
+                        }
+
+                        else if(favouriteRestaurantNames.contains(currentRestaurant.getRestaurantName())){
+                                currentRestaurant.setFavourite(true);
                                 restaurantName.setTextColor(Color.parseColor("#FFFF00"));
                                 restaurantImageFav.setVisibility(View.VISIBLE);
                         }
@@ -302,10 +326,56 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                         }
 
-
                         return itemView;
                 }
+
         }
+
+        private void saveData() {
+                SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                Gson gson = new Gson();
+                String json = gson.toJson(myFavouriteRestaurants.getFavouriteList());
+                editor.putString("task list", json);
+                editor.apply();
+        }
+
+
+                private void loadDataFavourite() {
+                Log.e("YES","YESINLOAD");
+                SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+                Gson gson = new Gson();
+                String json = sharedPreferences.getString("task list", null);
+                Type type = new TypeToken<ArrayList<Restaurant>>() {}.getType();
+                favouriteRestaurant = gson.fromJson(json, type);
+                if (favouriteRestaurant == null) {
+                        Log.e("YES","YESINNULL");
+                        favouriteRestaurant = new ArrayList<Restaurant>();
+                }
+
+                else{
+//                        Log.e("YES","YESINELSE");
+
+                        for(int i = 0; i < favouriteRestaurant.size(); i++){
+
+                                try {
+//                                        Log.e("YES","ADDING");
+                                        if(!favouriteRestaurantNames.contains(favouriteRestaurant.get(i).getRestaurantName()))
+                                                favouriteRestaurantNames.add(favouriteRestaurant.get(i).getRestaurantName());
+//                                        Log.e("YES", "SizeofR" + Integer.toString(favouriteRestaurant.size()));
+
+                                }
+
+                                catch(Exception e){
+                                        Log.e("Nothing", "nothing found");
+                                }
+                        }
+                }
+
+
+                }
+
+
 
         private void hazard(View itemView, Inspection inspection) {
                 String hazardRating = inspection.getHazardRating();
@@ -351,7 +421,11 @@ public class RestaurantListActivity extends AppCompatActivity {
                 super.onRestart();
                 finish();
                 startActivity(getIntent());
+
+
         }
+
+
 
 
 }
