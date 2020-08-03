@@ -1,5 +1,6 @@
 package com.example.restauranthealthinspector.model;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class SearchFilter {
@@ -42,9 +43,7 @@ public class SearchFilter {
             String hazard = restaurant.getInspectionsManager().getInspectionList().get(1).getHazardRating();
             hazard = hazard.toLowerCase();
 
-            if (word.equals(hazard)) {
-                return true;
-            }
+            return word.equals(hazard);
         }
 
         return false;
@@ -65,21 +64,41 @@ public class SearchFilter {
             ArrayList<Inspection> inspections = restaurant.getInspectionsManager().getInspectionList();
 
             for (Inspection inspection : inspections) {
-                if (isYearOld(inspection)) {
+                if (isYearOlder(inspection)) {
                     break;
                 }
                 violationCount += inspection.getNumCritical() + inspection.getNumNonCritical();
             }
 
-
+            int violationN;
+            if (word.contains("<=")) {
+                violationN = wordToNumber();
+                return violationN <= violationCount;
+            } else {
+                violationN = wordToNumber();
+                return violationN >= violationCount;
+            }
         }
-
         return false;
     }
 
-    private boolean isYearOld (Inspection inspection) {
+    private boolean isYearOlder(Inspection inspection) {
+        long daysDifference = 0;
+        try {
+            daysDifference = inspection.getInspectionDate().getDayDifference();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-        return false;
+        return daysDifference > 365;
+    }
+
+    private int wordToNumber() throws NumberFormatException {
+        String numberString = word;
+        numberString = numberString.replaceAll("<=", "");
+        return Integer.parseInt(numberString);
+
+
     }
 
     private boolean hasFavourite() {
