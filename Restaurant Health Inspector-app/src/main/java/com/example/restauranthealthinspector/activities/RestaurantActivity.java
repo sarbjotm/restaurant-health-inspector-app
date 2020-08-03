@@ -71,6 +71,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
     private void setUpFavouriteButton(){
         final Button btn = (Button) findViewById(R.id.rest_btnFavourite);
+        final TextView restName = findViewById(R.id.rest_txtName);
 //        final Button btn = (Button) findViewById(R.id.rest_btnFavourite);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +80,7 @@ public class RestaurantActivity extends AppCompatActivity {
                     restaurant.setFavourite(true);
                     btn.setText(R.string.unfavourite);
                     myFavouriteRestaurants.add(restaurant);
-
+                    restName.setTextColor(Color.parseColor("#FFFF00"));
                     Toast.makeText(RestaurantActivity.this, "Favourited Restaurant", Toast.LENGTH_SHORT).show();
 
                 }
@@ -88,7 +89,7 @@ public class RestaurantActivity extends AppCompatActivity {
                     myFavouriteRestaurants.delete(restaurant);
                     restaurant.setFavourite(false);
                     btn.setText(R.string.favourite);
-
+                    restName.setTextColor(Color.parseColor("#FFFFFF"));
                     Toast.makeText(RestaurantActivity.this, "Un-Favourited Restaurant", Toast.LENGTH_SHORT).show();
 
                 }
@@ -174,6 +175,20 @@ public class RestaurantActivity extends AppCompatActivity {
         TextView restName = findViewById(R.id.rest_txtName);
         String restaurantName = restaurant.getRestaurantName();
         restName.setText(restaurantName);
+        if ( (restaurant.getFavourite()) || (myFavouriteRestaurants.getFavouriteList().contains(restaurant))){
+//                                TextView restaurantFavourite = (TextView) findViewById(R.id.listR_txtFavourite);
+            restName.setTextColor(Color.parseColor("#FFFF00"));
+//                                restaurantFavourite.setVisibility(View.VISIBLE);
+
+        }
+
+        else{
+//                                TextView restaurantFavourite = (TextView) findViewById(R.id.listR_txtFavourite);
+//                                restaurantFavourite.setVisibility(View.INVISIBLE);
+            restName.setTextColor(Color.parseColor("#FFFFFF"));
+
+
+        }
 
         restaurantImage.setImageResource(restaurant.getIconID());
 
