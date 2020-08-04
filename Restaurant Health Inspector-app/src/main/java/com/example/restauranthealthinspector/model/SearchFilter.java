@@ -11,11 +11,15 @@ public class SearchFilter {
 
     public boolean inFilter(Restaurant restaurant) {
         this.restaurant = restaurant;
+        if (search == null || search.equals("")) {
+            return true;
+        }
+
         String[] searchWords = search.split(" ");
 
         for (String word : searchWords) {
             checkFlag = false;
-            word = word.toLowerCase();
+            this.word = word.toLowerCase();
 
             if (hasHazardLevel() || hasNCriticalViolations() || hasFavourite()) {
                 continue;
@@ -40,7 +44,7 @@ public class SearchFilter {
                 return false;
             }
 
-            String hazard = restaurant.getInspectionsManager().getInspectionList().get(1).getHazardRating();
+            String hazard = restaurant.getInspectionsManager().getInspectionList().get(0).getHazardRating();
             hazard = hazard.toLowerCase();
 
             return word.equals(hazard);
@@ -95,7 +99,9 @@ public class SearchFilter {
 
     private int wordToNumber() throws NumberFormatException {
         String numberString = word;
-        numberString = numberString.replaceAll("<=", "");
+        numberString = numberString.replaceAll("<=", " ");
+        numberString = numberString.replaceAll(">=", " ");
+        numberString = numberString.trim();
         return Integer.parseInt(numberString);
 
 
@@ -104,11 +110,10 @@ public class SearchFilter {
     private boolean hasFavourite() {
         if (word.equals("favourite")) {
             checkFlag = true;
-
             return false;
         }
 
-        return true;
+        return false;
     }
 
     private boolean hasName() {
