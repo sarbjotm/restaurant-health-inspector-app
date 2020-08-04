@@ -241,6 +241,13 @@ public class RestaurantListActivity extends AppCompatActivity {
 
         private void setUpSearch() {
                 SearchView searchView = findViewById(R.id.restlist_search);
+                Intent intent = getIntent();
+                String keepUserInput = intent.getStringExtra("keepUserInput");
+
+                if (keepUserInput != null && keepUserInput.equals(" ")) {
+                        searchView.setQuery(keepUserInput, false);
+                }
+
                 //searchView.setSubmitButtonEnabled(true);
                 searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
                         @Override
@@ -263,11 +270,13 @@ public class RestaurantListActivity extends AppCompatActivity {
                         @Override
                         public boolean onQueryTextChange(String text) {
                                 Filter filter = adapter.getFilter();
+                                Intent intent = getIntent();
                                 if (TextUtils.isEmpty(text)) {
                                         filter.filter("");
                                 } else {
                                         filter.filter(text);
                                 }
+                                intent.putExtra("keepUserInput", text);
                                 return true;
                         }
                 });
