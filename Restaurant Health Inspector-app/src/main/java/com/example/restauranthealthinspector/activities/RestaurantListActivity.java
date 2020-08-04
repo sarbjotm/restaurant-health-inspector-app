@@ -241,14 +241,13 @@ public class RestaurantListActivity extends AppCompatActivity {
 
         private void setUpSearch() {
                 SearchView searchView = findViewById(R.id.restlist_search);
+                //searchView.setSubmitButtonEnabled(true);
                 Intent intent = getIntent();
                 String keepUserInput = intent.getStringExtra("keepUserInput");
-
-                if (keepUserInput != null && keepUserInput.equals(" ")) {
+                if (keepUserInput != null && !keepUserInput.equals(" ")) {
                         searchView.setQuery(keepUserInput, false);
                 }
 
-                //searchView.setSubmitButtonEnabled(true);
                 searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
                         @Override
                         public void onFocusChange(View view, boolean isFocused) {

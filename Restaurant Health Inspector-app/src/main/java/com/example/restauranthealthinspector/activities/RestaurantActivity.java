@@ -152,6 +152,7 @@ public class RestaurantActivity extends AppCompatActivity {
                 Intent intent;
                 if(!fromMap){
                     intent = new Intent(RestaurantActivity.this, RestaurantListActivity.class);
+                    intent.putExtra("data", true);
                 }
                 else{
                     intent = new Intent(RestaurantActivity.this, MapsActivity.class);
