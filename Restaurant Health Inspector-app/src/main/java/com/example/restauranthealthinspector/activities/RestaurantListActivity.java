@@ -36,6 +36,7 @@ import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
 import com.example.restauranthealthinspector.model.FavouriteRestaurantManager;
+import com.example.restauranthealthinspector.model.SearchFilter;
 import com.example.restauranthealthinspector.model.online.DataLoad;
 import com.example.restauranthealthinspector.model.online.DataRequest;
 import com.google.android.gms.common.ConnectionResult;
@@ -280,6 +281,7 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
         private class MyListAdapter extends ArrayAdapter<Restaurant> implements Filterable {
                 private ArrayList<Restaurant> originalRestaurants;
                 private ArrayList<Restaurant> restaurants;
+                private SearchFilter searchFilter = new SearchFilter();
 
                 public MyListAdapter(){
                         super(RestaurantListActivity.this, R.layout.list_restaurants, myRestaurants.getRestaurants());
@@ -298,11 +300,11 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
                                         if (originalRestaurants == null) {
                                                 originalRestaurants = restaurants;
                                         }
-
                                         if (charSequence != null) {
+                                                searchFilter.setSearch(charSequence.toString());
                                                 if (originalRestaurants != null && originalRestaurants.size() > 0) {
                                                         for (final Restaurant restaurant : originalRestaurants) {
-                                                                if (restaurant.getRestaurantName().toLowerCase().contains(charSequence.toString())) {
+                                                                if (searchFilter.inFilter(restaurant)) {
                                                                         results.add(restaurant);
                                                                 }
                                                         }
@@ -409,7 +411,10 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
 
                 @Override
                 public int getCount() {
-                      return restaurants.size();
+                        if (restaurants == null ) {
+                                return 0;
+                        }
+                        return restaurants.size();
                 }
 
                 @Override
