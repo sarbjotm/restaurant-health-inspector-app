@@ -54,7 +54,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * A list of restaurants with brief inspections report.
  */
-public class RestaurantListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class RestaurantListActivity extends AppCompatActivity {
         private RestaurantsManager myRestaurants;
         private FavouriteRestaurantManager myFavouriteRestaurants;
 //        private static ArrayList<Restaurant> favouriteRestaurantListActivity = new ArrayList<>();
@@ -239,11 +239,9 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
                 list.setTextFilterEnabled(true);
         }
 
-        private void  setUpSearch() {
+        private void setUpSearch() {
                 SearchView searchView = findViewById(R.id.restlist_search);
-                //searchView.setIconifiedByDefault(false);
-                searchView.setOnQueryTextListener(this);
-                searchView.setSubmitButtonEnabled(true);
+                //searchView.setSubmitButtonEnabled(true);
                 searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
                         @Override
                         public void onFocusChange(View view, boolean isFocused) {
@@ -255,24 +253,25 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
                                 }
                         }
                 });
-        }
 
-        @Override
-        public boolean onQueryTextChange(String text) {
-                Filter filter = adapter.getFilter();
-                if (TextUtils.isEmpty(text)) {
-                        filter.filter("");
-                } else {
-                        filter.filter(text);
-                }
-                return true;
-        }
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                        @Override
+                        public boolean onQueryTextSubmit(String s) {
+                                return false;
+                        }
 
-        @Override
-        public boolean onQueryTextSubmit(String query) {
-                return false;
+                        @Override
+                        public boolean onQueryTextChange(String text) {
+                                Filter filter = adapter.getFilter();
+                                if (TextUtils.isEmpty(text)) {
+                                        filter.filter("");
+                                } else {
+                                        filter.filter(text);
+                                }
+                                return true;
+                        }
+                });
         }
-
         private class MyListAdapter extends ArrayAdapter<Restaurant> implements Filterable {
                 private ArrayList<Restaurant> originalRestaurants;
                 private ArrayList<Restaurant> restaurants;
