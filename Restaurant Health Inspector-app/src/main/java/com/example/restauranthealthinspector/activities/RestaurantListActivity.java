@@ -39,17 +39,12 @@ import com.example.restauranthealthinspector.model.FavouriteRestaurantManager;
 import com.example.restauranthealthinspector.model.SearchFilter;
 import com.example.restauranthealthinspector.model.online.DataLoad;
 import com.example.restauranthealthinspector.model.online.DataRequest;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.ArrayList;

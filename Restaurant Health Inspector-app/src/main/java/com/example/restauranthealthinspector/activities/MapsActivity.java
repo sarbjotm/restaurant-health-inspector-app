@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.restauranthealthinspector.model.SearchFilter;
 import com.example.restauranthealthinspector.model.map.ClusterPin;
 import com.example.restauranthealthinspector.model.map.CustomClusterRenderer;
 import com.example.restauranthealthinspector.R;
@@ -78,6 +79,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private String userKeyboardInput = "";
     private String keepUserInput = "";
     private String safeString = "";
+    private SearchFilter searchFilter = new SearchFilter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +126,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void getUserInput(){
+        Intent intent = getIntent();
+        keepUserInput = intent.getStringExtra("keepUserInput");
+
+        if (keepUserInput == null){
+            keepUserInput = "";
+        }
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -135,19 +143,22 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     //execute our method for searching
                     userKeyboardInput = String.valueOf(mSearchText.getText());
                     showText(userKeyboardInput);
+                    searchFilter.setSearch(userKeyboardInput);
                     pinRestaurants();
                 }
                 return false;
             }
         });
-        return;
     }
 
     private void pinRestaurants(){
         mMap.clear();
         initClusterManager();
-
         for (Restaurant restaurant : myRestaurants) {
+            if (!searchFilter.inFilter(restaurant)) {
+                break;
+            }
+
             int type;
             mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(MapsActivity.this));
             double lat = restaurant.getAddress().getLatitude();
@@ -173,31 +184,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 type = 3;
             }
 
-            //if (!keepUserInput.equals("")){
-
-            //}
-            Intent intent = getIntent();
-            keepUserInput = intent.getStringExtra("keepUserInput");
-
-            if (keepUserInput == null){
-                keepUserInput = "";
-            }
-
-            if (!keepUserInput.equals("") && userKeyboardInput.equals("")){
-                if (name.toLowerCase().indexOf(keepUserInput.toLowerCase()) != -1) {
-                    mClusterManger.addItem(new ClusterPin(name, snippet, latLng, type));
-                }
-            }
-
-            else{
-                if (userKeyboardInput.equals("")){
-                    mClusterManger.addItem(new ClusterPin(name, snippet, latLng, type));
-                }
-
-                else if (name.toLowerCase().indexOf(userKeyboardInput.toLowerCase()) != -1) {
-                    mClusterManger.addItem(new ClusterPin(name, snippet, latLng, type));
-                }
-            }
+            mClusterManger.addItem(new ClusterPin(name, snippet, latLng, type));
         }
         mClusterManger.cluster();
     }
