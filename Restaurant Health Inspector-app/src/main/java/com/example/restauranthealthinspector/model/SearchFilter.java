@@ -110,7 +110,7 @@ public class SearchFilter {
     private boolean hasFavourite() {
         if (word.equals("favourite")) {
             checkFlag = true;
-            return false;
+            return restaurant.getFavourite();
         }
 
         return false;
