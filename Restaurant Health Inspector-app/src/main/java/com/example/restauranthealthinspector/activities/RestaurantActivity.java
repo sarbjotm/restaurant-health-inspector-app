@@ -84,7 +84,10 @@ public class RestaurantActivity extends AppCompatActivity {
                     }
                     restName.setTextColor(Color.parseColor("#FFFF00"));
                     restFav.setVisibility(View.VISIBLE);
-                    Toast.makeText(RestaurantActivity.this, "Favourited Restaurant", Toast.LENGTH_SHORT).show();
+                    
+                    String message = getString(R.string.favourite) + " " + getString(R.string.restaurant);
+                    Toast.makeText(RestaurantActivity.this, message, Toast.LENGTH_SHORT).show();
+                    
                     if(!favouriteRestaurantNames.contains(restaurantName)){
                         favouriteRestaurantNames.add(restaurantName);
                     }
@@ -97,10 +100,14 @@ public class RestaurantActivity extends AppCompatActivity {
                     btn.setText(R.string.favourite);
                     restName.setTextColor(Color.parseColor("#FFFFFF"));
                     restFav.setVisibility(View.INVISIBLE);
-                    Toast.makeText(RestaurantActivity.this, "Un-Favourited Restaurant", Toast.LENGTH_SHORT).show();
+
+                    String message = getString(R.string.unfavourite) + " " + getString(R.string.restaurant);
+                    Toast.makeText(RestaurantActivity.this, message, Toast.LENGTH_SHORT).show();
+                    
                     if(favouriteRestaurantNames.contains(restaurantName)){
                         favouriteRestaurantNames.remove(restaurantName);
                     }
+                    
                     saveData();
                 }
             }
@@ -125,8 +132,8 @@ public class RestaurantActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RestaurantActivity.this, MapsActivity.class);
-                Toast.makeText(RestaurantActivity.this, "latitude:" + restaurant.getAddress().getLatitude(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(RestaurantActivity.this, "longitude:" + restaurant.getAddress().getLongitude(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(RestaurantActivity.this, getText(R.string.latitude) + " " + restaurant.getAddress().getLatitude(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(RestaurantActivity.this, getText(R.string.longitude) + " " + restaurant.getAddress().getLongitude(), Toast.LENGTH_SHORT).show();
                 intent.putExtra("longitude", restaurant.getAddress().getLongitude());
                 intent.putExtra("latitude", restaurant.getAddress().getLatitude());
                 intent.putExtra("fromGPS", true);
@@ -137,7 +144,7 @@ public class RestaurantActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RestaurantActivity.this, MapsActivity.class);
-                Toast.makeText(RestaurantActivity.this, "latitude:" + restaurant.getAddress().getLatitude(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(RestaurantActivity.this, getText(R.string.latitude) + " " + restaurant.getAddress().getLatitude(), Toast.LENGTH_SHORT).show();
                 intent.putExtra("longitude", restaurant.getAddress().getLongitude());
                 intent.putExtra("latitude", restaurant.getAddress().getLatitude());
                 intent.putExtra("fromGPS", true);
@@ -276,20 +283,22 @@ public class RestaurantActivity extends AppCompatActivity {
     private void hazard(View itemView, Inspection inspection) {
         TextView hazardLevel = itemView.findViewById(R.id.listI_txtHazardNum);
         String getHazardLevel = inspection.getHazardRating();
-        hazardLevel.setText(getHazardLevel);
 
         ImageView hazardSymbol = itemView.findViewById(R.id.listI_imgHazard);
 
         if (getHazardLevel.equals("Low")){
             hazardSymbol.setImageResource(R.drawable.hazard_low);
+            hazardLevel.setText(getString(R.string.low));
             hazardLevel.setTextColor(Color.parseColor("#82F965"));
         }
         else if (getHazardLevel.equals("Moderate")){
             hazardSymbol.setImageResource(R.drawable.hazard_moderate);
+            hazardLevel.setText(getString(R.string.moderate));
             hazardLevel.setTextColor(Color.parseColor("#F08D47"));
         }
         else{
             hazardSymbol.setImageResource((R.drawable.hazard_high));
+            hazardLevel.setText(getString(R.string.high));
             hazardLevel.setTextColor(Color.parseColor("#EC4A26"));
         }
     }

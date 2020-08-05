@@ -194,22 +194,25 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             String name = restaurant.getRestaurantName();
             String address = restaurant.getAddress().getStreetAddress();
             ArrayList<Inspection> inspections = restaurant.getInspectionsManager().getInspectionList();
-            String hazardLevel = "No inspections recorded";
+            String hazardLevel = getString(R.string.no_inspections_recorded);
             if (inspections.size() != 0) {
                 Inspection inspection = inspections.get(0);
                 hazardLevel = inspection.getHazardRating();
             }
             String hazardMsg = getString(R.string.hazard_level);
 
-            String snippet = name + "\n" + address + "\n" + hazardMsg + ": " + hazardLevel;
-
             if (hazardLevel.equals("High")) {
+                hazardLevel = getString(R.string.high);
                 type = 1;
             } else if (hazardLevel.equals("Moderate")) {
+                hazardLevel = getString(R.string.moderate);
                 type = 2;
             } else {
+                hazardLevel = getString(R.string.low);
                 type = 3;
             }
+            String snippet = name + "\n" + address + "\n" + hazardMsg + ": " + hazardLevel;
+
             mClusterManger.addItem(new ClusterPin(name, snippet, latLng, type));
         }
         mClusterManger.cluster();
