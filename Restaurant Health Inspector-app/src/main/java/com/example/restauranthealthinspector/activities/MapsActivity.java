@@ -132,21 +132,24 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void setUpSearch() {
         final SearchView searchView = findViewById(R.id.map_search);
+        final TextView textView = findViewById(R.id.map_txtRestaurant);
+
         searchView.setSubmitButtonEnabled(true);
-        Intent intent = getIntent();
-        String keepUserInput = intent.getStringExtra("keepUserInput");
-        if (keepUserInput != null && !keepUserInput.equals(" ")) {
-            searchView.setQuery(keepUserInput, false);
+        String previousSearch = searchFilter.getSearch();
+        if (!TextUtils.isEmpty(previousSearch)) {
+            searchView.onActionViewExpanded();
+            searchView.setQuery(previousSearch, true);
+            searchView.clearFocus();
+            textView.setVisibility(View.INVISIBLE);
         }
 
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean isFocused) {
-                TextView textView = findViewById(R.id.map_txtRestaurant);
-                if (isFocused) {
-                    textView.setVisibility(View.INVISIBLE);
-                } else {
+                if (!isFocused && TextUtils.isEmpty(searchFilter.getSearch())) {
                     textView.setVisibility(View.VISIBLE);
+                } else {
+                    textView.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -154,14 +157,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String text) {
-                Intent intent = getIntent();
                 if (TextUtils.isEmpty(text)) {
                     searchFilter.setSearch("");
                 } else {
                     searchFilter.setSearch(text);
                 }
-                intent.putExtra("keepUserInput", text);
-
+                searchView.clearFocus();
                 pinRestaurants();
                 return true;
             }
@@ -169,12 +170,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public boolean onQueryTextChange(String text) {
                 if (TextUtils.isEmpty(text)) {
-                    Intent intent = getIntent();
                     searchFilter.setSearch("");
-                    intent.putExtra("keepUserInput", text);
                     pinRestaurants();
                 }
-                return false;
+                return true;
             }
         });
     }

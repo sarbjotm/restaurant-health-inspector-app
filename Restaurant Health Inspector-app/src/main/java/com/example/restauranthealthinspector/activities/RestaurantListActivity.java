@@ -269,42 +269,50 @@ public class RestaurantListActivity extends AppCompatActivity {
         }
 
         private void setUpSearch() {
-                SearchView searchView = findViewById(R.id.restlist_search);
-                //searchView.setSubmitButtonEnabled(true);
-                Intent intent = getIntent();
-                String keepUserInput = intent.getStringExtra("keepUserInput");
-                if (keepUserInput != null && !keepUserInput.equals(" ")) {
-                        searchView.setQuery(keepUserInput, false);
+                final SearchView searchView = findViewById(R.id.restlist_search);
+                final TextView textView = findViewById(R.id.restlist_txtRestaurant);
+                final SearchFilter searchFilter = SearchFilter.getInstance();
+
+                String previousSearch = searchFilter.getSearch();
+                if (!TextUtils.isEmpty(previousSearch)) {
+                        searchView.onActionViewExpanded();
+                        searchView.setQuery(previousSearch, true);
+                        textView.setVisibility(View.INVISIBLE);
+                        searchView.clearFocus();
                 }
 
                 searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
                         @Override
                         public void onFocusChange(View view, boolean isFocused) {
-                                TextView textView = findViewById(R.id.restlist_txtRestaurant);
-                                if (isFocused) {
-                                        textView.setVisibility(View.INVISIBLE);
-                                } else {
+                                if (!isFocused && TextUtils.isEmpty(searchFilter.getSearch())) {
                                         textView.setVisibility(View.VISIBLE);
+                                } else {
+                                        textView.setVisibility(View.INVISIBLE);
                                 }
                         }
                 });
 
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                         @Override
-                        public boolean onQueryTextSubmit(String s) {
-                                return false;
-                        }
-
-                        @Override
-                        public boolean onQueryTextChange(String text) {
+                        public boolean onQueryTextSubmit(String text) {
                                 Filter filter = adapter.getFilter();
-                                Intent intent = getIntent();
                                 if (TextUtils.isEmpty(text)) {
                                         filter.filter("");
                                 } else {
                                         filter.filter(text);
                                 }
-                                intent.putExtra("keepUserInput", text);
+                                searchView.clearFocus();
+                                return true;
+                        }
+
+                        @Override
+                        public boolean onQueryTextChange(String text) {
+                                Filter filter = adapter.getFilter();
+                                if (TextUtils.isEmpty(text)) {
+                                        filter.filter("");
+                                } else {
+                                        filter.filter(text);
+                                }
                                 return true;
                         }
                 });
