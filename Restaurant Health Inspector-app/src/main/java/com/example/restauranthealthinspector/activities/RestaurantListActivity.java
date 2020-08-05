@@ -65,16 +65,15 @@ public class RestaurantListActivity extends AppCompatActivity {
         private static final int ERROR_DIALOG_REQUEST = 9001;
         private ArrayAdapter<Restaurant> adapter;
         ArrayList<Restaurant> favouriteRestaurant;
-        ArrayList<String> favouriteRestaurantNames = new ArrayList<String>();
+        static ArrayList<String> favouriteRestaurantNames = new ArrayList<String>();
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_restaurant_list);
-
+                loadDataFavourite();
                 permissionCheck();
                 setupMapButton();
-                loadDataFavourite();
 
                 Intent intent = getIntent();
                 boolean data = intent.getBooleanExtra("data", false);
@@ -369,6 +368,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
+                        loadDataFavourite();
                         View itemView = convertView;
                         if (itemView == null){
                                 itemView = getLayoutInflater().inflate(R.layout.list_restaurants, parent, false);
@@ -422,31 +422,35 @@ public class RestaurantListActivity extends AppCompatActivity {
                         }
 
 
-                                loadDataFavourite();
-                                 saveData();
+//                                loadDataFavourite();
+//                                 saveData();
 
 
-                        if ((currentRestaurant.getFavourite())|| (myFavouriteRestaurants.getFavouriteList().contains(currentRestaurant))){
-                                myFavouriteRestaurants.add(currentRestaurant);
+                        if ((favouriteRestaurantNames.contains(currentRestaurant.getRestaurantName()))){
+
+
                                 currentRestaurant.setFavourite(true);
                                 restaurantName.setTextColor(Color.parseColor("#FFFF00"));
                                 restaurantImageFav.setVisibility(View.VISIBLE);
-                                saveData();
-
-                        }
-
-                        else if(favouriteRestaurantNames.contains(currentRestaurant.getRestaurantName())){
-                                myFavouriteRestaurants.add(currentRestaurant);
-                                currentRestaurant.setFavourite(true);
-                                restaurantName.setTextColor(Color.parseColor("#FFFF00"));
-                                restaurantImageFav.setVisibility(View.VISIBLE);
-                                saveData();
+                                
 
                         }
 
                         else{
                                 try{
+                                        favouriteRestaurantNames.remove(currentRestaurant.getRestaurantName());
+
+
+
+                                }catch(Exception e){
+                                        Log.e("REMOVE", "error removing");
+                                }
+
+                                try{
                                         myFavouriteRestaurants.delete(currentRestaurant);
+                                        saveData();
+
+
 
                                 }catch(Exception e){
 
@@ -510,13 +514,15 @@ public class RestaurantListActivity extends AppCompatActivity {
 //                                        Log.e("YES","ADDING");
                                         if(!favouriteRestaurantNames.contains(favouriteRestaurant.get(i).getRestaurantName()))
                                                 favouriteRestaurantNames.add(favouriteRestaurant.get(i).getRestaurantName());
-//                                        Log.e("YES", "SizeofR" + Integer.toString(favouriteRestaurant.size()));
+                                        Log.e("YES", "SizeofR" + Integer.toString(favouriteRestaurant.size()));
 
                                 }
 
                                 catch(Exception e){
 //                                        Log.e("Nothing", "nothing found");
                                 }
+                                favouriteRestaurant.get(i).setFavourite(true);
+
                         }
                 }
 
@@ -569,6 +575,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                 super.onRestart();
                 finish();
                 startActivity(getIntent());
+                loadDataFavourite();
 
 
         }

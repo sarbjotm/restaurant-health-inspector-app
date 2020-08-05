@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+import static com.example.restauranthealthinspector.activities.RestaurantListActivity.favouriteRestaurantNames;
+
 /**
  * Details about a restaurant with a list of inspections.
  */
@@ -77,10 +79,15 @@ public class RestaurantActivity extends AppCompatActivity {
                 if (btn.getText().toString().contains("Favourite")){
                     restaurant.setFavourite(true);
                     btn.setText(R.string.unfavourite);
-                    myFavouriteRestaurants.add(restaurant);
+                    if(!myFavouriteRestaurants.equals(restaurant)){
+                        myFavouriteRestaurants.add(restaurant);
+                    }
                     restName.setTextColor(Color.parseColor("#FFFF00"));
                     restFav.setVisibility(View.VISIBLE);
                     Toast.makeText(RestaurantActivity.this, "Favourited Restaurant", Toast.LENGTH_SHORT).show();
+                    if(!favouriteRestaurantNames.contains(restaurantName)){
+                        favouriteRestaurantNames.add(restaurantName);
+                    }
                     saveData();
                 }
 
@@ -91,6 +98,9 @@ public class RestaurantActivity extends AppCompatActivity {
                     restName.setTextColor(Color.parseColor("#FFFFFF"));
                     restFav.setVisibility(View.INVISIBLE);
                     Toast.makeText(RestaurantActivity.this, "Un-Favourited Restaurant", Toast.LENGTH_SHORT).show();
+                    if(favouriteRestaurantNames.contains(restaurantName)){
+                        favouriteRestaurantNames.remove(restaurantName);
+                    }
                     saveData();
                 }
             }
