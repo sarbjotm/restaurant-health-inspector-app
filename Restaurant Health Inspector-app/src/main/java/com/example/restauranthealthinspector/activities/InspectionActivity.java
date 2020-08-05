@@ -45,8 +45,6 @@ public class InspectionActivity extends AppCompatActivity {
     private Inspection inspection;
     private List<Violation> violations;
     private int indexRestaurant;
-
-    //
     Translate translate;
 
     @Override
@@ -68,7 +66,6 @@ public class InspectionActivity extends AppCompatActivity {
         setUpBackButton();
         noViolationsMessage();
 
-        //
         getTranslateService();
     }
 
@@ -201,8 +198,6 @@ public class InspectionActivity extends AppCompatActivity {
             textView.setVisibility(View.INVISIBLE);
         }
     }
-
-    //
 
     public void getTranslateService() {
 

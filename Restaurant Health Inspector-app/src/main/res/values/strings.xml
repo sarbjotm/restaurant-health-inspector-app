@@ -37,4 +37,8 @@
     <string name="favourite">Favourite</string>
     <string name="unfavourite">Un-favourite</string>
     <string name="fav">Fav</string>
+
+    <string name="high">High</string>
+    <string name="moderate">Moderate</string>
+    <string name="low">Low</string>
 </resources>
