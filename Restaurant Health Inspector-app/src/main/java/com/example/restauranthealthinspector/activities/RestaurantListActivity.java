@@ -514,7 +514,6 @@ public class RestaurantListActivity extends AppCompatActivity {
 //                                        Log.e("YES","ADDING");
                                         if(!favouriteRestaurantNames.contains(favouriteRestaurant.get(i).getRestaurantName()))
                                                 favouriteRestaurantNames.add(favouriteRestaurant.get(i).getRestaurantName());
-                                        Log.e("YES", "SizeofR" + Integer.toString(favouriteRestaurant.size()));
 
                                 }
 
