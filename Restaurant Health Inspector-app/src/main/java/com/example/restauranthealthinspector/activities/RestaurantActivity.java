@@ -35,14 +35,11 @@ import java.util.ArrayList;
 public class RestaurantActivity extends AppCompatActivity {
     private RestaurantsManager myRestaurants;
     private Restaurant restaurant;
-    private int indexRestaurant;
-    private String nameRestaurant;
+    private String restaurantName;
     private boolean fromMap;
     private String keepUserInput;
     private FavouriteRestaurantManager myFavouriteRestaurants;
     ArrayList<Inspection> inspections;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +64,6 @@ public class RestaurantActivity extends AppCompatActivity {
         noInspectionsMessage();
 
         setUpFavouriteButton();
-
-
-
     }
 
     private void setUpFavouriteButton(){
@@ -166,25 +160,11 @@ public class RestaurantActivity extends AppCompatActivity {
 
     private void loadRestaurant() {
         Intent intent = getIntent();
-        //indexRestaurant = intent.getIntExtra("indexRestaurant", 0);
         keepUserInput = intent.getStringExtra("userInput");
         fromMap = intent.getBooleanExtra("fromMap", false);
-        nameRestaurant = intent.getStringExtra("nameRestaurant");
-        indexRestaurant = findIndexRestaurant(nameRestaurant);
-        restaurant = myRestaurants.get(indexRestaurant);
+        restaurantName = intent.getStringExtra("restaurantName");
+        restaurant = myRestaurants.getRestaurantFromName(restaurantName);
         inspections = restaurant.getInspectionsManager().getInspectionList();
-    }
-
-    private int findIndexRestaurant(String nameRestaurant){
-        int i = 0;
-        for (Restaurant restaurant : myRestaurants){
-           restaurant.setIconID(RestaurantActivity.this, restaurant.getRestaurantName());
-            if (restaurant.getRestaurantName().equals(nameRestaurant)){
-                return i;
-            }
-            i++;
-        }
-        return 0;
     }
 
     private void fillRestaurantDetails() {
@@ -311,7 +291,7 @@ public class RestaurantActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View viewClicked,
                                     int position, long id) {
                 Intent intent = new Intent(RestaurantActivity.this, InspectionActivity.class);
-                intent.putExtra("indexRestaurant", indexRestaurant);
+                intent.putExtra("restaurantName", restaurantName);
                 intent.putExtra("indexInspection", position);
                 startActivity(intent);
             }

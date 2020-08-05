@@ -218,7 +218,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClusterItemInfoWindowClick(ClusterPin clusterItem) {
                 //Toast.makeText(MapsActivity.this, "Clicked info window: " + clusterItem.getTitle(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MapsActivity.this, RestaurantActivity.class);
-                intent.putExtra("nameRestaurant", clusterItem.getTitle());
+                intent.putExtra("restaurantName", clusterItem.getTitle());
                 intent.putExtra("fromMap", true);
                 intent.putExtra("userInput", userKeyboardInput);
                 startActivity(intent);
@@ -329,7 +329,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         mMap.setMaxZoomPreference(1);
 
-                        if(resume == false){
+                        if(!resume){
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
                             resume = true;
                         }

@@ -64,8 +64,6 @@ public class RestaurantListActivity extends AppCompatActivity {
         ArrayList<Restaurant> favouriteRestaurant;
         ArrayList<String> favouriteRestaurantNames = new ArrayList<String>();
 
-
-
         @Override
         protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
@@ -78,8 +76,6 @@ public class RestaurantListActivity extends AppCompatActivity {
                 boolean data = intent.getBooleanExtra("data", false);
                 boolean fromDialog = intent.getBooleanExtra("fromDialog", false);
 
-
-
                 if (data) {
                         try {
                                 myRestaurants = RestaurantsManager.getInstance(null,null);
@@ -90,6 +86,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                         populateListView();
                         setUpRestaurantClick();
                         setUpSearch();
+                        setUpRestaurantImage();
                         return;
                 }
 
@@ -110,7 +107,6 @@ public class RestaurantListActivity extends AppCompatActivity {
                                 return;
                         } else {
                                 dataLoad.loadData();
-
 
                         }
                 } else {
@@ -207,7 +203,6 @@ public class RestaurantListActivity extends AppCompatActivity {
                 long hoursDifference = TimeUnit.HOURS.convert(timeDifference, TimeUnit.MILLISECONDS);
 
                 return hoursDifference > hours;
-
         }
 
         private boolean needsUpdate(DataRequest restaurantData, DataRequest inspectionData) {
@@ -280,6 +275,13 @@ public class RestaurantListActivity extends AppCompatActivity {
                         }
                 });
         }
+
+        private void setUpRestaurantImage() {
+                for (Restaurant restaurant:myRestaurants) {
+                        restaurant.setIconID(RestaurantListActivity.this);
+                }
+        }
+
         private class MyListAdapter extends ArrayAdapter<Restaurant> implements Filterable {
                 private ArrayList<Restaurant> originalRestaurants;
                 private ArrayList<Restaurant> restaurants;
@@ -338,7 +340,6 @@ public class RestaurantListActivity extends AppCompatActivity {
                         }
 
                         Restaurant currentRestaurant = restaurants.get(position);
-                        currentRestaurant.setIconID(RestaurantListActivity.this, currentRestaurant.getRestaurantName());
 
                         TextView restaurantName = itemView.findViewById(R.id.listR_txtRestaurantName);
                         restaurantName.setText(currentRestaurant.getRestaurantName());
@@ -440,7 +441,7 @@ public class RestaurantListActivity extends AppCompatActivity {
         }
 
 
-                private void loadDataFavourite() {
+        private void loadDataFavourite() {
                 Log.e("YES","YESINLOAD");
                 SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
                 Gson gson = new Gson();
@@ -507,7 +508,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                         public void onItemClick(AdapterView<?> parent, View viewClicked,
                                                 int position, long id) {
                                 Intent intent = new Intent(RestaurantListActivity.this, RestaurantActivity.class);
-                                intent.putExtra("nameRestaurant", adapter.getItem(position).getRestaurantName());
+                                intent.putExtra("restaurantName", adapter.getItem(position).getRestaurantName());
                                 intent.putExtra("fromMap", false);
                                 startActivity(intent);
                         }

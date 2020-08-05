@@ -34,9 +34,9 @@ import java.util.List;
  */
 public class InspectionActivity extends AppCompatActivity {
     private RestaurantsManager myRestaurants;
+    private Restaurant restaurant;
     private Inspection inspection;
     private List<Violation> violations;
-    private int indexRestaurant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,14 +60,16 @@ public class InspectionActivity extends AppCompatActivity {
 
     private void loadInspection() {
         Intent intent = getIntent();
-        indexRestaurant = intent.getIntExtra("indexRestaurant", 0);
+        String restaurantName = intent.getStringExtra("restaurantName");
         int indexInspection = intent.getIntExtra("indexInspection", 0);
-        Restaurant restaurant = myRestaurants.get(indexRestaurant);
+
+        restaurant = myRestaurants.getRestaurantFromName(restaurantName);
         InspectionsManager inspectionsManager = restaurant.getInspectionsManager();
         inspection = inspectionsManager.get(indexInspection);
         ViolationManager violationManager = inspection.getViolationManager();
         violations = violationManager.getViolationList();
     }
+
 
     @SuppressLint("SetTextI18n")
     private void setupInspection() {
@@ -173,7 +175,7 @@ public class InspectionActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(InspectionActivity.this, RestaurantActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("indexRestaurant", indexRestaurant);
+                intent.putExtra("restaurantName", restaurant.getRestaurantName());
                 startActivity(intent);
             }
         });
