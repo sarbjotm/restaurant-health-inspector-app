@@ -78,7 +78,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationManager locationManager;
     private LocationListener locationListener;
     private ClusterManager<ClusterPin> mClusterManger;
-    private SearchFilter searchFilter = new SearchFilter();
+    private SearchFilter searchFilter = SearchFilter.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -4,10 +4,23 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 public class SearchFilter {
+    private static SearchFilter instance;
     private String search;
     private String word;
     private Restaurant restaurant;
     private boolean checkFlag;
+
+    private SearchFilter () {
+
+    }
+
+    public static SearchFilter getInstance() {
+        if (instance == null) {
+            instance = new SearchFilter();
+        }
+        return instance;
+    }
+
 
     public boolean inFilter(Restaurant restaurant) {
         this.restaurant = restaurant;

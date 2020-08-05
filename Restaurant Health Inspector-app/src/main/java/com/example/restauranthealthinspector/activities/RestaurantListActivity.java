@@ -319,7 +319,7 @@ public class RestaurantListActivity extends AppCompatActivity {
         private class MyListAdapter extends ArrayAdapter<Restaurant> implements Filterable {
                 private ArrayList<Restaurant> originalRestaurants;
                 private ArrayList<Restaurant> restaurants;
-                private SearchFilter searchFilter = new SearchFilter();
+                private SearchFilter searchFilter = SearchFilter.getInstance();
 
                 public MyListAdapter(){
                         super(RestaurantListActivity.this, R.layout.list_restaurants, myRestaurants.getRestaurants());
