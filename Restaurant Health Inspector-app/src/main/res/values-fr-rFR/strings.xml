@@ -41,4 +41,5 @@
     <string name="moderate">Modérer</string>
     <string name="new_update">" Nouvelle mise à jour!"</string>
     <string name="do_you_want_to_download_the_new_files">Voulez-vous télécharger les nouveaux fichiers?</string>
+    <string name="permission_download_new_data">" Voulez-vous télécharger les nouveaux fichiers?"</string>
 </resources>
