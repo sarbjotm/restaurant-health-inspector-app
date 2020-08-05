@@ -1,5 +1,6 @@
 package com.example.restauranthealthinspector.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -55,12 +56,8 @@ import java.util.concurrent.TimeUnit;
  * A list of restaurants with brief inspections report.
  */
 public class RestaurantListActivity extends AppCompatActivity {
-        private String favouriteDialogString = "";
         private RestaurantsManager myRestaurants;
         private FavouriteRestaurantManager myFavouriteRestaurants;
-//        private static ArrayList<Restaurant> favouriteRestaurantListActivity = new ArrayList<>();
-        private static final String TAG = "RestaurantListActivity";
-        private static final int ERROR_DIALOG_REQUEST = 9001;
         private ArrayAdapter<Restaurant> adapter;
         ArrayList<Restaurant> favouriteRestaurant;
         static ArrayList<String> favouriteRestaurantNames = new ArrayList<String>();
@@ -92,21 +89,19 @@ public class RestaurantListActivity extends AppCompatActivity {
                 }
 
                 if (fromDialog) {
+                        StringBuilder favouriteDialogString = new StringBuilder();
                         for(Restaurant r: favouriteRestaurant){
-                                favouriteDialogString = favouriteDialogString + " " + getString(R.string.name) + " " + r.getRestaurantName();
+                                favouriteDialogString.append(" ").append(getString(R.string.name)).append(" ").append(r.getRestaurantName());
                                 if(r.getInspectionsManager().getInspectionList().size() == 0){
-                                        favouriteDialogString = favouriteDialogString + "\n" + " " + getString(R.string.no_inspections_recorded) + "\n\n\n";
+                                        favouriteDialogString.append("\n ").append(getString(R.string.no_inspections_recorded)).append("\n\n\n");
                                 }
                                 else{
-                                        favouriteDialogString = favouriteDialogString + "\n" + " " + getString(R.string.date) + " " + r.getInspectionsManager().get(0).getInspectionDate().getFullDate();
-                                        favouriteDialogString = favouriteDialogString + "\n " + " " + getString(R.string.hazard_level) + " " +  r.getInspectionsManager().get(0).getHazardRating();
-                                        favouriteDialogString = favouriteDialogString + "\n\n\n ";
+                                        favouriteDialogString.append("\n ").append(getString(R.string.date)).append(" ").append(r.getInspectionsManager().get(0).getInspectionDate().getFullDate());
+                                        favouriteDialogString.append("\n ").append(getString(R.string.hazard_level)).append(" ").append(r.getInspectionsManager().get(0).getHazardRating());
+                                        favouriteDialogString.append("\n\n\n ");
                                 }
-
-
                         }
-                        openFavouriteDialog(favouriteDialogString);
-
+                        openFavouriteDialog(favouriteDialogString.toString());
                 }
 
                 DataLoad dataLoad = new DataLoad(this);
@@ -119,8 +114,6 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                         if (needsUpdate(restaurantData, inspectionData)) {
                                 openDialog(restaurantData, inspectionData, dataLoad);
-
-
                                 return;
                         } else {
                                 dataLoad.loadData();
@@ -137,24 +130,19 @@ public class RestaurantListActivity extends AppCompatActivity {
 
 
         private void openFavouriteDialog(String information){
-                                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                                builder.setTitle("Favourite Restaurant Updates")
-                                        .setCancelable(false)
-                                        .setMessage(information)
-                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                        startMapActivity();
-                                                }
-                                        });
-                                builder.create().show();
-                                builder.setCancelable(false);
-
-                        }
-
-
-
-
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Favourite Restaurant Updates")
+                        .setCancelable(false)
+                        .setMessage(information)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                        startMapActivity();
+                                }
+                        });
+                builder.create().show();
+                builder.setCancelable(false);
+        }
 
         // Code refer from stack overflow
         // https://stackoverflow.com/questions/10311834/how-to-check-if-location-services-are-enabled
@@ -342,6 +330,7 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                 // Refer from StackOverflow
                 // https://stackoverflow.com/questions/23422072/searchview-in-listview-having-a-custom-adapter
+                @NonNull
                 public Filter getFilter() {
                         return new Filter() {
 
@@ -405,8 +394,6 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                         ImageView restaurantImageFav = itemView.findViewById(R.id.listR_imgRestaurantFavourite);
 
-//                        restFav.setVisibility(View.INVISIBLE);
-
                         if (inspections.size() != 0 ) {
                                 Inspection inspection = inspections.get(0);
                                 hazard(itemView, inspection);
@@ -435,48 +422,31 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                         }
 
-
-//                                loadDataFavourite();
-//                                 saveData();
-
-
                         if ((favouriteRestaurantNames.contains(currentRestaurant.getRestaurantName()))){
                                 if(!(myFavouriteRestaurants.getFavouriteList().contains(currentRestaurant))){
                                         myFavouriteRestaurants.getFavouriteList().add(currentRestaurant);
                                 }
-
                                 currentRestaurant.setFavourite(true);
                                 restaurantName.setTextColor(Color.parseColor("#FFFF00"));
                                 restaurantImageFav.setVisibility(View.VISIBLE);
                                 saveData();
 
-                                
-
-                        }
-
-                        else{
+                        } else {
                                 try{
                                         favouriteRestaurantNames.remove(currentRestaurant.getRestaurantName());
 
-
-
-                                }catch(Exception e){
+                                } catch(Exception e){
                                         Log.e("REMOVE", "error removing");
                                 }
-
                                 try{
                                         myFavouriteRestaurants.getFavouriteList().remove(currentRestaurant);
                                         saveData();
 
-
-
-                                }catch(Exception e){
+                                } catch (Exception e){
 
                                 }
                                 restaurantName.setTextColor(Color.parseColor("#FFFFFF"));
                                 restaurantImageFav.setVisibility(View.INVISIBLE);
-
-
                         }
 
                         return itemView;
@@ -512,41 +482,28 @@ public class RestaurantListActivity extends AppCompatActivity {
 
 
         private void loadDataFavourite() {
-//                Log.e("YES","YESINLOAD");
                 SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
                 Gson gson = new Gson();
                 String json = sharedPreferences.getString("task list", null);
                 Type type = new TypeToken<ArrayList<Restaurant>>() {}.getType();
                 favouriteRestaurant = gson.fromJson(json, type);
+
                 if (favouriteRestaurant == null) {
-//                        Log.e("YES","YESINNULL");
                         favouriteRestaurant = new ArrayList<Restaurant>();
-                }
-
-                else{
-//                        Log.e("YES","YESINELSE");
-
+                } else {
                         for(int i = 0; i < favouriteRestaurant.size(); i++){
-
                                 try {
-//                                        Log.e("YES","ADDING");
-                                        if(!favouriteRestaurantNames.contains(favouriteRestaurant.get(i).getRestaurantName()))
+                                        if(!favouriteRestaurantNames.contains(favouriteRestaurant.get(i).getRestaurantName())) {
                                                 favouriteRestaurantNames.add(favouriteRestaurant.get(i).getRestaurantName());
+                                        }
 
-                                }
+                                } catch(Exception e){
 
-                                catch(Exception e){
-//                                        Log.e("Nothing", "nothing found");
                                 }
                                 favouriteRestaurant.get(i).setFavourite(true);
-
                         }
                 }
-
-
-                }
-
-
+        }
 
         private void hazard(View itemView, Inspection inspection) {
                 String hazardRating = inspection.getHazardRating();
@@ -590,18 +547,11 @@ public class RestaurantListActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onRestart()
-        {
+        public void onRestart() {
                 super.onRestart();
                 finish();
                 startActivity(getIntent());
                 loadDataFavourite();
-
-
         }
-
-
-
-
 }
 
