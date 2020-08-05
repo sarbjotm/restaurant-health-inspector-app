@@ -43,5 +43,6 @@
     <string name="low">Low</string>
 
     <string name="new_update">New Update!</string>
+    <string name="do_you_want_to_download_the_new_files">Do you want to Download the new files?</string>
     <string name="permission_download_new_data">Do you want to Download the new files?</string>
 </resources>

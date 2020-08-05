@@ -5,9 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.Manifest;
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -95,14 +93,14 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                 if (fromDialog) {
                         for(Restaurant r: favouriteRestaurant){
-                                favouriteDialogString = favouriteDialogString + "Name: " + r.getRestaurantName();
+                                favouriteDialogString = favouriteDialogString + " " + getString(R.string.name) + " " + r.getRestaurantName();
                                 if(r.getInspectionsManager().getInspectionList().size() == 0){
-                                        favouriteDialogString = favouriteDialogString + "\nNo Inspection found \n\n\n";
+                                        favouriteDialogString = favouriteDialogString + "\n" + " " + getString(R.string.no_inspections_recorded) + "\n\n\n";
                                 }
                                 else{
-                                        favouriteDialogString = favouriteDialogString + "\nDate: " + r.getInspectionsManager().get(0).getInspectionDate().getFullDate();
-                                        favouriteDialogString = favouriteDialogString + "\nHazard Level: " +  r.getInspectionsManager().get(0).getHazardRating();
-                                        favouriteDialogString = favouriteDialogString + "\n\n\n";
+                                        favouriteDialogString = favouriteDialogString + "\n" + " " + getString(R.string.date) + " " + r.getInspectionsManager().get(0).getInspectionDate().getFullDate();
+                                        favouriteDialogString = favouriteDialogString + "\n " + " " + getString(R.string.hazard_level) + " " +  r.getInspectionsManager().get(0).getHazardRating();
+                                        favouriteDialogString = favouriteDialogString + "\n\n\n ";
                                 }
 
 
@@ -140,7 +138,7 @@ public class RestaurantListActivity extends AppCompatActivity {
 
         private void openFavouriteDialog(String information){
                                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                                builder.setTitle("Updates")
+                                builder.setTitle("Favourite Restaurant Updates")
                                         .setCancelable(false)
                                         .setMessage(information)
                                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
