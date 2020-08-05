@@ -481,21 +481,24 @@ public class RestaurantListActivity extends AppCompatActivity {
                 String hazardRating = inspection.getHazardRating();
 
                 TextView restaurantHazardLevel = itemView.findViewById(R.id.listR_txtHazardLevel);
-                restaurantHazardLevel.setText(hazardRating);
+
 
                 ImageView restaurantHazardImage = itemView.findViewById(R.id.listR_imgHazard);
                 restaurantHazardImage.setVisibility(View.VISIBLE);
 
                 if(hazardRating.equals("Low")){
                         restaurantHazardImage.setImageResource(R.drawable.hazard_low);
+                        restaurantHazardLevel.setText(getString(R.string.low));
                         restaurantHazardLevel.setTextColor(Color.parseColor("#82F965"));
                 }
                 else if(hazardRating.equals("Moderate")){
                         restaurantHazardImage.setImageResource(R.drawable.hazard_moderate);
+                        restaurantHazardLevel.setText(getString(R.string.moderate));
                         restaurantHazardLevel.setTextColor(Color.parseColor("#F08D47"));
                 }
                 else{
                         restaurantHazardImage.setImageResource(R.drawable.hazard_high);
+                        restaurantHazardLevel.setText(getString(R.string.high));
                         restaurantHazardLevel.setTextColor(Color.parseColor("#EC4A26"));
                 }
 
