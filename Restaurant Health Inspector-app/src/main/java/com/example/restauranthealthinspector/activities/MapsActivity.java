@@ -211,6 +211,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 hazardLevel = getString(R.string.low);
                 type = 3;
             }
+            String snippet = name + "\n" + address + "\n" + hazardMsg + ": " + hazardLevel;
+
             mClusterManger.addItem(new ClusterPin(name, snippet, latLng, type));
         }
         mClusterManger.cluster();
