@@ -53,33 +53,14 @@
         app:layout_constraintStart_toStartOf="@+id/map_toolbar2"
         app:layout_constraintTop_toTopOf="@+id/map_toolbar2" />
 
-    <RelativeLayout
-        android:id="@+id/relLayout1"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:elevation="10dp">
-
-        <ImageView
-            android:id="@+id/ic_search"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:src="@drawable/ic_search" />
-
-        <EditText
-            android:id="@+id/input_search"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/ic_search"
-            android:background="@null"
-            android:textColor="#FFFFFF"
-            android:textSize="25dp"
-            android:imeOptions="actionSearch"/>
-
-    </RelativeLayout>
+    <SearchView
+        android:id="@+id/map_search"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/map"
+        app:layout_constraintEnd_toStartOf="@+id/map_imgbtnList"
+        app:layout_constraintStart_toStartOf="@+id/map_toolbar2"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

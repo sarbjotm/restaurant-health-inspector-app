@@ -38,7 +38,6 @@ public class Restaurant {
 
     public int getIconID() {
         return iconID.getIconID();
-
     }
 
     public void setIconID(Context context){
