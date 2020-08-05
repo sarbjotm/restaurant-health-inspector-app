@@ -86,7 +86,8 @@ public class RestaurantActivity extends AppCompatActivity {
                     myFavouriteRestaurants.add(restaurant);
                     restName.setTextColor(Color.parseColor("#FFFF00"));
                     restFav.setVisibility(View.VISIBLE);
-                    Toast.makeText(RestaurantActivity.this, "Favourited Restaurant", Toast.LENGTH_SHORT).show();
+                    String message = getString(R.string.favourite) + " Restaurant";
+                    Toast.makeText(RestaurantActivity.this, message, Toast.LENGTH_SHORT).show();
                     saveData();
                 }
 
@@ -96,7 +97,8 @@ public class RestaurantActivity extends AppCompatActivity {
                     btn.setText(R.string.favourite);
                     restName.setTextColor(Color.parseColor("#FFFFFF"));
                     restFav.setVisibility(View.INVISIBLE);
-                    Toast.makeText(RestaurantActivity.this, "Un-Favourited Restaurant", Toast.LENGTH_SHORT).show();
+                    String message = getString(R.string.unfavourite) + " Restaurant";
+                    Toast.makeText(RestaurantActivity.this, message, Toast.LENGTH_SHORT).show();
                     saveData();
                 }
             }

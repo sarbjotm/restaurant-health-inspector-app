@@ -33,4 +33,7 @@
     <string name="no_location">Impossible d\'obtenir la position actuelle</string>
     <string name="restaurantURL">https://data.surrey.ca/api/3/action/package_show?id=restaurants</string>
     <string name="inspectionURL">https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports</string>
+    <string name="favourite">Favori</string>
+    <string name="unfavourite">Non favori</string>
+    <string name="fav">Fav</string>
 </resources>
