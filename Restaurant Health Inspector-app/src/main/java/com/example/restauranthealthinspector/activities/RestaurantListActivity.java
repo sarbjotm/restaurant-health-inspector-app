@@ -95,8 +95,16 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                 if (fromDialog) {
                         for(Restaurant r: favouriteRestaurant){
-                                favouriteDialogString = favouriteDialogString + "Name: " + r.getRestaurantName() + "\nDate: " + r.getInspectionsManager().get(0).getInspectionDate().getFullDate() + "\nHazard Level: " +  r.getInspectionsManager().get(0).getHazardRating() +
-                                "\n\n\n";
+                                favouriteDialogString = favouriteDialogString + "Name: " + r.getRestaurantName();
+                                if(r.getInspectionsManager().getInspectionList().size() == 0){
+                                        favouriteDialogString = favouriteDialogString + "\nNo Inspection found \n\n\n";
+                                }
+                                else{
+                                        favouriteDialogString = favouriteDialogString + "\nDate: " + r.getInspectionsManager().get(0).getInspectionDate().getFullDate();
+                                        favouriteDialogString = favouriteDialogString + "\nHazard Level: " +  r.getInspectionsManager().get(0).getHazardRating();
+                                        favouriteDialogString = favouriteDialogString + "\n\n\n";
+                                }
+
 
                         }
                         openFavouriteDialog(favouriteDialogString);
