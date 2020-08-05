@@ -194,7 +194,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             String name = restaurant.getRestaurantName();
             String address = restaurant.getAddress().getStreetAddress();
             ArrayList<Inspection> inspections = restaurant.getInspectionsManager().getInspectionList();
-            String hazardLevel = "No inspections recorded";
+            String hazardLevel = getString(R.string.no_inspections_recorded);
             if (inspections.size() != 0) {
                 Inspection inspection = inspections.get(0);
                 hazardLevel = inspection.getHazardRating();

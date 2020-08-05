@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Inspecteur de la santé des restaurants</string>
+    <string name="app_name">Inspecteur de restaurants</string>
     <string name="issues">Problèmes</string>
     <string name="hazard_level">Niveau de danger</string>
     <string name="date">Date</string>

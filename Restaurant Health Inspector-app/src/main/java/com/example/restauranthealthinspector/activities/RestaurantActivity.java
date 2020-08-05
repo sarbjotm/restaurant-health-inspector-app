@@ -80,7 +80,7 @@ public class RestaurantActivity extends AppCompatActivity {
                     myFavouriteRestaurants.add(restaurant);
                     restName.setTextColor(Color.parseColor("#FFFF00"));
                     restFav.setVisibility(View.VISIBLE);
-                    String message = getString(R.string.favourite) + " Restaurant";
+                    String message = getString(R.string.favourite) + " " + getString(R.string.restaurant);
                     Toast.makeText(RestaurantActivity.this, message, Toast.LENGTH_SHORT).show();
                     saveData();
                 }
@@ -91,7 +91,7 @@ public class RestaurantActivity extends AppCompatActivity {
                     btn.setText(R.string.favourite);
                     restName.setTextColor(Color.parseColor("#FFFFFF"));
                     restFav.setVisibility(View.INVISIBLE);
-                    String message = getString(R.string.unfavourite) + " Restaurant";
+                    String message = getString(R.string.unfavourite) + " " + getString(R.string.restaurant);
                     Toast.makeText(RestaurantActivity.this, message, Toast.LENGTH_SHORT).show();
                     saveData();
                 }
@@ -117,8 +117,8 @@ public class RestaurantActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RestaurantActivity.this, MapsActivity.class);
-                Toast.makeText(RestaurantActivity.this, "latitude:" + restaurant.getAddress().getLatitude(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(RestaurantActivity.this, "longitude:" + restaurant.getAddress().getLongitude(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(RestaurantActivity.this, getText(R.string.latitude) + " " + restaurant.getAddress().getLatitude(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(RestaurantActivity.this, getText(R.string.longitude) + " " + restaurant.getAddress().getLongitude(), Toast.LENGTH_SHORT).show();
                 intent.putExtra("longitude", restaurant.getAddress().getLongitude());
                 intent.putExtra("latitude", restaurant.getAddress().getLatitude());
                 intent.putExtra("fromGPS", true);
@@ -129,7 +129,7 @@ public class RestaurantActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RestaurantActivity.this, MapsActivity.class);
-                Toast.makeText(RestaurantActivity.this, "latitude:" + restaurant.getAddress().getLatitude(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(RestaurantActivity.this, getText(R.string.latitude) + " " + restaurant.getAddress().getLatitude(), Toast.LENGTH_SHORT).show();
                 intent.putExtra("longitude", restaurant.getAddress().getLongitude());
                 intent.putExtra("latitude", restaurant.getAddress().getLatitude());
                 intent.putExtra("fromGPS", true);
