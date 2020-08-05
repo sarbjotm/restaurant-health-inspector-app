@@ -2,6 +2,8 @@ package com.example.restauranthealthinspector.model;
 
 import android.util.Log;
 
+import com.example.restauranthealthinspector.activities.RestaurantActivity;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -101,6 +103,17 @@ public class RestaurantsManager implements Iterable<Restaurant>{
 
     public static ArrayList<Restaurant> getRestaurants(){
         return restaurantList;
+    }
+
+    public Restaurant getRestaurantFromName(String restaurantName) {
+        int i = 0;
+        for (Restaurant restaurant : restaurantList){
+            if (restaurant.getRestaurantName().equals(restaurantName)){
+                return get(i);
+            }
+            i++;
+        }
+        return get(0);
     }
 
     @Override
