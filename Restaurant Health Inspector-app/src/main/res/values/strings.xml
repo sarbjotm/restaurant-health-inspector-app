@@ -41,4 +41,7 @@
     <string name="high">High</string>
     <string name="moderate">Moderate</string>
     <string name="low">Low</string>
+
+    <string name="new_update">New Update!</string>
+    <string name="permission_download_new_data">Do you want to Download the new files?</string>
 </resources>
