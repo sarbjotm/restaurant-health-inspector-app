@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,11 +24,18 @@ import com.example.restauranthealthinspector.model.Inspection;
 import com.example.restauranthealthinspector.model.InspectionsManager;
 import com.example.restauranthealthinspector.model.Restaurant;
 import com.example.restauranthealthinspector.model.RestaurantsManager;
+import com.example.restauranthealthinspector.model.TranslationManager;
 import com.example.restauranthealthinspector.model.Violation;
 import com.example.restauranthealthinspector.model.ViolationManager;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Details of an inspection report from a restaurant.
@@ -37,6 +45,9 @@ public class InspectionActivity extends AppCompatActivity {
     private Inspection inspection;
     private List<Violation> violations;
     private int indexRestaurant;
+
+    //
+    Translate translate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +67,9 @@ public class InspectionActivity extends AppCompatActivity {
 
         setUpBackButton();
         noViolationsMessage();
+
+        //
+        getTranslateService();
     }
 
     private void loadInspection() {
@@ -158,7 +172,9 @@ public class InspectionActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String message = violations.get(position).getLongDescription();
+                TranslationManager translateMessage = new TranslationManager(violations.get(position).getLongDescription(), translate);
+
+                String message = translateMessage.getTranslatedText();
 
                 Toast.makeText(InspectionActivity.this, message, Toast.LENGTH_SHORT).show();
             }
@@ -183,6 +199,28 @@ public class InspectionActivity extends AppCompatActivity {
         if (inspection.getViolationManager().getViolationList().size() != 0) {
             TextView textView = findViewById(R.id.inspect_txtNoViolations);
             textView.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    //
+
+    public void getTranslateService() {
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        try (InputStream is = getResources().openRawResource(R.raw.credentials)) {
+
+            //Get credentials:
+            final GoogleCredentials myCredentials = GoogleCredentials.fromStream(is);
+
+            //Set credentials and get translate service:
+            TranslateOptions translateOptions = TranslateOptions.newBuilder().setCredentials(myCredentials).build();
+            translate = translateOptions.getService();
+
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+
         }
     }
 }
