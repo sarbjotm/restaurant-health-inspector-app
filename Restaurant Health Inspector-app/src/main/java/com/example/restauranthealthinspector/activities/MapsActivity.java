@@ -14,17 +14,21 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.ImageButton;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.restauranthealthinspector.model.SearchFilter;
 import com.example.restauranthealthinspector.model.map.ClusterPin;
 import com.example.restauranthealthinspector.model.map.CustomClusterRenderer;
 import com.example.restauranthealthinspector.R;
@@ -74,22 +78,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationManager locationManager;
     private LocationListener locationListener;
     private ClusterManager<ClusterPin> mClusterManger;
-    private EditText mSearchText;
-    private String userKeyboardInput = "";
-    private String keepUserInput = "";
-    private String safeString = "";
+    private SearchFilter searchFilter = new SearchFilter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        mSearchText = (EditText) findViewById(R.id.input_search);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         getLocationPermission();
         setupListButton();
         try {
             myRestaurants = RestaurantsManager.getInstance(null, null);
+            setUpRestaurantImage();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -102,7 +103,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
         if (mLocationPermissionsGranted) {
             Intent intent = getIntent();
-            Boolean fromGPS = intent.getBooleanExtra("fromGPS", false);
+            boolean fromGPS = intent.getBooleanExtra("fromGPS", false);
             if (!fromGPS){
                 getDeviceLocation();
             }
@@ -119,35 +120,72 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
             mMap.setMyLocationEnabled(true);
             pinRestaurants();
-            getUserInput();
+            setUpSearch();
         }
     }
 
-    private void getUserInput(){
-        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+    private void setUpRestaurantImage() {
+        for (Restaurant restaurant:myRestaurants) {
+            restaurant.setIconID(MapsActivity.this);
+        }
+    }
+
+    private void setUpSearch() {
+        final SearchView searchView = findViewById(R.id.map_search);
+        searchView.setSubmitButtonEnabled(true);
+        Intent intent = getIntent();
+        String keepUserInput = intent.getStringExtra("keepUserInput");
+        if (keepUserInput != null && !keepUserInput.equals(" ")) {
+            searchView.setQuery(keepUserInput, false);
+        }
+
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                //if(actionId == EditorInfo.IME_ACTION_SEARCH
-                  //      || actionId == EditorInfo.IME_ACTION_DONE
-                    //    || event.getAction() == event.ACTION_DOWN
-                      //  || event.getAction() == event.KEYCODE_ENTER)
-                {
-                    //execute our method for searching
-                    userKeyboardInput = String.valueOf(mSearchText.getText());
-                    showText(userKeyboardInput);
+            public void onFocusChange(View view, boolean isFocused) {
+                TextView textView = findViewById(R.id.map_txtRestaurant);
+                if (isFocused) {
+                    textView.setVisibility(View.INVISIBLE);
+                } else {
+                    textView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String text) {
+                Intent intent = getIntent();
+                if (TextUtils.isEmpty(text)) {
+                    searchFilter.setSearch("");
+                } else {
+                    searchFilter.setSearch(text);
+                }
+                intent.putExtra("keepUserInput", text);
+
+                pinRestaurants();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String text) {
+                if (TextUtils.isEmpty(text)) {
+                    Intent intent = getIntent();
+                    searchFilter.setSearch("");
+                    intent.putExtra("keepUserInput", text);
                     pinRestaurants();
                 }
                 return false;
             }
         });
-        return;
     }
 
     private void pinRestaurants(){
         mMap.clear();
         initClusterManager();
-
         for (Restaurant restaurant : myRestaurants) {
+            if (!searchFilter.inFilter(restaurant)) {
+                continue;
+            }
             int type;
             mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(MapsActivity.this));
             double lat = restaurant.getAddress().getLatitude();
@@ -173,34 +211,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 hazardLevel = getString(R.string.low);
                 type = 3;
             }
-
-            String snippet = name + "\n" + address + "\n" + hazardMsg + ": " + hazardLevel;
-
-            //if (!keepUserInput.equals("")){
-
-            //}
-            Intent intent = getIntent();
-            keepUserInput = intent.getStringExtra("keepUserInput");
-
-            if (keepUserInput == null){
-                keepUserInput = "";
-            }
-
-            if (!keepUserInput.equals("") && userKeyboardInput.equals("")){
-                if (name.toLowerCase().indexOf(keepUserInput.toLowerCase()) != -1) {
-                    mClusterManger.addItem(new ClusterPin(name, snippet, latLng, type));
-                }
-            }
-
-            else{
-                if (userKeyboardInput.equals("")){
-                    mClusterManger.addItem(new ClusterPin(name, snippet, latLng, type));
-                }
-
-                else if (name.toLowerCase().indexOf(userKeyboardInput.toLowerCase()) != -1) {
-                    mClusterManger.addItem(new ClusterPin(name, snippet, latLng, type));
-                }
-            }
+            mClusterManger.addItem(new ClusterPin(name, snippet, latLng, type));
         }
         mClusterManger.cluster();
     }
@@ -234,9 +245,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClusterItemInfoWindowClick(ClusterPin clusterItem) {
                 //Toast.makeText(MapsActivity.this, "Clicked info window: " + clusterItem.getTitle(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MapsActivity.this, RestaurantActivity.class);
-                intent.putExtra("nameRestaurant", clusterItem.getTitle());
+                intent.putExtra("restaurantName", clusterItem.getTitle());
                 intent.putExtra("fromMap", true);
-                intent.putExtra("userInput", userKeyboardInput);
                 startActivity(intent);
             }
         });
@@ -245,10 +255,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setOnMarkerClickListener(mClusterManger);
         mMap.setInfoWindowAdapter(mClusterManger.getMarkerManager());
         mMap.setOnInfoWindowClickListener(mClusterManger);
-    }
-
-    private void showText(String userKeyboardInput){
-        Toast.makeText(this, userKeyboardInput, Toast.LENGTH_SHORT).show();
     }
 
     private void setupListButton() {
@@ -345,7 +351,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         mMap.setMaxZoomPreference(1);
 
-                        if(resume == false){
+                        if(!resume){
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
                             resume = true;
                         }

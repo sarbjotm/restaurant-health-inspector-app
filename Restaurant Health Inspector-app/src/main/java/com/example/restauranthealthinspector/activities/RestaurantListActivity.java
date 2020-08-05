@@ -39,17 +39,12 @@ import com.example.restauranthealthinspector.model.FavouriteRestaurantManager;
 import com.example.restauranthealthinspector.model.SearchFilter;
 import com.example.restauranthealthinspector.model.online.DataLoad;
 import com.example.restauranthealthinspector.model.online.DataRequest;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -59,7 +54,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * A list of restaurants with brief inspections report.
  */
-public class RestaurantListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class RestaurantListActivity extends AppCompatActivity {
         private RestaurantsManager myRestaurants;
         private FavouriteRestaurantManager myFavouriteRestaurants;
 //        private static ArrayList<Restaurant> favouriteRestaurantListActivity = new ArrayList<>();
@@ -68,8 +63,6 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
         private ArrayAdapter<Restaurant> adapter;
         ArrayList<Restaurant> favouriteRestaurant;
         ArrayList<String> favouriteRestaurantNames = new ArrayList<String>();
-
-
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +76,6 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
                 boolean data = intent.getBooleanExtra("data", false);
                 boolean fromDialog = intent.getBooleanExtra("fromDialog", false);
 
-
-
                 if (data) {
                         try {
                                 myRestaurants = RestaurantsManager.getInstance(null,null);
@@ -95,6 +86,7 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
                         populateListView();
                         setUpRestaurantClick();
                         setUpSearch();
+                        setUpRestaurantImage();
                         return;
                 }
 
@@ -115,7 +107,6 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
                                 return;
                         } else {
                                 dataLoad.loadData();
-
 
                         }
                 } else {
@@ -212,7 +203,6 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
                 long hoursDifference = TimeUnit.HOURS.convert(timeDifference, TimeUnit.MILLISECONDS);
 
                 return hoursDifference > hours;
-
         }
 
         private boolean needsUpdate(DataRequest restaurantData, DataRequest inspectionData) {
@@ -244,11 +234,15 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
                 list.setTextFilterEnabled(true);
         }
 
-        private void  setUpSearch() {
+        private void setUpSearch() {
                 SearchView searchView = findViewById(R.id.restlist_search);
-                //searchView.setIconifiedByDefault(false);
-                searchView.setOnQueryTextListener(this);
-                searchView.setSubmitButtonEnabled(true);
+                //searchView.setSubmitButtonEnabled(true);
+                Intent intent = getIntent();
+                String keepUserInput = intent.getStringExtra("keepUserInput");
+                if (keepUserInput != null && !keepUserInput.equals(" ")) {
+                        searchView.setQuery(keepUserInput, false);
+                }
+
                 searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
                         @Override
                         public void onFocusChange(View view, boolean isFocused) {
@@ -260,22 +254,32 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
                                 }
                         }
                 });
+
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                        @Override
+                        public boolean onQueryTextSubmit(String s) {
+                                return false;
+                        }
+
+                        @Override
+                        public boolean onQueryTextChange(String text) {
+                                Filter filter = adapter.getFilter();
+                                Intent intent = getIntent();
+                                if (TextUtils.isEmpty(text)) {
+                                        filter.filter("");
+                                } else {
+                                        filter.filter(text);
+                                }
+                                intent.putExtra("keepUserInput", text);
+                                return true;
+                        }
+                });
         }
 
-        @Override
-        public boolean onQueryTextChange(String text) {
-                Filter filter = adapter.getFilter();
-                if (TextUtils.isEmpty(text)) {
-                        filter.filter("");
-                } else {
-                        filter.filter(text);
+        private void setUpRestaurantImage() {
+                for (Restaurant restaurant:myRestaurants) {
+                        restaurant.setIconID(RestaurantListActivity.this);
                 }
-                return true;
-        }
-
-        @Override
-        public boolean onQueryTextSubmit(String query) {
-                return false;
         }
 
         private class MyListAdapter extends ArrayAdapter<Restaurant> implements Filterable {
@@ -336,7 +340,6 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
                         }
 
                         Restaurant currentRestaurant = restaurants.get(position);
-                        currentRestaurant.setIconID(RestaurantListActivity.this, currentRestaurant.getRestaurantName());
 
                         TextView restaurantName = itemView.findViewById(R.id.listR_txtRestaurantName);
                         restaurantName.setText(currentRestaurant.getRestaurantName());
@@ -438,7 +441,7 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
         }
 
 
-                private void loadDataFavourite() {
+        private void loadDataFavourite() {
                 Log.e("YES","YESINLOAD");
                 SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
                 Gson gson = new Gson();
@@ -508,7 +511,7 @@ public class RestaurantListActivity extends AppCompatActivity implements SearchV
                         public void onItemClick(AdapterView<?> parent, View viewClicked,
                                                 int position, long id) {
                                 Intent intent = new Intent(RestaurantListActivity.this, RestaurantActivity.class);
-                                intent.putExtra("nameRestaurant", adapter.getItem(position).getRestaurantName());
+                                intent.putExtra("restaurantName", adapter.getItem(position).getRestaurantName());
                                 intent.putExtra("fromMap", false);
                                 startActivity(intent);
                         }

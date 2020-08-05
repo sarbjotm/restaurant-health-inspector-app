@@ -10,7 +10,7 @@ public class Restaurant {
     private String trackingNumber;
     private String restaurantName;
     private Address address;
-    private RestaurantIcon setCurrentID;
+    private RestaurantIcon iconID;
     private InspectionsManager inspectionsManager = new InspectionsManager();
     private boolean isFavourite = false;
 
@@ -36,17 +36,12 @@ public class Restaurant {
         return inspectionsManager;
     }
 
-//    public int setIconID(Context context){
-//        RestaurantIcon iconID = new RestaurantIcon(context,trackingNumber,restaurantName);
-//    }
-
     public int getIconID() {
-        return setCurrentID.getIconID();
-
+        return iconID.getIconID();
     }
 
-    public void setIconID(Context context, String restaurantName){
-        setCurrentID = new RestaurantIcon(context,restaurantName);
+    public void setIconID(Context context){
+        iconID = new RestaurantIcon(context,restaurantName);
 
     }
 
