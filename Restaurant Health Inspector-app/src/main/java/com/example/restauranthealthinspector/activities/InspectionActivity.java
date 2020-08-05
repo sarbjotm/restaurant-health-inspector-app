@@ -96,20 +96,22 @@ public class InspectionActivity extends AppCompatActivity {
 
         TextView hazard = findViewById(R.id.inspect_txtHazard);
         String hazardString = inspection.getHazardRating();
-        hazard.setText(hazardString);
 
         ImageView hazardLevel = findViewById(R.id.inspect_imgHazard);
 
         if(hazardString.equals("Low")){
             hazardLevel.setImageResource(R.drawable.hazard_low);
+            hazard.setText(getString(R.string.low));
             hazard.setTextColor(Color.parseColor("#82F965"));
         }
         else if(hazardString.equals("Moderate")){
             hazardLevel.setImageResource(R.drawable.hazard_moderate);
+            hazard.setText(getString(R.string.moderate));
             hazard.setTextColor(Color.parseColor("#F08D47"));
         }
         else {
             hazardLevel.setImageResource(R.drawable.hazard_high);
+            hazard.setText(getString(R.string.high));
             hazard.setTextColor(Color.parseColor("#EC4A26"));
         }
     }
@@ -144,7 +146,6 @@ public class InspectionActivity extends AppCompatActivity {
 
             //Fill the severity
             TextView severity = listViolations.findViewById(R.id.listV_txtSeverity);
-            severity.setText(currentViolation.getSeverity());
 
             //icon
             ImageView iconSelect = listViolations.findViewById(R.id.listV_imgViolation);
@@ -154,9 +155,11 @@ public class InspectionActivity extends AppCompatActivity {
             ImageView severityIcon = listViolations.findViewById(R.id.listV_imgSeverity);
             if(currentViolation.getSeverity().equals("Critical")){
                 severityIcon.setImageResource(R.drawable.hazard_high);
+                severity.setText(getString(R.string.critical));
             }
             else{
                 severityIcon.setImageResource(R.drawable.hazard_low);
+                severity.setText(getString(R.string.non_critical));
             }
 
             return listViolations;
