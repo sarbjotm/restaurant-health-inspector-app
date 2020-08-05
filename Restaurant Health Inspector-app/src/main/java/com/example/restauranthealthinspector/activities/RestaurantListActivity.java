@@ -99,6 +99,9 @@ public class RestaurantListActivity extends AppCompatActivity {
                                 "\n\n\n";
 
                         }
+                        if(favouriteDialogString.equals("")){
+                                favouriteDialogString = "No Favourite Restaurants";
+                        }
                         openFavouriteDialog(favouriteDialogString);
 
                 }
@@ -420,10 +423,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                                 inspection.setText(noInspection);
 
                         }
-
-
-//                                loadDataFavourite();
-//                                 saveData();
+                        
 
 
                         if ((favouriteRestaurantNames.contains(currentRestaurant.getRestaurantName()))){
