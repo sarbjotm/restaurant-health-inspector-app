@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="15dp"
-        android:text="Do you want to Download the new files?"
+        android:text="@string/do_you_want_to_download_the_new_files"
         android:textAlignment="center"
         android:textSize="18sp" />
 
