@@ -427,11 +427,15 @@ public class RestaurantListActivity extends AppCompatActivity {
 
 
                         if ((favouriteRestaurantNames.contains(currentRestaurant.getRestaurantName()))){
-
+                                if(!(myFavouriteRestaurants.getFavouriteList().contains(currentRestaurant))){
+                                        myFavouriteRestaurants.getFavouriteList().add(currentRestaurant);
+                                }
 
                                 currentRestaurant.setFavourite(true);
                                 restaurantName.setTextColor(Color.parseColor("#FFFF00"));
                                 restaurantImageFav.setVisibility(View.VISIBLE);
+                                saveData();
+
                                 
 
                         }
@@ -447,7 +451,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                                 }
 
                                 try{
-                                        myFavouriteRestaurants.delete(currentRestaurant);
+                                        myFavouriteRestaurants.getFavouriteList().remove(currentRestaurant);
                                         saveData();
 
 
