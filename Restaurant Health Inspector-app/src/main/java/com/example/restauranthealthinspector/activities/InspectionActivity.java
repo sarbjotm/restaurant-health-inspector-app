@@ -176,9 +176,16 @@ public class InspectionActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TranslationManager translateMessage = new TranslationManager(violations.get(position).getLongDescription(), translate);
 
-                String message = translateMessage.getTranslatedText();
+                try{
+                    String message = translateMessage.getTranslatedText();
+                    Toast.makeText(InspectionActivity.this, message, Toast.LENGTH_SHORT).show();
 
-                Toast.makeText(InspectionActivity.this, message, Toast.LENGTH_SHORT).show();
+                } catch (Exception e){
+                    String message = violations.get(position).getLongDescription();
+                    Toast.makeText(InspectionActivity.this, getString(R.string.Translation_Service_Down_showing_english) + message, Toast.LENGTH_SHORT).show();
+
+                }
+
             }
         });
     }
