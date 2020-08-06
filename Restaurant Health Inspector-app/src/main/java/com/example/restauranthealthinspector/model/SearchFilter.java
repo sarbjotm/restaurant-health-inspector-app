@@ -3,6 +3,10 @@ package com.example.restauranthealthinspector.model;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+/**
+ * SearchFilter use to filter the restaurant list
+ * Holds the search word and goes through a boolean with restaurant
+ */
 public class SearchFilter {
     private static SearchFilter instance;
     private String search;
