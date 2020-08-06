@@ -285,6 +285,8 @@ public class RestaurantListActivity extends AppCompatActivity {
                         searchView.setQuery(previousSearch, true);
                         textView.setVisibility(View.INVISIBLE);
                         searchView.clearFocus();
+                        Filter filter = adapter.getFilter();
+                        filter.filter(previousSearch);
                 }
 
                 searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
@@ -440,7 +442,7 @@ public class RestaurantListActivity extends AppCompatActivity {
 //                                 saveData();
 
 
-                        if ((favouriteRestaurantNames.contains(currentRestaurant.getRestaurantName()))){
+                        if ((favouriteRestaurantNames.contains(currentRestaurant.getTrackingNumber()))){
                                 if(!(myFavouriteRestaurants.getFavouriteList().contains(currentRestaurant))){
                                         myFavouriteRestaurants.getFavouriteList().add(currentRestaurant);
                                 }
@@ -456,7 +458,7 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                         else{
                                 try{
-                                        favouriteRestaurantNames.remove(currentRestaurant.getRestaurantName());
+                                        favouriteRestaurantNames.remove(currentRestaurant.getTrackingNumber());
 
 
 
@@ -531,7 +533,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                                 try {
 //                                        Log.e("YES","ADDING");
                                         if(!favouriteRestaurantNames.contains(favouriteRestaurant.get(i).getRestaurantName()))
-                                                favouriteRestaurantNames.add(favouriteRestaurant.get(i).getRestaurantName());
+                                                favouriteRestaurantNames.add(favouriteRestaurant.get(i).getTrackingNumber());
 
                                 }
 

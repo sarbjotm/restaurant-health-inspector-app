@@ -87,8 +87,8 @@ public class RestaurantActivity extends AppCompatActivity {
                     String message = getString(R.string.favourite) + " " + getString(R.string.restaurant);
                     Toast.makeText(RestaurantActivity.this, message, Toast.LENGTH_SHORT).show();
                     
-                    if(!favouriteRestaurantNames.contains(restaurantName)){
-                        favouriteRestaurantNames.add(restaurantName);
+                    if(!favouriteRestaurantNames.contains(restaurant.getTrackingNumber())){
+                        favouriteRestaurantNames.add(restaurant.getTrackingNumber());
                     }
                     saveData();
                 }
@@ -103,8 +103,8 @@ public class RestaurantActivity extends AppCompatActivity {
                     String message = getString(R.string.unfavourite) + " " + getString(R.string.restaurant);
                     Toast.makeText(RestaurantActivity.this, message, Toast.LENGTH_SHORT).show();
                     
-                    if(favouriteRestaurantNames.contains(restaurantName)){
-                        favouriteRestaurantNames.remove(restaurantName);
+                    if(favouriteRestaurantNames.contains(restaurant.getTrackingNumber())){
+                        favouriteRestaurantNames.remove(restaurant.getTrackingNumber());
                     }
                     
                     saveData();
