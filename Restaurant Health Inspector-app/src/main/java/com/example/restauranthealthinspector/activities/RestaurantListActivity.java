@@ -5,9 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.Manifest;
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -95,8 +93,16 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                 if (fromDialog) {
                         for(Restaurant r: favouriteRestaurant){
-                                favouriteDialogString = favouriteDialogString + "Name: " + r.getRestaurantName() + "\nDate: " + r.getInspectionsManager().get(0).getInspectionDate().getFullDate() + "\nHazard Level: " +  r.getInspectionsManager().get(0).getHazardRating() +
-                                "\n\n\n";
+                                favouriteDialogString = favouriteDialogString + " " + getString(R.string.name) + " " + r.getRestaurantName();
+                                if(r.getInspectionsManager().getInspectionList().size() == 0){
+                                        favouriteDialogString = favouriteDialogString + "\n" + " " + getString(R.string.no_inspections_recorded) + "\n\n\n";
+                                }
+                                else{
+                                        favouriteDialogString = favouriteDialogString + "\n" + " " + getString(R.string.date) + " " + r.getInspectionsManager().get(0).getInspectionDate().getFullDate();
+                                        favouriteDialogString = favouriteDialogString + "\n " + " " + getString(R.string.hazard_level) + " " +  r.getInspectionsManager().get(0).getHazardRating();
+                                        favouriteDialogString = favouriteDialogString + "\n\n\n ";
+                                }
+
 
                         }
                         if(favouriteDialogString.equals("")){
@@ -135,7 +141,7 @@ public class RestaurantListActivity extends AppCompatActivity {
 
         private void openFavouriteDialog(String information){
                                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                                builder.setTitle("Updates")
+                                builder.setTitle("Favourite Restaurant Updates")
                                         .setCancelable(false)
                                         .setMessage(information)
                                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -272,42 +278,52 @@ public class RestaurantListActivity extends AppCompatActivity {
         }
 
         private void setUpSearch() {
-                SearchView searchView = findViewById(R.id.restlist_search);
-                //searchView.setSubmitButtonEnabled(true);
-                Intent intent = getIntent();
-                String keepUserInput = intent.getStringExtra("keepUserInput");
-                if (keepUserInput != null && !keepUserInput.equals(" ")) {
-                        searchView.setQuery(keepUserInput, false);
+                final SearchView searchView = findViewById(R.id.restlist_search);
+                final TextView textView = findViewById(R.id.restlist_txtRestaurant);
+                final SearchFilter searchFilter = SearchFilter.getInstance();
+
+                String previousSearch = searchFilter.getSearch();
+                if (!TextUtils.isEmpty(previousSearch)) {
+                        searchView.onActionViewExpanded();
+                        searchView.setQuery(previousSearch, true);
+                        textView.setVisibility(View.INVISIBLE);
+                        searchView.clearFocus();
+                        Filter filter = adapter.getFilter();
+                        filter.filter(previousSearch);
                 }
 
                 searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
                         @Override
                         public void onFocusChange(View view, boolean isFocused) {
-                                TextView textView = findViewById(R.id.restlist_txtRestaurant);
-                                if (isFocused) {
-                                        textView.setVisibility(View.INVISIBLE);
-                                } else {
+                                if (!isFocused && TextUtils.isEmpty(searchFilter.getSearch())) {
                                         textView.setVisibility(View.VISIBLE);
+                                } else {
+                                        textView.setVisibility(View.INVISIBLE);
                                 }
                         }
                 });
 
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                         @Override
-                        public boolean onQueryTextSubmit(String s) {
-                                return false;
-                        }
-
-                        @Override
-                        public boolean onQueryTextChange(String text) {
+                        public boolean onQueryTextSubmit(String text) {
                                 Filter filter = adapter.getFilter();
-                                Intent intent = getIntent();
                                 if (TextUtils.isEmpty(text)) {
                                         filter.filter("");
                                 } else {
                                         filter.filter(text);
                                 }
-                                intent.putExtra("keepUserInput", text);
+                                searchView.clearFocus();
+                                return true;
+                        }
+
+                        @Override
+                        public boolean onQueryTextChange(String text) {
+                                Filter filter = adapter.getFilter();
+                                if (TextUtils.isEmpty(text)) {
+                                        filter.filter("");
+                                } else {
+                                        filter.filter(text);
+                                }
                                 return true;
                         }
                 });
@@ -322,7 +338,7 @@ public class RestaurantListActivity extends AppCompatActivity {
         private class MyListAdapter extends ArrayAdapter<Restaurant> implements Filterable {
                 private ArrayList<Restaurant> originalRestaurants;
                 private ArrayList<Restaurant> restaurants;
-                private SearchFilter searchFilter = new SearchFilter();
+                private SearchFilter searchFilter = SearchFilter.getInstance();
 
                 public MyListAdapter(){
                         super(RestaurantListActivity.this, R.layout.list_restaurants, myRestaurants.getRestaurants());
@@ -426,7 +442,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                         
 
 
-                        if ((favouriteRestaurantNames.contains(currentRestaurant.getRestaurantName()))){
+                        if ((favouriteRestaurantNames.contains(currentRestaurant.getTrackingNumber()))){
                                 if(!(myFavouriteRestaurants.getFavouriteList().contains(currentRestaurant))){
                                         myFavouriteRestaurants.getFavouriteList().add(currentRestaurant);
                                 }
@@ -442,7 +458,7 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                         else{
                                 try{
-                                        favouriteRestaurantNames.remove(currentRestaurant.getRestaurantName());
+                                        favouriteRestaurantNames.remove(currentRestaurant.getTrackingNumber());
 
 
 
@@ -517,7 +533,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                                 try {
 //                                        Log.e("YES","ADDING");
                                         if(!favouriteRestaurantNames.contains(favouriteRestaurant.get(i).getRestaurantName()))
-                                                favouriteRestaurantNames.add(favouriteRestaurant.get(i).getRestaurantName());
+                                                favouriteRestaurantNames.add(favouriteRestaurant.get(i).getTrackingNumber());
 
                                 }
 
