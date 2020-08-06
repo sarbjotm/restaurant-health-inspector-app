@@ -526,7 +526,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                         for(int i = 0; i < favouriteRestaurant.size(); i++){
 
                                 try {
-                                        if(!favouriteRestaurantNames.contains(favouriteRestaurant.get(i).getRestaurantName()))
+                                        if(!favouriteRestaurantNames.contains(favouriteRestaurant.get(i).getTrackingNumber()))
                                                 favouriteRestaurantNames.add(favouriteRestaurant.get(i).getTrackingNumber());
 
                                 }
