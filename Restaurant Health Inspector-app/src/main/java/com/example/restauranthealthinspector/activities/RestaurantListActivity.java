@@ -50,6 +50,7 @@ import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -57,10 +58,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class RestaurantListActivity extends AppCompatActivity {
         private RestaurantsManager myRestaurants;
-        private FavouriteRestaurantManager myFavouriteRestaurants;
         private ArrayAdapter<Restaurant> adapter;
-        ArrayList<Restaurant> favouriteRestaurant;
-        static ArrayList<String> favouriteRestaurantNames = new ArrayList<String>();
+        private FavouriteRestaurantManager myFavouriteRestaurants;
+        private ArrayList<Restaurant> favouriteRestaurant;
+        private static ArrayList<String> favouriteRestaurantNames = new ArrayList<>();
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -117,13 +118,13 @@ public class RestaurantListActivity extends AppCompatActivity {
                                 return;
                         } else {
                                 dataLoad.loadData();
-
                         }
 
                 } else {
                         dataLoad.loadData();
                 }
-                if(!fromDialog){
+
+                if (!fromDialog){
                         startMapActivity();
                 }
         }
@@ -154,7 +155,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                 try {
                         gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
                         network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-                } catch(Exception ex) {}
+                } catch(Exception ignored) {}
 
 
                 if(!gps_enabled && !network_enabled) {
@@ -173,15 +174,10 @@ public class RestaurantListActivity extends AppCompatActivity {
                 NetworkCapabilities capabilities = manager.getNetworkCapabilities(manager.getActiveNetwork());
 
                 if (capabilities != null) {
-                        if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                        if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+                                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
                                 return true;
-                        } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                                return true;
-                        } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                                return true;
-                        }
-                        else{
-                                return false;
                         }
                 }
                 return false;
@@ -237,12 +233,12 @@ public class RestaurantListActivity extends AppCompatActivity {
                 SharedPreferences sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
 
                 String restLastModified = sharedPreferences.getString("restaurantLastModified", "");
-                if (!restLastModified.equals(restaurantData.getLastModified())) {
+                if (!Objects.equals(restLastModified, restaurantData.getLastModified())) {
                         return true;
                 }
 
                 String inspectLastModified = sharedPreferences.getString("inspectionLastModified", "");
-                if (!inspectLastModified.equals(inspectionData.getLastModified())) {
+                if (!Objects.equals(inspectLastModified, inspectionData.getLastModified())) {
                         return true;
                 }
 
@@ -324,8 +320,8 @@ public class RestaurantListActivity extends AppCompatActivity {
                 private SearchFilter searchFilter = SearchFilter.getInstance();
 
                 public MyListAdapter(){
-                        super(RestaurantListActivity.this, R.layout.list_restaurants, myRestaurants.getRestaurants());
-                        this.restaurants = myRestaurants.getRestaurants();
+                        super(RestaurantListActivity.this, R.layout.list_restaurants, RestaurantsManager.getRestaurants());
+                        this.restaurants = RestaurantsManager.getRestaurants();
                 }
 
                 // Refer from StackOverflow
@@ -368,9 +364,10 @@ public class RestaurantListActivity extends AppCompatActivity {
                         super.notifyDataSetChanged();
                 }
 
+                @NonNull
                 @SuppressLint("SetTextI18n")
                 @Override
-                public View getView(int position, View convertView, ViewGroup parent) {
+                public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                         loadDataFavourite();
                         View itemView = convertView;
                         if (itemView == null){
@@ -442,7 +439,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                                         myFavouriteRestaurants.getFavouriteList().remove(currentRestaurant);
                                         saveData();
 
-                                } catch (Exception e){
+                                } catch (Exception ignored){
 
                                 }
                                 restaurantName.setTextColor(Color.parseColor("#FFFFFF"));
@@ -489,7 +486,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                 favouriteRestaurant = gson.fromJson(json, type);
 
                 if (favouriteRestaurant == null) {
-                        favouriteRestaurant = new ArrayList<Restaurant>();
+                        favouriteRestaurant = new ArrayList<>();
                 } else {
                         for(int i = 0; i < favouriteRestaurant.size(); i++){
                                 try {
@@ -497,7 +494,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                                                 favouriteRestaurantNames.add(favouriteRestaurant.get(i).getRestaurantName());
                                         }
 
-                                } catch(Exception e){
+                                } catch(Exception ignored){
 
                                 }
                                 favouriteRestaurant.get(i).setFavourite(true);
@@ -539,7 +536,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                         public void onItemClick(AdapterView<?> parent, View viewClicked,
                                                 int position, long id) {
                                 Intent intent = new Intent(RestaurantListActivity.this, RestaurantActivity.class);
-                                intent.putExtra("restaurantName", adapter.getItem(position).getRestaurantName());
+                                intent.putExtra("restaurantName", Objects.requireNonNull(adapter.getItem(position)).getRestaurantName());
                                 intent.putExtra("fromMap", false);
                                 startActivity(intent);
                         }
