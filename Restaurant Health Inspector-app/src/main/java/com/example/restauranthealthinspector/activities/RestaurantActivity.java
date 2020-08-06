@@ -69,45 +69,38 @@ public class RestaurantActivity extends AppCompatActivity {
         final Button btn = (Button) findViewById(R.id.rest_btnFavourite);
         final TextView restName = findViewById(R.id.rest_txtName);
         final TextView restFav = findViewById(R.id.rest_txtFav);
-        final ArrayList<String> favouriteRestaurantNames = myFavouriteRestaurants.getRestaurantNames();
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ArrayList<String> favouriteRestaurantNames = myFavouriteRestaurants.getRestaurantNames();
                 if (btn.getText().toString().contains("Favourite")){
                     restaurant.setFavourite(true);
-                    btn.setText(R.string.unfavourite);
-                    if(!myFavouriteRestaurants.equals(restaurant)){
-                        myFavouriteRestaurants.add(restaurant);
-                    }
+                    myFavouriteRestaurants.add(restaurant);
+                    favouriteRestaurantNames.add(restaurantName);
+
                     restName.setTextColor(Color.parseColor("#FFFF00"));
                     restFav.setVisibility(View.VISIBLE);
                     
                     String message = getString(R.string.favourite) + " " + getString(R.string.restaurant);
                     Toast.makeText(RestaurantActivity.this, message, Toast.LENGTH_SHORT).show();
-                    
-                    if(!favouriteRestaurantNames.contains(restaurantName)){
-                        favouriteRestaurantNames.add(restaurantName);
-                   }
-                    saveData();
-                }
 
-                else if(btn.getText().toString().contains("Un-favourite")){
-                    myFavouriteRestaurants.delete(restaurant);
+                    btn.setText(R.string.unfavourite);
+
+                } else if(btn.getText().toString().contains("Un-favourite")){
                     restaurant.setFavourite(false);
-                    btn.setText(R.string.favourite);
+                    myFavouriteRestaurants.delete(restaurant);
+                    favouriteRestaurantNames.remove(restaurantName);
+
                     restName.setTextColor(Color.parseColor("#FFFFFF"));
                     restFav.setVisibility(View.INVISIBLE);
 
                     String message = getString(R.string.unfavourite) + " " + getString(R.string.restaurant);
                     Toast.makeText(RestaurantActivity.this, message, Toast.LENGTH_SHORT).show();
-                    
-                    if(favouriteRestaurantNames.contains(restaurantName)){
-                        favouriteRestaurantNames.remove(restaurantName);
-                    }
-                    
-                    saveData();
+
+                    btn.setText(R.string.favourite);
                 }
+                saveData();
             }
         });
     }
@@ -121,8 +114,6 @@ public class RestaurantActivity extends AppCompatActivity {
         editor.apply();
     }
 
-
-
     private void setUpToMapButton(){
         TextView lngBtn = findViewById(R.id.rest_txtLongitude);
         TextView latBtn = findViewById(R.id.rest_txtLatitude);
@@ -130,7 +121,6 @@ public class RestaurantActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RestaurantActivity.this, MapsActivity.class);
-                Toast.makeText(RestaurantActivity.this, getText(R.string.latitude) + " " + restaurant.getAddress().getLatitude(), Toast.LENGTH_SHORT).show();
                 Toast.makeText(RestaurantActivity.this, getText(R.string.longitude) + " " + restaurant.getAddress().getLongitude(), Toast.LENGTH_SHORT).show();
                 intent.putExtra("longitude", restaurant.getAddress().getLongitude());
                 intent.putExtra("latitude", restaurant.getAddress().getLatitude());
@@ -189,23 +179,14 @@ public class RestaurantActivity extends AppCompatActivity {
         String restaurantName = restaurant.getRestaurantName();
         restName.setText(restaurantName);
         if ( (restaurant.getFavourite()) || (myFavouriteRestaurants.getFavouriteList().contains(restaurant))){
-
             restName.setTextColor(Color.parseColor("#FFFF00"));
             restFav.setVisibility(View.VISIBLE);
-
-
-        }
-
-        else{
-
+        } else {
             restName.setTextColor(Color.parseColor("#FFFFFF"));
             restFav.setVisibility(View.INVISIBLE);
-
         }
 
         restaurantImage.setImageResource(restaurant.getIconID());
-
-//        RestaurantIcon restaurantIcon = new RestaurantIcon(RestaurantActivity.this, restaurantName);
 
         Address address = restaurant.getAddress();
         TextView restAddress = findViewById(R.id.rest_txtAddress);
@@ -222,18 +203,11 @@ public class RestaurantActivity extends AppCompatActivity {
         longitude += " " + address.getLongitude();
         restLongitude.setText(longitude);
 
-
-        if(restaurant.getFavourite()){
+        if (restaurant.getFavourite()){
             btn.setText(R.string.unfavourite);
-        }
-
-        else{
+        } else{
             btn.setText(R.string.favourite);
         }
-
-
-
-
     }
 
     private void populateListView(){

@@ -67,6 +67,7 @@ public class RestaurantListActivity extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_restaurant_list);
+
                 loadDataFavourite();
                 permissionCheck();
                 setupMapButton();
@@ -91,19 +92,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                 }
 
                 if (fromDialog) {
-                        StringBuilder favouriteDialogString = new StringBuilder();
-                        for(Restaurant r: favouriteRestaurant){
-                                favouriteDialogString.append(" ").append(getString(R.string.name)).append(" ").append(r.getRestaurantName());
-                                if(r.getInspectionsManager().getInspectionList().size() == 0){
-                                        favouriteDialogString.append("\n ").append(getString(R.string.no_inspections_recorded)).append("\n\n\n");
-                                }
-                                else{
-                                        favouriteDialogString.append("\n ").append(getString(R.string.date)).append(" ").append(r.getInspectionsManager().get(0).getInspectionDate().getFullDate());
-                                        favouriteDialogString.append("\n ").append(getString(R.string.hazard_level)).append(" ").append(r.getInspectionsManager().get(0).getHazardRating());
-                                        favouriteDialogString.append("\n\n\n ");
-                                }
-                        }
-                        openFavouriteDialog(favouriteDialogString.toString());
+                        openFavouriteDialog();
                 }
 
                 DataLoad dataLoad = new DataLoad(this);
@@ -130,12 +119,23 @@ public class RestaurantListActivity extends AppCompatActivity {
                 }
         }
 
+        private void openFavouriteDialog(){
+                StringBuilder favouriteDialogString = new StringBuilder();
+                for(Restaurant r: favouriteRestaurant){
+                        favouriteDialogString.append(" ").append(getString(R.string.name)).append(" ").append(r.getRestaurantName());
+                        if (r.getInspectionsManager().getInspectionList().size() == 0){
+                                favouriteDialogString.append("\n ").append(getString(R.string.no_inspections_recorded)).append("\n\n\n");
+                        } else {
+                                favouriteDialogString.append("\n ").append(getString(R.string.date)).append(" ").append(r.getInspectionsManager().get(0).getInspectionDate().getFullDate());
+                                favouriteDialogString.append("\n ").append(getString(R.string.hazard_level)).append(" ").append(r.getInspectionsManager().get(0).getHazardRating());
+                                favouriteDialogString.append("\n\n\n ");
+                        }
+                }
 
-        private void openFavouriteDialog(String information){
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Favourite Restaurant Updates")
                         .setCancelable(false)
-                        .setMessage(information)
+                        .setMessage(favouriteDialogString.toString())
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -317,6 +317,30 @@ public class RestaurantListActivity extends AppCompatActivity {
                 }
         }
 
+        private void loadDataFavourite() {
+                SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+                Gson gson = new Gson();
+                String json = sharedPreferences.getString("task list", null);
+                Type type = new TypeToken<ArrayList<Restaurant>>() {}.getType();
+                favouriteRestaurant = gson.fromJson(json, type);
+
+                if (favouriteRestaurant == null) {
+                        favouriteRestaurant = new ArrayList<>();
+                } else {
+                        for(int i = 0; i < favouriteRestaurant.size(); i++){
+                                try {
+                                        if(!favouriteRestaurantNames.contains(favouriteRestaurant.get(i).getRestaurantName())) {
+                                                favouriteRestaurantNames.add(favouriteRestaurant.get(i).getRestaurantName());
+                                        }
+
+                                } catch(Exception ignored){
+
+                                }
+                                favouriteRestaurant.get(i).setFavourite(true);
+                        }
+                }
+        }
+
         private class MyListAdapter extends ArrayAdapter<Restaurant> implements Filterable {
                 private ArrayList<Restaurant> originalRestaurants;
                 private ArrayList<Restaurant> restaurants;
@@ -429,7 +453,6 @@ public class RestaurantListActivity extends AppCompatActivity {
                                 currentRestaurant.setFavourite(true);
                                 restaurantName.setTextColor(Color.parseColor("#FFFF00"));
                                 restaurantImageFav.setVisibility(View.VISIBLE);
-                                saveData();
 
                         } else {
                                 try{
@@ -440,7 +463,6 @@ public class RestaurantListActivity extends AppCompatActivity {
                                 }
                                 try{
                                         myFavouriteRestaurants.getFavouriteList().remove(currentRestaurant);
-                                        saveData();
 
                                 } catch (Exception ignored){
 
@@ -468,40 +490,6 @@ public class RestaurantListActivity extends AppCompatActivity {
                 @Override
                 public long getItemId(int position) {
                         return position;
-                }
-        }
-
-        private void saveData() {
-                SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                Gson gson = new Gson();
-                String json = gson.toJson(myFavouriteRestaurants.getFavouriteList());
-                editor.putString("task list", json);
-                editor.apply();
-        }
-
-
-        private void loadDataFavourite() {
-                SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
-                Gson gson = new Gson();
-                String json = sharedPreferences.getString("task list", null);
-                Type type = new TypeToken<ArrayList<Restaurant>>() {}.getType();
-                favouriteRestaurant = gson.fromJson(json, type);
-
-                if (favouriteRestaurant == null) {
-                        favouriteRestaurant = new ArrayList<>();
-                } else {
-                        for(int i = 0; i < favouriteRestaurant.size(); i++){
-                                try {
-                                        if(!favouriteRestaurantNames.contains(favouriteRestaurant.get(i).getRestaurantName())) {
-                                                favouriteRestaurantNames.add(favouriteRestaurant.get(i).getRestaurantName());
-                                        }
-
-                                } catch(Exception ignored){
-
-                                }
-                                favouriteRestaurant.get(i).setFavourite(true);
-                        }
                 }
         }
 

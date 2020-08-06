@@ -26,10 +26,6 @@ public class FavouriteRestaurantManager implements Iterable<Restaurant>{
         return instance;
     }
 
-    private static void storeFavouriteRestaurants(Restaurant restaurant) {
-        instance.add(restaurant);
-    }
-
     public ArrayList<Restaurant> getFavouriteList() {
         return favouriteRestaurantList;
     }
