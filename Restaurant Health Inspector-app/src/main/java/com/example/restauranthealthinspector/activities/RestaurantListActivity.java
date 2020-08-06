@@ -68,7 +68,6 @@ public class RestaurantListActivity extends AppCompatActivity {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_restaurant_list);
 
-                loadDataFavourite();
                 permissionCheck();
                 setupMapButton();
 
@@ -115,6 +114,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                 }
 
                 if (!fromDialog){
+                        loadDataFavourite();
                         startMapActivity();
                 }
         }
