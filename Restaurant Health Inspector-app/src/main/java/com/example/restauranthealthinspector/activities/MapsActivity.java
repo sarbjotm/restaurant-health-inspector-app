@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -28,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.restauranthealthinspector.model.FavouriteRestaurantManager;
 import com.example.restauranthealthinspector.model.SearchFilter;
 import com.example.restauranthealthinspector.model.map.ClusterPin;
 import com.example.restauranthealthinspector.model.map.CustomClusterRenderer;
@@ -47,10 +49,13 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,6 +125,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
             mMap.setMyLocationEnabled(true);
             pinRestaurants();
+            loadDataFavourite();
             setUpSearch();
         }
     }
@@ -329,6 +335,39 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         else{
             ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    private void loadDataFavourite() {
+        FavouriteRestaurantManager favouriteRestaurantManager = FavouriteRestaurantManager.getInstance();
+        ArrayList<String> favouriteRestaurantNames = favouriteRestaurantManager.getRestaurantNames();
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("task list", null);
+        Type type = new TypeToken<ArrayList<Restaurant>>() {}.getType();
+        ArrayList<Restaurant> favouriteRestaurant = gson.fromJson(json, type);
+
+        if (favouriteRestaurant == null) {
+            favouriteRestaurant = new ArrayList<>();
+        } else {
+            for(int i = 0; i < favouriteRestaurant.size(); i++){
+                try {
+                    if(!favouriteRestaurantNames.contains(favouriteRestaurant.get(i).getRestaurantName())) {
+                        favouriteRestaurantNames.add(favouriteRestaurant.get(i).getRestaurantName());
+                    }
+
+                } catch(Exception ignored){
+
+                }
+                favouriteRestaurant.get(i).setFavourite(true);
+            }
+        }
+        favouriteRestaurantManager.setFavouriteRestaurantList(favouriteRestaurant);
+        for (Restaurant restaurant : myRestaurants) {
+            if (favouriteRestaurantNames.contains(restaurant.getRestaurantName())) {
+                restaurant.setFavourite(true);
+            }
         }
     }
 

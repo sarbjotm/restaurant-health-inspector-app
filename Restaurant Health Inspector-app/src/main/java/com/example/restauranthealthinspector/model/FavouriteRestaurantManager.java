@@ -30,6 +30,10 @@ public class FavouriteRestaurantManager implements Iterable<Restaurant>{
         return favouriteRestaurantList;
     }
 
+    public void setFavouriteRestaurantList(ArrayList<Restaurant> favouriteRestaurantList) {
+        FavouriteRestaurantManager.favouriteRestaurantList = favouriteRestaurantList;
+    }
+
     public void add(Restaurant restaurant){
         favouriteRestaurantList.add(restaurant);
     }
