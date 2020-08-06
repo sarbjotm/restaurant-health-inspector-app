@@ -44,4 +44,6 @@
     <string name="permission_download_new_data">" Voulez-vous télécharger les nouveaux fichiers?"</string>
     <string name="no_favourite_restaurants">Aucun restaurant préféré</string>
     <string name="favourite_restaurant_updates">" Mises à jour des restaurants préférés"</string>
+    <string name="Translation_Service_Down_showing_english">"Service de traduction en panne, montrant l'anglais"</string>
+
 </resources>
