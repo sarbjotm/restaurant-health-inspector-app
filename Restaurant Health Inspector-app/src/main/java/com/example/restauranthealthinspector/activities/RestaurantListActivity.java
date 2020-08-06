@@ -58,11 +58,10 @@ public class RestaurantListActivity extends AppCompatActivity {
         private String favouriteDialogString = "";
         private RestaurantsManager myRestaurants;
         private FavouriteRestaurantManager myFavouriteRestaurants;
-//        private static ArrayList<Restaurant> favouriteRestaurantListActivity = new ArrayList<>();
         private static final String TAG = "RestaurantListActivity";
         private static final int ERROR_DIALOG_REQUEST = 9001;
         private ArrayAdapter<Restaurant> adapter;
-        ArrayList<Restaurant> favouriteRestaurant;
+        private ArrayList<Restaurant> favouriteRestaurant;
         static ArrayList<String> favouriteRestaurantNames = new ArrayList<String>();
 
         @Override
@@ -410,7 +409,6 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                         ImageView restaurantImageFav = itemView.findViewById(R.id.listR_imgRestaurantFavourite);
 
-//                        restFav.setVisibility(View.INVISIBLE);
 
                         if (inspections.size() != 0 ) {
                                 Inspection inspection = inspections.get(0);
@@ -459,11 +457,11 @@ public class RestaurantListActivity extends AppCompatActivity {
                         else{
                                 try{
                                         favouriteRestaurantNames.remove(currentRestaurant.getTrackingNumber());
-
+                                        saveData();
 
 
                                 }catch(Exception e){
-                                        Log.e("REMOVE", "error removing");
+                                        Log.e("Exception", "Found Exception");
                                 }
 
                                 try{
@@ -473,7 +471,7 @@ public class RestaurantListActivity extends AppCompatActivity {
 
 
                                 }catch(Exception e){
-
+                                        Log.e("Exception", "Found Exception");
                                 }
                                 restaurantName.setTextColor(Color.parseColor("#FFFFFF"));
                                 restaurantImageFav.setVisibility(View.INVISIBLE);
@@ -514,32 +512,29 @@ public class RestaurantListActivity extends AppCompatActivity {
 
 
         private void loadDataFavourite() {
-//                Log.e("YES","YESINLOAD");
                 SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
                 Gson gson = new Gson();
                 String json = sharedPreferences.getString("task list", null);
                 Type type = new TypeToken<ArrayList<Restaurant>>() {}.getType();
                 favouriteRestaurant = gson.fromJson(json, type);
                 if (favouriteRestaurant == null) {
-//                        Log.e("YES","YESINNULL");
                         favouriteRestaurant = new ArrayList<Restaurant>();
                 }
 
                 else{
-//                        Log.e("YES","YESINELSE");
 
                         for(int i = 0; i < favouriteRestaurant.size(); i++){
 
                                 try {
-//                                        Log.e("YES","ADDING");
                                         if(!favouriteRestaurantNames.contains(favouriteRestaurant.get(i).getRestaurantName()))
                                                 favouriteRestaurantNames.add(favouriteRestaurant.get(i).getTrackingNumber());
 
                                 }
 
                                 catch(Exception e){
-//                                        Log.e("Nothing", "nothing found");
+                                        Log.e("Exception", "Found Exception");
                                 }
+
                                 favouriteRestaurant.get(i).setFavourite(true);
 
                         }

@@ -71,7 +71,6 @@ public class RestaurantActivity extends AppCompatActivity {
         final Button btn = (Button) findViewById(R.id.rest_btnFavourite);
         final TextView restName = findViewById(R.id.rest_txtName);
         final TextView restFav = findViewById(R.id.rest_txtFav);
-//        final Button btn = (Button) findViewById(R.id.rest_btnFavourite);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,7 +205,6 @@ public class RestaurantActivity extends AppCompatActivity {
 
         restaurantImage.setImageResource(restaurant.getIconID());
 
-//        RestaurantIcon restaurantIcon = new RestaurantIcon(RestaurantActivity.this, restaurantName);
 
         Address address = restaurant.getAddress();
         TextView restAddress = findViewById(R.id.rest_txtAddress);
