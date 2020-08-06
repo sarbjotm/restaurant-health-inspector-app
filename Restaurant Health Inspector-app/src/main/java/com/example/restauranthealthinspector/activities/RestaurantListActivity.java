@@ -270,6 +270,8 @@ public class RestaurantListActivity extends AppCompatActivity {
                         searchView.setQuery(previousSearch, true);
                         textView.setVisibility(View.INVISIBLE);
                         searchView.clearFocus();
+                        Filter filter = adapter.getFilter();
+                        filter.filter(previousSearch);
                 }
 
                 searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
