@@ -48,4 +48,5 @@
 
     <string name="no_favourite_restaurants">No Favourite Restaurants</string>
     <string name="favourite_restaurant_updates">Favourite Restaurant Updates</string>
+    <string name="Translation_Service_Down_showing_english">\"Translation Service Down, showing english \n \"</string>
 </resources>
