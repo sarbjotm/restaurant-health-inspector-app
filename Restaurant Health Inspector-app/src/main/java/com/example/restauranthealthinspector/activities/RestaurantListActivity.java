@@ -105,7 +105,7 @@ public class RestaurantListActivity extends AppCompatActivity {
 
                         }
                         if(favouriteDialogString.equals("")){
-                                favouriteDialogString = "No Favourite Restaurants";
+                                favouriteDialogString = getString(R.string.no_favourite_restaurants);
                         }
                         openFavouriteDialog(favouriteDialogString);
 
@@ -140,7 +140,7 @@ public class RestaurantListActivity extends AppCompatActivity {
 
         private void openFavouriteDialog(String information){
                                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                                builder.setTitle("Favourite Restaurant Updates")
+                                builder.setTitle(getString(R.string.favourite_restaurant_updates))
                                         .setCancelable(false)
                                         .setMessage(information)
                                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {

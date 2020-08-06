@@ -74,7 +74,7 @@ public class RestaurantActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (btn.getText().toString().contains("Favourite")){
+                if (btn.getText().toString().contains(getString(R.string.favourite))){
                     restaurant.setFavourite(true);
                     btn.setText(R.string.unfavourite);
                     if(!myFavouriteRestaurants.equals(restaurant)){
@@ -92,7 +92,7 @@ public class RestaurantActivity extends AppCompatActivity {
                     saveData();
                 }
 
-                else if(btn.getText().toString().contains("Un-favourite")){
+                else if(btn.getText().toString().contains(getString(R.string.unfavourite))){
                     myFavouriteRestaurants.delete(restaurant);
                     restaurant.setFavourite(false);
                     btn.setText(R.string.favourite);
