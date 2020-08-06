@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
-import static com.example.restauranthealthinspector.activities.RestaurantListActivity.favouriteRestaurantNames;
+//import static com.example.restauranthealthinspector.activities.RestaurantListActivity.favouriteRestaurantNames;
 
 /**
  * Details about a restaurant with a list of inspections.
@@ -87,9 +87,9 @@ public class RestaurantActivity extends AppCompatActivity {
                     String message = getString(R.string.favourite) + " " + getString(R.string.restaurant);
                     Toast.makeText(RestaurantActivity.this, message, Toast.LENGTH_SHORT).show();
                     
-                    if(!favouriteRestaurantNames.contains(restaurantName)){
-                        favouriteRestaurantNames.add(restaurantName);
-                    }
+//                    if(!favouriteRestaurantNames.contains(restaurantName)){
+//                        favouriteRestaurantNames.add(restaurantName);
+//                    }
                     saveData();
                 }
 
@@ -103,9 +103,9 @@ public class RestaurantActivity extends AppCompatActivity {
                     String message = getString(R.string.unfavourite) + " " + getString(R.string.restaurant);
                     Toast.makeText(RestaurantActivity.this, message, Toast.LENGTH_SHORT).show();
                     
-                    if(favouriteRestaurantNames.contains(restaurantName)){
-                        favouriteRestaurantNames.remove(restaurantName);
-                    }
+//                    if(favouriteRestaurantNames.contains(restaurantName)){
+//                        favouriteRestaurantNames.remove(restaurantName);
+//                    }
                     
                     saveData();
                 }
