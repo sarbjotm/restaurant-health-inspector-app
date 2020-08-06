@@ -29,8 +29,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
-//import static com.example.restauranthealthinspector.activities.RestaurantListActivity.favouriteRestaurantNames;
-
 /**
  * Details about a restaurant with a list of inspections.
  */
@@ -40,7 +38,7 @@ public class RestaurantActivity extends AppCompatActivity {
     private String restaurantName;
     private boolean fromMap;
     private FavouriteRestaurantManager myFavouriteRestaurants;
-    ArrayList<Inspection> inspections;
+    private ArrayList<Inspection> inspections;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +69,8 @@ public class RestaurantActivity extends AppCompatActivity {
         final Button btn = (Button) findViewById(R.id.rest_btnFavourite);
         final TextView restName = findViewById(R.id.rest_txtName);
         final TextView restFav = findViewById(R.id.rest_txtFav);
-//        final Button btn = (Button) findViewById(R.id.rest_btnFavourite);
+        final ArrayList<String> favouriteRestaurantNames = myFavouriteRestaurants.getRestaurantNames();
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,9 +86,9 @@ public class RestaurantActivity extends AppCompatActivity {
                     String message = getString(R.string.favourite) + " " + getString(R.string.restaurant);
                     Toast.makeText(RestaurantActivity.this, message, Toast.LENGTH_SHORT).show();
                     
-//                    if(!favouriteRestaurantNames.contains(restaurantName)){
-//                        favouriteRestaurantNames.add(restaurantName);
-//                    }
+                    if(!favouriteRestaurantNames.contains(restaurantName)){
+                        favouriteRestaurantNames.add(restaurantName);
+                   }
                     saveData();
                 }
 
@@ -103,9 +102,9 @@ public class RestaurantActivity extends AppCompatActivity {
                     String message = getString(R.string.unfavourite) + " " + getString(R.string.restaurant);
                     Toast.makeText(RestaurantActivity.this, message, Toast.LENGTH_SHORT).show();
                     
-//                    if(favouriteRestaurantNames.contains(restaurantName)){
-//                        favouriteRestaurantNames.remove(restaurantName);
-//                    }
+                    if(favouriteRestaurantNames.contains(restaurantName)){
+                        favouriteRestaurantNames.remove(restaurantName);
+                    }
                     
                     saveData();
                 }

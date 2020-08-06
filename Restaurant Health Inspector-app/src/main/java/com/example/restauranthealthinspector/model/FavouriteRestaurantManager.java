@@ -13,6 +13,7 @@ import java.util.Iterator;
 public class FavouriteRestaurantManager implements Iterable<Restaurant>{
     private static ArrayList<Restaurant> favouriteRestaurantList = new ArrayList<>();
     private static FavouriteRestaurantManager instance;
+    private ArrayList<String> restaurantNames = new ArrayList<>();
 
     private FavouriteRestaurantManager(){
 
@@ -33,27 +34,18 @@ public class FavouriteRestaurantManager implements Iterable<Restaurant>{
         return favouriteRestaurantList;
     }
 
-
-
-
     public void add(Restaurant restaurant){
-
         favouriteRestaurantList.add(restaurant);
     }
-
-//
-//
-//    public Restaurant get(int index){
-//        return favouriteRestaurantList.get(index);
-//    }
-
-//    public static ArrayList<Restaurant> getRestaurants(){
-//        return favouriteRestaurantList;
-//    }
 
     public void delete(Restaurant restaurant){
         favouriteRestaurantList.remove(restaurant);
     }
+
+    public ArrayList<String> getRestaurantNames() {
+        return restaurantNames;
+    }
+
     @Override
     public Iterator<Restaurant> iterator() {
         return favouriteRestaurantList.iterator();

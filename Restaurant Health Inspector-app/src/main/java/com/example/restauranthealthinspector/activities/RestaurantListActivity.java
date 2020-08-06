@@ -61,7 +61,7 @@ public class RestaurantListActivity extends AppCompatActivity {
         private ArrayAdapter<Restaurant> adapter;
         private FavouriteRestaurantManager myFavouriteRestaurants;
         private ArrayList<Restaurant> favouriteRestaurant;
-        private static ArrayList<String> favouriteRestaurantNames = new ArrayList<>();
+        private ArrayList<String> favouriteRestaurantNames;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +79,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                         try {
                                 myRestaurants = RestaurantsManager.getInstance(null,null);
                                 myFavouriteRestaurants = FavouriteRestaurantManager.getInstance();
+                                favouriteRestaurantNames = myFavouriteRestaurants.getRestaurantNames();
                         } catch (IOException e) {
                                 e.printStackTrace();
                         }
