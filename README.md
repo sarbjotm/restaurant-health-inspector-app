@@ -18,7 +18,7 @@ The application is made in a way it is visible on all phone sizes, and displays 
 | <img src="4.PNG">    | Depending on if the user has already favourited restaurants, the most recent inspections will be shown. Otherwise a default message will be shown if no restaurants have been favourited.
 | <img src="5.PNG">      | If the user has turned off their location, after accepting the permissions a list view of the restaurants will be shown, otherwise a map view of their current location will be shown. Map view/List view can be trigged by clicking the button on the top right. A user can also search the list by clicking the top left button
 | <img src="6.PNG">        | Clicking a restaurant will give the user to favourite the restaurant and shows a list of inspections. If the user has favourited the restaurant, a star will be assigned to the icon, and there now will be an option to un-favourite. The pictures below show how a favourite restaurant is displayed
-| <img src="7.PNG">  <img src="10.PNG" height="200" width="200">  
+| <img src="7.PNG">  <img src="10.PNG">  
 | <img src="8.PNG">       | Clicking an inspection will lead to an activity which shows what type of visit occured when the inspection was, a brief error code and a corresponding image. Touching the error code or icon will show a longer description
 | <img src="9.PNG">       | 
 | <img src="11.PNG">       | After twenty hours, the user will be presented with an option to download additional files. If a user has favourited a restaurant, this informaton won't disappear and will appear if the user agrees to download the new updates.
